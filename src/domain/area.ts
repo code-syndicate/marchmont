@@ -44,7 +44,7 @@ export function formatArea(area: Area, unit: AreaUnit, locale: string): string {
       ? divideRoundHalfUp(area.hundredthsM2, 100n)
       : divideRoundHalfUp(area.hundredthsM2 * FT2_DENOMINATOR, FT2_NUMERATOR * 100n)
   const formatter = new Intl.NumberFormat(locale, { maximumFractionDigits: 0 })
-  return `${formatter.format(whole)} ${unit === 'm2' ? 'm2' : 'ft2'}`
+  return `${formatter.format(whole)} ${unit === 'm2' ? 'sq m' : 'sq ft'}`
 }
 
 const IMPERIAL_AREA_REGIONS = new Set(['US', 'GB'])

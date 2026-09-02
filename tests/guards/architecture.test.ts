@@ -21,11 +21,14 @@ describe('the MongoDB driver stays in the database layer', () => {
     expect(offenders).toEqual([])
   })
 
-  test('nothing outside src/db/repositories runs a query', async () => {
-    const queryMethods = /\.(find|findOne|insertOne|insertMany|updateOne|updateMany|deleteOne|deleteMany|aggregate|replaceOne|findOneAndUpdate|bulkWrite)\(/
+  test('nothing outside src/db reaches a collection', async () => {
+    // Bare find and findOne are deliberately not listed: Array.prototype.find
+    // shares the name and made this rule fire on ordinary array code. What is
+    // listed cannot be anything but a driver call.
+    const driverOnly = /\.collection\s*[<(]|\.(insertOne|insertMany|updateOne|updateMany|deleteOne|deleteMany|replaceOne|findOneAndUpdate|findOneAndDelete|bulkWrite|aggregate|createIndex|countDocuments)\s*\(/
     const offenders = (await sourceFiles('src/**/*.ts'))
       .filter((file) => !file.path.startsWith('src/db/'))
-      .filter((file) => queryMethods.test(file.text))
+      .filter((file) => driverOnly.test(file.text))
       .map((file) => file.path)
     expect(offenders).toEqual([])
   })
@@ -97,7 +100,9 @@ describe('interface copy stays plain', () => {
   })
 
   test('no internal commentary rendered to a page', async () => {
-    const banned = /\b(coming soon|not yet implemented|placeholder|illustrative|lorem ipsum|TODO)\b/i
+    // placeholder= is the HTML attribute and is legitimate; the rule is about
+    // the word appearing as copy someone reads.
+    const banned = /\b(coming soon|not yet implemented|placeholder(?!\s*=)|illustrative|lorem ipsum|TODO)\b/i
     const offenders = (await sourceFiles('src/views/**/*.pug'))
       .filter((file) => banned.test(file.text))
       .map((file) => file.path)

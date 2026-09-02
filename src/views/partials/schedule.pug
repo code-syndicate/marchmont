@@ -1,0 +1,20 @@
+mixin schedule(listings)
+  .schedule
+    each listing in listings
+      .schedule-row
+        div
+          .title
+            a(href=`/portfolio/${listing.slug}`)= listing.name
+          .scope
+            span.offer-type(class=(listing.type === "sale" ? "is-sale" : false))= listing.typeLabel
+            |  · #{listing.buildingType}
+            if listing.bedrooms
+              |  · #{listing.bedrooms} bedrooms
+            |  · #{listing.scopeLabel}
+        .where
+          = listing.locality
+          span= listing.country
+        .measure= listing.area
+        .money
+          strong= listing.headline
+          span= listing.headlineNote

@@ -1,0 +1,56 @@
+extends layout
+
+block content
+  section.detail-head.page
+    p.eyebrow #{listing.typeLabel} · #{listing.locality}, #{listing.country}
+    h1= listing.name
+    p.detail-address= listing.formattedAddress
+    .detail-meta
+      span.tag= listing.buildingType
+      span.tag= listing.scopeLabel
+      span.tag= listing.area
+      if listing.bedrooms
+        span.tag #{listing.bedrooms} bedrooms
+    .detail-price
+      strong= listing.headline
+      span= listing.headlineNote
+
+  section.band-tight.page
+    .detail-grid
+      .stack-lg
+        .prose
+          each paragraph in listing.description
+            p= paragraph
+
+        div
+          h2 Terms
+          dl.terms
+            each term in listing.terms
+              div
+                dt= term.label
+                dd= term.value
+
+        div
+          h2 The building
+          ul.features
+            each feature in listing.features
+              li= feature
+
+        if listing.otherOffers.length
+          div
+            h2 Also available here
+            .also
+              each other in listing.otherOffers
+                a(href=`/portfolio/${other.slug}`)
+                  span= other.typeLabel
+                  strong= other.headline
+
+      aside.aside
+        h2 Arrange a viewing
+        p Exact floor plans, the survey and the title documents are released once a registration has been reviewed. Registrations are usually answered within two working days.
+        a.button(href=`/register?offer=${listing.slug}`) Register an interest
+        a.button.button-quiet(href="/contact") Ask a question
+        p.note We do not take payment of any kind before an application has been approved in writing.
+
+  section.band-tight.band-rule.page
+    a(href="/portfolio") Back to the portfolio

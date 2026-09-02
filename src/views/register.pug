@@ -1,0 +1,44 @@
+extends layout
+
+block content
+  section.band-tight.page
+    p.eyebrow Registration
+    h1 Tell us what you are looking for.
+    p.lede We read every registration and answer within two working days. Approval releases exact addresses, full terms, floor plans and the documents behind each listing.
+
+  section.band-tight.page
+    .detail-grid
+      form.stack(method="post" action="/register")
+        if offer
+          .field
+            label(for="offer") Enquiry about
+            input#offer(name="offer" type="text" value=offer readonly)
+        .field
+          label(for="name") Your name
+          input#name(name="name" type="text" autocomplete="name" required)
+        .field
+          label(for="email") Email address
+          input#email(name="email" type="email" autocomplete="email" required)
+        .field
+          label(for="market") Where are you looking
+          select#market(name="market")
+            option(value="") No preference
+            each country in countries
+              option(value=country.code)= country.name
+        .field
+          label(for="intent") What are you looking for
+          select#intent(name="intent")
+            option(value="sale") To buy
+            option(value="long_lease") To lease long term
+            option(value="corporate_let") A corporate let
+        .field
+          label(for="requirement") Your requirement
+          textarea#requirement(name="requirement" rows="6" placeholder="Size, timing, and anything a building has to have.")
+        .button-row
+          button.button(type="submit") Submit registration
+        p.note We use what you write here to judge whether we can help, and for nothing else. We never publish your details and we do not pass them on.
+
+      aside.aside
+        h2 What happens next
+        p A member of this office reads your registration and either approves it or tells you plainly that we cannot help. Approval opens the full portfolio to you and lets you request a viewing.
+        p No payment is possible at this stage, or at any stage before we have approved an application in writing.

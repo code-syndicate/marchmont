@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import {
-  money, parseMoney, formatMoney, addMoney, subtractMoney, compareMoney, toDecimalString,
+  money, parseMoney, formatMoney, formatMoneyShort, addMoney, subtractMoney, compareMoney, toDecimalString,
 } from '../../src/domain/money'
 import { CurrencyMismatchError, UnknownCurrencyError, InvalidAmountError } from '../../src/domain/errors'
 
@@ -78,6 +78,25 @@ describe('formatMoney', () => {
 
   test('omits decimals for a zero-decimal currency', () => {
     expect(formatMoney(parseMoney('1234567', 'JPY'), 'ja-JP')).not.toContain('.')
+  })
+})
+
+describe('formatMoneyShort', () => {
+  test('drops the fraction when there is none to show', () => {
+    expect(formatMoneyShort(parseMoney('11250000.00', 'GBP'), 'en-GB')).toBe('£11,250,000')
+  })
+
+  test('keeps the fraction when the amount has one', () => {
+    expect(formatMoneyShort(parseMoney('1234.56', 'GBP'), 'en-GB')).toBe('£1,234.56')
+  })
+
+  test('leaves a zero-decimal currency alone', () => {
+    expect(formatMoneyShort(parseMoney('1234567', 'JPY'), 'ja-JP')).not.toContain('.')
+  })
+
+  test('stays exact above 2^53', () => {
+    expect(formatMoneyShort(parseMoney('12345678901234567.00', 'GBP'), 'en-GB'))
+      .toBe('£12,345,678,901,234,567')
   })
 })
 

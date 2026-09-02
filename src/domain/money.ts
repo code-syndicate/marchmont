@@ -73,3 +73,21 @@ export function compareMoney(a: Money, b: Money): -1 | 0 | 1 {
   sameCurrency(a, b)
   return a.amount === b.amount ? 0 : a.amount > b.amount ? 1 : -1
 }
+
+/**
+ * Property convention: a guide price or a rent is written without a fraction
+ * when there is no fraction to write. 11,250,000 rather than 11,250,000.00.
+ */
+export function formatMoneyShort(value: Money, locale: string): string {
+  const exponent = minorUnitExponent(value.currency)
+  if (exponent === 0) return formatMoney(value, locale)
+  const unit = 10n ** BigInt(exponent)
+  if (value.amount % unit !== 0n) return formatMoney(value, locale)
+  const formatter = new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: value.currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  })
+  return formatter.format(toDecimalString(value) as unknown as number)
+}

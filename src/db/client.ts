@@ -1,9 +1,11 @@
 import { MongoClient, type Db } from 'mongodb'
 import type { Config } from '../config'
+import { createRepositories, type Repositories } from './repositories'
 
 export type Database = {
   readonly client: MongoClient
   readonly db: Db
+  readonly repositories: Repositories
   close(): Promise<void>
 }
 
@@ -22,6 +24,7 @@ export async function connect(config: Config): Promise<Database> {
   return {
     client,
     db,
+    repositories: createRepositories(db),
     close: () => client.close(),
   }
 }

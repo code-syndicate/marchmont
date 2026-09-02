@@ -1,7 +1,11 @@
 extends layout
 
 block content
-  h1 Page not found
-  p That page does not exist. Try the portfolio or the contact page.
-  p
-    a(href="/") Return to the home page
+  section.band.page
+    .stack
+      p.eyebrow= code
+      h1= heading
+      p.lede= message
+      .button-row
+        a.button(href="/portfolio") View the portfolio
+        a.button.button-quiet(href="/") Return to the home page

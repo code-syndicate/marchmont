@@ -30,17 +30,17 @@ describe('areaFromFt2', () => {
 
   test('round-trips a large commercial floor plate within a hundredth', () => {
     const area = areaFromFt2('58000')
-    expect(formatArea(area, 'ft2', 'en-US')).toBe('58,000 ft2')
+    expect(formatArea(area, 'ft2', 'en-US')).toBe('58,000 sq ft')
   })
 })
 
 describe('formatArea', () => {
   test('formats square metres with locale grouping and no decimals', () => {
-    expect(formatArea(areaFromM2('1240.55'), 'm2', 'en-GB')).toBe('1,241 m2')
+    expect(formatArea(areaFromM2('1240.55'), 'm2', 'en-GB')).toBe('1,241 sq m')
   })
 
   test('formats square feet', () => {
-    expect(formatArea(areaFromM2('1000'), 'ft2', 'en-US')).toBe('10,764 ft2')
+    expect(formatArea(areaFromM2('1000'), 'ft2', 'en-US')).toBe('10,764 sq ft')
   })
 
   test('never contains an em dash or en dash', () => {

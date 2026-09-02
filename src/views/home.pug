@@ -1,0 +1,87 @@
+extends layout
+include partials/schedule
+
+block content
+  section.hero.page
+    p.eyebrow Established practice, private portfolio
+    h1 The buildings we own, and the terms we offer them on.
+    p.lede Marchmont holds houses and offices on its own account across #{countryCount} countries. Each one is offered for sale, on a long lease, or on a corporate let, and shown by appointment once a registration has been reviewed.
+    .button-row
+      a.button(href="/portfolio") View the portfolio
+      a.button.button-quiet(href="/register") Register an interest
+    dl.index-strip
+      div
+        dt In the portfolio
+        dd= totalCount
+      div
+        dt Countries
+        dd= countryCount
+      div
+        dt Currencies
+        dd= currencyCount
+      div
+        dt Oldest building
+        dd= oldestYear
+
+  section.band.band-rule.page
+    .section-head
+      div
+        p.eyebrow Currently offered
+        h2 A working selection
+      a(href="/portfolio") See all #{totalCount} offers
+    +schedule(featured)
+
+  section.band.band-rule.band-raised
+    .page
+      .section-head
+        div
+          p.eyebrow Three ways in
+          h2 Buy it, lease it, or take it for a season
+      .ways
+        article
+          span.count= counts.sale
+          h3 For sale
+          p Freehold and leasehold, houses and whole buildings. Guide price, tenure and chain position are stated on every listing before you ask.
+          a(href="/portfolio?type=sale") View properties for sale
+        article
+          span.count= counts.long_lease
+          h3 On long lease
+          p Twelve months and up. Rent, deposit, service charge, minimum term and the available from date, all published rather than quoted on request.
+          a(href="/portfolio?type=long_lease") View properties to let
+        article
+          span.count= counts.corporate_let
+          h3 Corporate lets
+          p One to six months, furnished, for companies moving people between cities. Housekeeping and bills are itemised in the terms.
+          a(href="/portfolio?type=corporate_let") View corporate lets
+
+  section.band.band-rule.page
+    .policy
+      div
+        p.eyebrow House policy
+        h2 Why we ask before we show
+        p.lede Property fraud works because most portals let anyone list and anyone enquire. We do neither. Every building here is ours, and every person we deal with has been reviewed by someone at this office.
+      ol.steps
+        li
+          div
+            h3 Register
+            p Tell us what you are looking for and where. It takes a few minutes and we read every one.
+        li
+          div
+            h3 We review it
+            p Usually within two working days. Once approved you see exact addresses, full terms and the documents behind them.
+        li
+          div
+            h3 View by appointment
+            p Someone from this office walks the building with you. Not a call centre, not a lockbox.
+        li
+          div
+            h3 Apply, then pay
+            p Money moves only after we have approved your application, for an amount we have set, within a window we have opened. There is no other payment route.
+
+  section.band.band-rule.page
+    .stack
+      h2 Ready to see the detail
+      p.lede Registration takes a few minutes. Approval opens exact addresses, full terms, floor plans and the documents behind each listing.
+      .button-row
+        a.button(href="/register") Register an interest
+        a.button.button-quiet(href="/contact") Speak to someone

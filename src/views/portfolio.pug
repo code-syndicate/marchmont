@@ -1,0 +1,26 @@
+extends layout
+include partials/schedule
+
+block content
+  section.band-tight.page
+    p.eyebrow The portfolio
+    h1= heading
+    p.lede= blurb
+
+  section.page
+    nav.filters(aria-label="Filter by offer type")
+      a(href="/portfolio" aria-current=(activeType === "all" ? "page" : false)) Everything
+      a(href="/portfolio?type=sale" aria-current=(activeType === "sale" ? "page" : false)) For sale
+      a(href="/portfolio?type=long_lease" aria-current=(activeType === "long_lease" ? "page" : false)) To let
+      a(href="/portfolio?type=corporate_let" aria-current=(activeType === "corporate_let" ? "page" : false)) Corporate lets
+
+    if listings.length
+      +schedule(listings)
+      p.note Showing #{listings.length} of #{totalCount} offers. Prices are stated in the currency of the market the building sits in.
+    else
+      .empty
+        h2 Nothing offered on these terms today
+        p The portfolio turns over slowly. Register and we will write when something matching comes up.
+        a.button(href="/register") Register an interest
+
+  section.band.page
