@@ -1,0 +1,22 @@
+{
+  "name": "marchmont",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "NODE_ENV=development bun --watch src/server.ts",
+    "start": "NODE_ENV=production bun src/server.ts",
+    "test": "bun test",
+    "seed": "bun scripts/seed.ts"
+  },
+  "dependencies": {
+    "@alpinejs/csp": "^3.17.1",
+    "express": "5",
+    "mongodb": "6",
+    "pug": "^3.0.4"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.0",
+    "@types/express": "^5.0.6",
+    "typescript": "^5.9.3"
+  }
+}
