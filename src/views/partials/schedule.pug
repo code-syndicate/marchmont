@@ -1,20 +1,21 @@
-mixin schedule(listings)
-  .schedule
+mixin cards(listings, level)
+  - var heading = level || 'h3'
+  ul.cards
     each listing in listings
-      .schedule-row
-        div
-          .title
+      li.card
+        if listing.cover
+          .card-frame
+            img(src=listing.cover.src srcset=listing.cover.srcset sizes=listing.cover.sizes alt=listing.cover.alt width=listing.cover.width height=listing.cover.height loading="lazy" decoding="async")
+        .card-body
+          p.card-type(class=(listing.type === "sale" ? "is-sale" : false))= listing.typeLabel
+          #{heading}.card-title
             a(href=`/portfolio/${listing.slug}`)= listing.name
-          .scope
-            span.offer-type(class=(listing.type === "sale" ? "is-sale" : false))= listing.typeLabel
-            |  · #{listing.buildingType}
+          p.card-where #{listing.locality}, #{listing.country}
+          p.card-scope
+            = listing.buildingType
             if listing.bedrooms
               |  · #{listing.bedrooms} bedrooms
             |  · #{listing.scopeLabel}
-        .where
-          = listing.locality
-          span= listing.country
-        .measure= listing.area
-        .money
-          strong= listing.headline
-          span= listing.headlineNote
+          .card-foot
+            span.card-money= listing.headline
+            span.card-note= listing.area

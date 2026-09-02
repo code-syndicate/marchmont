@@ -9,6 +9,11 @@ block content
     .button-row
       a.button(href="/portfolio") View the portfolio
       a.button.button-quiet(href="/register") Register an interest
+
+  figure.hero-figure
+    img(src=hero.src srcset=hero.srcset sizes=hero.sizes alt=hero.alt width=hero.width height=hero.height fetchpriority="high" decoding="async")
+
+  .page
     dl.index-strip
       div
         dt In the portfolio
@@ -29,7 +34,7 @@ block content
         p.eyebrow Currently offered
         h2 A working selection
       a(href="/portfolio") See all #{totalCount} offers
-    +schedule(featured)
+    +cards(featured)
 
   section.band.band-rule.band-raised
     .page

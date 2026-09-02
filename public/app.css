@@ -1,25 +1,24 @@
-/* Marchmont design tokens. Single source of truth for the palette.
-   Verified by tests/brand/tokens.test.ts. */
-
 :root {
-  /* Ground and layered surfaces. Depth comes from lightness, not borders. */
-  --ground: hsl(24 12% 6%);
-  --surface-1: hsl(24 11% 9%);
-  --surface-2: hsl(24 10% 13%);
-  --line: hsl(24 9% 20%);
+  /* Warm ivory ground, taken from the reference default theme. Light by
+     decision, not by omission: this is a daylight brand and the photography
+     carries the page. */
+  --ground: hsl(36 24% 96%);
+  --surface-1: hsl(36 30% 98%);
+  --surface-2: hsl(36 18% 92%);
+  --line: hsl(30 13% 84%);
 
   /* Text */
-  --text: hsl(36 16% 93%);
-  --text-muted: hsl(32 9% 66%);
-  --text-faint: hsl(30 8% 53%);
+  --text: hsl(20 14% 11%);
+  --text-muted: hsl(25 9% 34%);
+  --text-faint: hsl(25 8% 41%);
 
-  /* Oxblood. --accent fills, --accent-text is the readable form on dark ground. */
-  --accent: hsl(2 52% 38%);
-  --accent-hover: hsl(2 54% 44%);
-  --accent-text: hsl(2 62% 64%);
+  /* Oxblood, darkened to carry on a light ground. */
+  --accent: hsl(2 56% 34%);
+  --accent-hover: hsl(2 58% 28%);
+  --accent-text: hsl(2 60% 36%);
   --accent-on: hsl(36 30% 97%);
 
-  --danger: hsl(4 55% 48%);
+  --danger: hsl(4 62% 38%);
 
   /* One spacing unit. Every gap is a multiple of it. */
   --u: 4px;
@@ -40,6 +39,8 @@
   --step-4: 2.125rem;
   --step-5: clamp(2.5rem, 1.6rem + 4vw, 4rem);
   --step-6: clamp(3rem, 1.5rem + 6.5vw, 5.75rem);
+
+  --shade: color-mix(in srgb, var(--text) 6%, transparent);
 }
 
 @font-face {
@@ -183,7 +184,7 @@ main { flex: 1 0 auto; }
   position: sticky;
   top: 0;
   z-index: 20;
-  background: color-mix(in srgb, var(--ground) 92%, transparent);
+  background: color-mix(in srgb, var(--ground) 90%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
@@ -800,4 +801,170 @@ main { flex: 1 0 auto; }
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ---------- photography ---------- */
+
+.hero-figure {
+  margin: calc(var(--u) * 14) 0 0;
+  width: 100%;
+}
+
+.hero-figure img {
+  width: 100%;
+  height: clamp(320px, 52vh, 620px);
+  object-fit: cover;
+  background: var(--surface-2);
+}
+
+/* Cards are used here and nowhere else: the photograph genuinely leads a
+   portfolio grid. Every other list on the site stays flat rows. */
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: calc(var(--u) * 10) calc(var(--u) * 8);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.card-frame {
+  overflow: hidden;
+  background: var(--surface-2);
+  aspect-ratio: 3 / 2;
+}
+
+.card-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+.card:hover .card-frame img { transform: scale(1.03); }
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 1.5);
+  padding-top: calc(var(--u) * 4);
+}
+
+.card-type {
+  font-size: var(--step--1);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.card-type.is-sale { color: var(--accent-text); }
+
+.card-title {
+  font-size: var(--step-2);
+  line-height: 1.15;
+}
+
+.card-title a { color: var(--text); }
+
+.card-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.card-title a:hover { color: var(--accent-text); text-decoration: none; }
+
+.card-where {
+  font-family: var(--font-body);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
+
+.card-scope {
+  font-size: var(--step--1);
+  color: var(--text-faint);
+}
+
+.card-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: calc(var(--u) * 3);
+  margin-top: calc(var(--u) * 3);
+  padding-top: calc(var(--u) * 3);
+  border-top: 1px solid var(--line);
+}
+
+.card-money {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.card-note {
+  font-size: var(--step--1);
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- gallery ---------- */
+
+.gallery { margin-bottom: calc(var(--u) * 10); }
+
+.gallery-rail {
+  display: flex;
+  gap: calc(var(--u) * 3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  padding-bottom: calc(var(--u) * 2);
+}
+
+.gallery-shot {
+  margin: 0;
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  background: var(--surface-2);
+}
+
+.gallery-shot img {
+  width: 100%;
+  height: clamp(280px, 56vh, 640px);
+  object-fit: cover;
+}
+
+.gallery-thumbs {
+  display: flex;
+  gap: calc(var(--u) * 2);
+  margin-top: calc(var(--u) * 3);
+  flex-wrap: wrap;
+}
+
+.gallery-thumbs a {
+  display: block;
+  width: calc(var(--u) * 22);
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--surface-2);
+  opacity: 0.62;
+  transition: opacity 0.18s ease;
+}
+
+.gallery-thumbs a:hover, .gallery-thumbs a:focus-visible { opacity: 1; }
+
+.gallery-thumbs img { width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 760px) {
+  .cards { grid-template-columns: minmax(0, 1fr); gap: calc(var(--u) * 8); }
+  .hero-figure { margin-top: calc(var(--u) * 10); }
+  .gallery-thumbs a { width: calc(var(--u) * 16); }
 }

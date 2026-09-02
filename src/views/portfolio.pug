@@ -15,7 +15,7 @@ block content
       a(href="/portfolio?type=corporate_let" aria-current=(activeType === "corporate_let" ? "page" : false)) Corporate lets
 
     if listings.length
-      +schedule(listings)
+      +cards(listings, 'h2')
       p.note Showing #{listings.length} of #{totalCount} offers. Prices are stated in the currency of the market the building sits in.
     else
       .empty

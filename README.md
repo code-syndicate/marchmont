@@ -51,6 +51,18 @@ Production refuses to boot if any provider is `sandbox`.
 `bun run seed` is safe to run on every boot and rebuilds a working demo, so a
 host without a persistent disk is never left with an empty site.
 
+## Photography
+
+Demo photography is served from the Unsplash CDN, which is the single external
+origin the content security policy admits, and only for `img-src`. Every URL is
+built in `src/providers/images.ts`; that module is the only thing that changes
+when real photography of real buildings replaces it, and the policy tightens
+back to `'self'` at the same time. A deterministic sandbox provider serving
+`/images/` is in the same file for offline use.
+
+The seed portfolio is fictional and the photographs are stock. Neither is a
+representation about a real building.
+
 ## Money
 
 Prices are `bigint` minor units plus an ISO 4217 code, stored as BSON `Long`.

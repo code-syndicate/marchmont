@@ -9,6 +9,11 @@ export type Address = {
   readonly region?: string
 }
 
+export type PropertyImage = {
+  readonly id: string
+  readonly alt: string
+}
+
 export type Property = {
   readonly id: string
   readonly slug: string
@@ -25,6 +30,7 @@ export type Property = {
   readonly bedrooms?: number
   readonly bathrooms?: number
   readonly energyRating?: string
+  readonly images: readonly PropertyImage[]
 }
 
 type PropertyDoc = Omit<Property, 'id' | 'area'> & { _id: string; area: never }

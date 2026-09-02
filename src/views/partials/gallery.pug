@@ -1,0 +1,12 @@
+mixin gallery(listing)
+  if listing.gallery.length
+    section.gallery(aria-label=`Photographs of ${listing.name}`)
+      .gallery-rail(tabindex="0" role="group" aria-label="Photographs, scroll or use the index below")
+        each shot, index in listing.gallery
+          figure.gallery-shot(id=`shot-${index + 1}`)
+            img(src=shot.src srcset=shot.srcset sizes=shot.sizes alt=shot.alt width=shot.width height=shot.height loading=(index === 0 ? "eager" : "lazy") decoding="async" fetchpriority=(index === 0 ? "high" : false))
+      if listing.thumbs.length > 1
+        nav.gallery-thumbs(aria-label="Photograph index")
+          each thumb, index in listing.thumbs
+            a(href=`#shot-${index + 1}` aria-label=`Photograph ${index + 1} of ${listing.thumbs.length}`)
+              img(src=thumb.src alt="" width=thumb.width height=thumb.height loading="lazy" decoding="async")

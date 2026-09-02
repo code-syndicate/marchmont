@@ -1,4 +1,5 @@
 extends layout
+include partials/gallery
 
 block content
   section.detail-head.page
@@ -14,6 +15,9 @@ block content
     .detail-price
       strong= listing.headline
       span= listing.headlineNote
+
+  .page
+    +gallery(listing)
 
   section.band-tight.page
     .detail-grid

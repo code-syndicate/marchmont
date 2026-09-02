@@ -3,13 +3,18 @@ import { createAssetHasher } from './asset-hash'
 import type { Config } from './config'
 import type { Database } from './db/client'
 import type { OfferType } from './db/repositories/offers'
+import { createImageProvider } from './providers/images'
 import { createPortfolio } from './services/portfolio'
+
+const images = createImageProvider()
 
 const CSP = [
   "default-src 'self'",
   "script-src 'self'",
   "style-src 'self'",
-  "img-src 'self' data:",
+  // The photography provider is the only external origin the policy admits,
+  // and only for images. See src/providers/images.ts.
+  `img-src 'self' data: ${images.host}`,
   "font-src 'self'",
   "connect-src 'self'",
   "form-action 'self'",
@@ -54,7 +59,7 @@ function localeFor(req: Request): string {
 export function createApp(deps: { config: Config; database: Database }): express.Express {
   const { config, database } = deps
   const assets = createAssetHasher(config)
-  const portfolio = createPortfolio(database.repositories)
+  const portfolio = createPortfolio(database.repositories, images)
   const app = express()
 
   app.disable('x-powered-by')
@@ -99,6 +104,14 @@ export function createApp(deps: { config: Config; database: Database }): express
       ])
       res.render('home', {
         nav: 'home',
+        hero: images.render(
+          {
+            id: 'photo-1773069459477-e9fe9d6eeb60',
+            alt: 'Interior of a converted mill with exposed brick columns and tall factory windows',
+          },
+          'hero',
+          '100vw',
+        ),
         title: null,
         description:
           'Houses and offices held on our own account, offered for sale, on long lease, or on a corporate let. Shown by appointment.',

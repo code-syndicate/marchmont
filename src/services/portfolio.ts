@@ -1,11 +1,13 @@
 import { formatArea, unitForLocale } from '../domain/area'
 import { formatMoney, formatMoneyShort } from '../domain/money'
 import type { Repositories } from '../db/repositories'
+import type { ImageProvider, Rendition } from '../providers/images'
 import type { Offer, OfferQuery, OfferType } from '../db/repositories/offers'
 import type { Property } from '../db/repositories/properties'
 
 export type Listing = {
   readonly slug: string
+  readonly cover: Rendition | null
   readonly name: string
   readonly locality: string
   readonly country: string
@@ -24,6 +26,8 @@ export type Listing = {
 }
 
 export type ListingDetail = Listing & {
+  readonly gallery: readonly Rendition[]
+  readonly thumbs: readonly Rendition[]
   readonly formattedAddress: string
   readonly description: readonly string[]
   readonly features: readonly string[]
@@ -63,9 +67,30 @@ function formatDate(iso: string, locale: string): string {
     .format(new Date(iso))
 }
 
-function toListing(offer: Offer, property: Property, locale: string): Listing {
+const CARD_SIZES = '(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 380px'
+
+/**
+ * One building can carry several offers, and giving them all the same cover
+ * makes the grid look like it is repeating itself. The choice is semantic
+ * rather than arbitrary: an offer on the whole building leads with the
+ * exterior, an offer on part of it leads with an interior, and where a
+ * building has several parts on offer they take different interiors.
+ */
+function coverFor(offer: Offer, property: Property): Property['images'][number] | undefined {
+  const shots = property.images
+  if (shots.length === 0) return undefined
+  if (offer.scope === 'whole' || shots.length === 1) return shots[0]
+  const interiors = shots.slice(1)
+  let hash = 0
+  for (const character of offer.slug) hash = (hash * 31 + character.charCodeAt(0)) % 100000
+  return interiors[hash % interiors.length]
+}
+
+function toListing(offer: Offer, property: Property, locale: string, images: ImageProvider): Listing {
+  const cover = coverFor(offer, property)
   return {
     slug: offer.slug,
+    cover: cover ? images.render(cover, 'card', CARD_SIZES) : null,
     name: property.name,
     locality: property.address.locality,
     country: countryName(property.address.countryCode, locale),
@@ -121,7 +146,7 @@ export type Portfolio = {
   featured(locale: string, limit: number): Promise<Listing[]>
 }
 
-export function createPortfolio(repositories: Repositories): Portfolio {
+export function createPortfolio(repositories: Repositories, images: ImageProvider): Portfolio {
   const { offers, properties } = repositories
 
   const listFor = async (query: OfferQuery, locale: string): Promise<Listing[]> => {
@@ -130,7 +155,7 @@ export function createPortfolio(repositories: Repositories): Portfolio {
     return live
       .map((offer) => {
         const property = byId.get(offer.propertyId)
-        return property ? toListing(offer, property, locale) : null
+        return property ? toListing(offer, property, locale, images) : null
       })
       .filter((listing): listing is Listing => listing !== null)
   }
@@ -160,7 +185,11 @@ export function createPortfolio(repositories: Repositories): Portfolio {
         }))
 
       return {
-        ...toListing(offer, property, locale),
+        ...toListing(offer, property, locale, images),
+        gallery: property.images.map((image, index) =>
+          images.render(image, index === 0 ? 'hero' : 'plate', '(max-width: 900px) 100vw, 760px'),
+        ),
+        thumbs: property.images.map((image) => images.render(image, 'thumb', '96px')),
         formattedAddress: property.address.formatted,
         description: property.description,
         features: property.features,
