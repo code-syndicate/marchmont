@@ -1,0 +1,1161 @@
+{
+  "$schema": "./pages.manifest.schema.json",
+  "site": {
+    "name": "Ferrous & Oak",
+    "type": "website",
+    "domain": "https://04797fb9-a8e6-47ed-b16b-7d8834dd6ea2.preview.builder.staging.searchatlas.com",
+    "language": "en",
+    "defaultSeo": {
+      "titleTemplate": "%s | Ferrous & Oak",
+      "ogImage": "/og-default.png"
+    },
+    "business_type": "real_estate_brokerage",
+    "description": "A specialised Providence, Rhode Island brokerage representing adaptive-reuse 19th-century mill buildings, offering both loft residences and creative office space.",
+    "image_pool": {
+      "hero": [
+        {
+          "url": "https://images.unsplash.com/photo-1505873242700-f289a29e1e0f",
+          "alt": "A spacious industrial loft with a black leather sofa, dining area, and mezzanine level",
+          "width": 4928,
+          "height": 3264
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1662379940109-1026a0dcfe95",
+          "alt": "a room with a ladder and bookshelves",
+          "width": 3024,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1494427919973-20a682389d91",
+          "alt": "green leaf plants",
+          "width": 3024,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1463797221720-6b07e6426c24",
+          "alt": "brown wooden dining table near white and brown mini bar",
+          "width": 4096,
+          "height": 2730
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1773069459477-e9fe9d6eeb60",
+          "alt": "Interior with exposed brick columns and large windows",
+          "width": 4592,
+          "height": 3448
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1604325408131-f6bc84d7c8a6",
+          "alt": "blue plastic chair beside brown brick wall",
+          "width": 3831,
+          "height": 5747
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1773069459487-3d2d7bb4532e",
+          "alt": "Loft interior with exposed brick walls and modern furniture",
+          "width": 4592,
+          "height": 3448
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1692696746783-14e5e56a6387",
+          "alt": "an empty room with a brick wall and exposed ceiling",
+          "width": 4160,
+          "height": 6240
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1639534098627-13c8cb25e605",
+          "alt": "a room with a brick wall and a white table",
+          "width": 3024,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1755539485162-72e939b6e2ac",
+          "alt": "Ornate sofa with lamp next to brick wall",
+          "width": 3813,
+          "height": 5616
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1633093164521-b9ee37acc128",
+          "alt": "a living room with a large window and a couch",
+          "width": 3024,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1736214544661-6ab6f6829f0c",
+          "alt": "A room filled with lots of books and a plant",
+          "width": 6214,
+          "height": 9321
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1693293637268-595ac2f97b56",
+          "alt": "a couple of people that are walking in a building",
+          "width": 2754,
+          "height": 3866
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1786051390136-d705fe0e7309",
+          "alt": "Modern living room features sofa, armchairs, and a brick wall",
+          "width": 9504,
+          "height": 6336
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1673725782761-463e8ae08d63",
+          "alt": "a palm tree in a large room with exposed ceilings",
+          "width": 5131,
+          "height": 7697
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1679344156149-cbfb6a3d44b7",
+          "alt": "a room with three windows and a television",
+          "width": 5568,
+          "height": 3712
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1756638061701-b00722bdde18",
+          "alt": "Historic brick interior with wooden walkway and windows",
+          "width": 4000,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1599442859470-ebdc3dd309be",
+          "alt": "white window frame with green trees outside during daytime",
+          "width": 5788,
+          "height": 3859
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1584887831625-fc560d81cd87",
+          "alt": "brown brick building with glass windows",
+          "width": 2276,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1726503454450-12398646415a",
+          "alt": "A room with a large window and a surfboard on the window sill",
+          "width": 4160,
+          "height": 6240
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1604678501408-f1e5b49e2245",
+          "alt": "white wooden window frame on brown brick wall",
+          "width": 2150,
+          "height": 2688
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1787065811996-40ffbd3b567d",
+          "alt": "A red brick wall with arched windows and metal cross-shaped wall anchors",
+          "width": 7968,
+          "height": 5320
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1726503453922-1988846904c4",
+          "alt": "A round table sitting in front of a window",
+          "width": 3971,
+          "height": 5560
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1646186068664-ebfb99057ca3",
+          "alt": "a room that has some windows in it",
+          "width": 3130,
+          "height": 2075
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1689465572230-99b497b6402d",
+          "alt": "a brick building with a window and air conditioner",
+          "width": 3000,
+          "height": 4000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1722348671922-778e5dd3e3d4",
+          "alt": "An empty room with a brick wall and a window",
+          "width": 6000,
+          "height": 4000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1722348673957-fcc09b245ebe",
+          "alt": "An empty room with a brick wall and wooden floors",
+          "width": 6000,
+          "height": 4000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1741524915858-c7aeb13dea96",
+          "alt": "A dark concrete hallway with architectural columns",
+          "width": 7624,
+          "height": 5204
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1767926190150-06d78f1524b2",
+          "alt": "Red doors open to a long, wet hallway",
+          "width": 4032,
+          "height": 6048
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1758866556994-05d81003c7c0",
+          "alt": "Double wooden doors in a concrete hallway",
+          "width": 5582,
+          "height": 3714
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1741524915518-3ee884ae7928",
+          "alt": "Arched concrete corridor with natural light",
+          "width": 5504,
+          "height": 6951
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1785038237247-a2582634d055",
+          "alt": "Long, empty corridor with multiple doors and overhead utilities",
+          "width": 3130,
+          "height": 2075
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1772709679946-0bda8dc5fe2e",
+          "alt": "Corridor with metal walls and a sign that says kantine",
+          "width": 4000,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1736929945582-4a5f2c929670",
+          "alt": "A long hallway with several doors leading to another room",
+          "width": 4000,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1783858479206-0ee7cda79a99",
+          "alt": "Dark, empty underground tunnel with dim lights and a door",
+          "width": 3840,
+          "height": 2400
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1741524915869-eac48b5e838a",
+          "alt": "Modern architecture of a complex building with ramps",
+          "width": 5504,
+          "height": 7061
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1768759583043-8191276cd2ea",
+          "alt": "A dark, abandoned hallway with peeling paint",
+          "width": 8256,
+          "height": 5504
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1768307198334-d176402a3f3d",
+          "alt": "Two large wooden barn doors open into a hall",
+          "width": 8160,
+          "height": 12240
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1784757332688-5ba0a8ef2009",
+          "alt": "Green metal door with industrial latches and handles",
+          "width": 2766,
+          "height": 4918
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1765301657091-89801374a5f0",
+          "alt": "Dimly lit hallway with tiled walls and a doorway",
+          "width": 2560,
+          "height": 3840
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1783369322310-6790ca2cb2d6",
+          "alt": "Colorful block wall in a vibrant room through brick archway",
+          "width": 7360,
+          "height": 4912
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1765181568980-bef715bdd833",
+          "alt": "Narrow alley between brick and concrete buildings",
+          "width": 6193,
+          "height": 7194
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1738463267273-7263f3a47f92",
+          "alt": "A tall red building with a clock tower on top of it",
+          "width": 4000,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1675711329496-ae122ca149a3",
+          "alt": "a group of trees in front of a brick building",
+          "width": 5184,
+          "height": 3456
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1675711329457-072e5c1b2138",
+          "alt": "a tall brick building covered in ivy",
+          "width": 5184,
+          "height": 3456
+        }
+      ],
+      "general": [
+        {
+          "url": "https://images.unsplash.com/photo-1505873242700-f289a29e1e0f",
+          "alt": "A spacious industrial loft with a black leather sofa, dining area, and mezzanine level",
+          "width": 4928,
+          "height": 3264
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1662379940109-1026a0dcfe95",
+          "alt": "a room with a ladder and bookshelves",
+          "width": 3024,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1494427919973-20a682389d91",
+          "alt": "green leaf plants",
+          "width": 3024,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1463797221720-6b07e6426c24",
+          "alt": "brown wooden dining table near white and brown mini bar",
+          "width": 4096,
+          "height": 2730
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1773069459477-e9fe9d6eeb60",
+          "alt": "Interior with exposed brick columns and large windows",
+          "width": 4592,
+          "height": 3448
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1604325408131-f6bc84d7c8a6",
+          "alt": "blue plastic chair beside brown brick wall",
+          "width": 3831,
+          "height": 5747
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1773069459487-3d2d7bb4532e",
+          "alt": "Loft interior with exposed brick walls and modern furniture",
+          "width": 4592,
+          "height": 3448
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1692696746783-14e5e56a6387",
+          "alt": "an empty room with a brick wall and exposed ceiling",
+          "width": 4160,
+          "height": 6240
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1639534098627-13c8cb25e605",
+          "alt": "a room with a brick wall and a white table",
+          "width": 3024,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1755539485162-72e939b6e2ac",
+          "alt": "Ornate sofa with lamp next to brick wall",
+          "width": 3813,
+          "height": 5616
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1633093164521-b9ee37acc128",
+          "alt": "a living room with a large window and a couch",
+          "width": 3024,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1736214544661-6ab6f6829f0c",
+          "alt": "A room filled with lots of books and a plant",
+          "width": 6214,
+          "height": 9321
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1693293637268-595ac2f97b56",
+          "alt": "a couple of people that are walking in a building",
+          "width": 2754,
+          "height": 3866
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1786051390136-d705fe0e7309",
+          "alt": "Modern living room features sofa, armchairs, and a brick wall",
+          "width": 9504,
+          "height": 6336
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1673725782761-463e8ae08d63",
+          "alt": "a palm tree in a large room with exposed ceilings",
+          "width": 5131,
+          "height": 7697
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1679344156149-cbfb6a3d44b7",
+          "alt": "a room with three windows and a television",
+          "width": 5568,
+          "height": 3712
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1756638061701-b00722bdde18",
+          "alt": "Historic brick interior with wooden walkway and windows",
+          "width": 4000,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1599442859470-ebdc3dd309be",
+          "alt": "white window frame with green trees outside during daytime",
+          "width": 5788,
+          "height": 3859
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1584887831625-fc560d81cd87",
+          "alt": "brown brick building with glass windows",
+          "width": 2276,
+          "height": 4032
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1726503454450-12398646415a",
+          "alt": "A room with a large window and a surfboard on the window sill",
+          "width": 4160,
+          "height": 6240
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1604678501408-f1e5b49e2245",
+          "alt": "white wooden window frame on brown brick wall",
+          "width": 2150,
+          "height": 2688
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1787065811996-40ffbd3b567d",
+          "alt": "A red brick wall with arched windows and metal cross-shaped wall anchors",
+          "width": 7968,
+          "height": 5320
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1726503453922-1988846904c4",
+          "alt": "A round table sitting in front of a window",
+          "width": 3971,
+          "height": 5560
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1646186068664-ebfb99057ca3",
+          "alt": "a room that has some windows in it",
+          "width": 3130,
+          "height": 2075
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1689465572230-99b497b6402d",
+          "alt": "a brick building with a window and air conditioner",
+          "width": 3000,
+          "height": 4000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1722348671922-778e5dd3e3d4",
+          "alt": "An empty room with a brick wall and a window",
+          "width": 6000,
+          "height": 4000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1722348673957-fcc09b245ebe",
+          "alt": "An empty room with a brick wall and wooden floors",
+          "width": 6000,
+          "height": 4000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1741524915858-c7aeb13dea96",
+          "alt": "A dark concrete hallway with architectural columns",
+          "width": 7624,
+          "height": 5204
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1767926190150-06d78f1524b2",
+          "alt": "Red doors open to a long, wet hallway",
+          "width": 4032,
+          "height": 6048
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1758866556994-05d81003c7c0",
+          "alt": "Double wooden doors in a concrete hallway",
+          "width": 5582,
+          "height": 3714
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1741524915518-3ee884ae7928",
+          "alt": "Arched concrete corridor with natural light",
+          "width": 5504,
+          "height": 6951
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1785038237247-a2582634d055",
+          "alt": "Long, empty corridor with multiple doors and overhead utilities",
+          "width": 3130,
+          "height": 2075
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1772709679946-0bda8dc5fe2e",
+          "alt": "Corridor with metal walls and a sign that says kantine",
+          "width": 4000,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1736929945582-4a5f2c929670",
+          "alt": "A long hallway with several doors leading to another room",
+          "width": 4000,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1783858479206-0ee7cda79a99",
+          "alt": "Dark, empty underground tunnel with dim lights and a door",
+          "width": 3840,
+          "height": 2400
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1741524915869-eac48b5e838a",
+          "alt": "Modern architecture of a complex building with ramps",
+          "width": 5504,
+          "height": 7061
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1768759583043-8191276cd2ea",
+          "alt": "A dark, abandoned hallway with peeling paint",
+          "width": 8256,
+          "height": 5504
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1768307198334-d176402a3f3d",
+          "alt": "Two large wooden barn doors open into a hall",
+          "width": 8160,
+          "height": 12240
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1784757332688-5ba0a8ef2009",
+          "alt": "Green metal door with industrial latches and handles",
+          "width": 2766,
+          "height": 4918
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1765301657091-89801374a5f0",
+          "alt": "Dimly lit hallway with tiled walls and a doorway",
+          "width": 2560,
+          "height": 3840
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1783369322310-6790ca2cb2d6",
+          "alt": "Colorful block wall in a vibrant room through brick archway",
+          "width": 7360,
+          "height": 4912
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1765181568980-bef715bdd833",
+          "alt": "Narrow alley between brick and concrete buildings",
+          "width": 6193,
+          "height": 7194
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1738463267273-7263f3a47f92",
+          "alt": "A tall red building with a clock tower on top of it",
+          "width": 4000,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1675711329496-ae122ca149a3",
+          "alt": "a group of trees in front of a brick building",
+          "width": 5184,
+          "height": 3456
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1675711329457-072e5c1b2138",
+          "alt": "a tall brick building covered in ivy",
+          "width": 5184,
+          "height": 3456
+        }
+      ],
+      "people": [
+        {
+          "url": "https://images.unsplash.com/photo-1768247695726-022586dea3a1",
+          "alt": "Young woman with hand on chin in black and white",
+          "width": 4476,
+          "height": 4476
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1710778044102-56a3a6b69a1b",
+          "alt": "a woman standing with her arms crossed",
+          "width": 3780,
+          "height": 3780
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1542909168-6296a31d7689",
+          "alt": "man wearing yellow crew-neck top near white wall",
+          "width": 3456,
+          "height": 3456
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1681500920181-0aff411f8cab",
+          "alt": "a woman in a suit and tie with red lipstick",
+          "width": 2309,
+          "height": 2412
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1710777915903-a7d7f159f2c0",
+          "alt": "a woman with curly hair wearing a striped shirt",
+          "width": 4480,
+          "height": 4480
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1633625576932-348e73c45e82",
+          "alt": "a man with a beard and a black shirt",
+          "width": 5906,
+          "height": 6000
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1741455620227-3b1c51e01419",
+          "alt": "Smiling man looks at the camera for a portrait",
+          "width": 3200,
+          "height": 3200
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1701878133751-8279cb13aabd",
+          "alt": "a black and white photo of a smiling man",
+          "width": 5000,
+          "height": 4889
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1645107914072-6f16b732f224",
+          "alt": "a woman with long black hair smiling at the camera",
+          "width": 3543,
+          "height": 3543
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1542909168-82c3e7fdca5c",
+          "alt": "boy's face close-up photography",
+          "width": 3456,
+          "height": 3456
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1605857840732-188f2f08cb31",
+          "alt": "man in black framed eyeglasses and black crew neck shirt",
+          "width": 3680,
+          "height": 3680
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1517588632672-9758d6acba04",
+          "alt": "man wearing black denim jacket with black background",
+          "width": 3712,
+          "height": 3712
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1713456047082-4e844b81c494",
+          "alt": "a man with curly hair standing in front of a wall",
+          "width": 4000,
+          "height": 4137
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1678282955795-200c1e18bc7d",
+          "alt": "a black man in a black turtle neck shirt",
+          "width": 2962,
+          "height": 2963
+        },
+        {
+          "url": "https://images.unsplash.com/photo-1710777932534-2a58edf3603d",
+          "alt": "a woman with a smile on her face",
+          "width": 4480,
+          "height": 4480
+        }
+      ]
+    }
+  },
+  "pages": [
+    {
+      "id": "home",
+      "name": "Home",
+      "slug": "",
+      "isHome": true,
+      "seo": {
+        "title": "Ferrous & Oak - Providence Mill Loft Living & Office Space",
+        "description": "Ferrous & Oak represents adaptive-reuse 19th-century mill buildings in Providence, offering distinctive loft residences and creative office space.",
+        "keywords": [
+          "mill loft residences",
+          "creative office space Providence",
+          "adaptive reuse mill buildings",
+          "historic tax credit real estate",
+          "Ferrous & Oak"
+        ],
+        "ogImage": "",
+        "canonicalUrl": "",
+        "noindex": false,
+        "structuredDataType": "RealEstateAgent",
+        "structuredData": null
+      },
+      "sections": [
+        "Header",
+        "Hero",
+        "TwoWaysIn",
+        "Portfolio",
+        "WhyMillBuildings",
+        "Testimonials",
+        "HomeCTA",
+        "Footer"
+      ],
+      "inNavigation": true
+    },
+    {
+      "id": "residences",
+      "name": "Residences",
+      "slug": "residences",
+      "isHome": false,
+      "seo": {
+        "title": "Residences - Ferrous & Oak | Mill Loft Living in Providence",
+        "description": "Six available mill loft residences in Providence — photos, sizes, and prices, plus an honest look at heating, light, noise, and parking.",
+        "keywords": [
+          "mill loft residences",
+          "Providence loft apartments",
+          "adaptive reuse housing",
+          "Ferrous & Oak",
+          "historic loft living"
+        ],
+        "ogImage": "",
+        "canonicalUrl": "",
+        "noindex": false,
+        "structuredDataType": "Product",
+        "structuredData": null
+      },
+      "sections": [
+        "Header",
+        "ResidencesHero",
+        "LoftsGrid",
+        "LivingExperience",
+        "LeaseFAQ",
+        "ResidencesCTA",
+        "Footer"
+      ],
+      "inNavigation": true
+    },
+    {
+      "id": "offices",
+      "name": "Offices",
+      "slug": "offices",
+      "isHome": false,
+      "seo": {
+        "title": "Offices - Ferrous & Oak | Mill Building Office Space",
+        "description": "Browse available creative office floors in Providence's adaptive-reuse mill buildings, from raw shells to finished suites.",
+        "keywords": [
+          "mill building office space",
+          "Providence creative office",
+          "adaptive reuse office",
+          "Ferrous & Oak offices"
+        ],
+        "ogImage": "",
+        "canonicalUrl": "",
+        "noindex": false,
+        "structuredDataType": "Product",
+        "structuredData": null
+      },
+      "sections": [
+        "Header",
+        "OfficesHero",
+        "OfficesGrid",
+        "FitOut",
+        "WhyOfficeSpace",
+        "OfficesCTA",
+        "Footer"
+      ],
+      "inNavigation": true
+    },
+    {
+      "id": "about",
+      "name": "About",
+      "slug": "about",
+      "isHome": false,
+      "seo": {
+        "title": "About - Ferrous & Oak | Mill Building Specialists",
+        "description": "Meet the two-person team behind Ferrous & Oak, Providence's specialist brokerage for adaptive-reuse 19th-century mill lofts and creative office space.",
+        "keywords": [
+          "Ferrous & Oak",
+          "mill building specialists",
+          "Providence real estate",
+          "adaptive reuse brokerage",
+          "about our team"
+        ],
+        "ogImage": "",
+        "canonicalUrl": "",
+        "noindex": false,
+        "structuredDataType": "AboutPage",
+        "structuredData": null
+      },
+      "sections": [
+        "Header",
+        "AboutHero",
+        "OurStory",
+        "Expertise",
+        "Team",
+        "AboutCTA",
+        "Footer"
+      ],
+      "inNavigation": true
+    },
+    {
+      "id": "contact",
+      "name": "Contact",
+      "slug": "contact",
+      "isHome": false,
+      "seo": {
+        "title": "Contact - Ferrous & Oak | Mill Building Inquiries",
+        "description": "Reach out about a specific mill loft or office floor in Providence. Tell us which building interests you and we'll arrange a walkthrough.",
+        "keywords": [
+          "contact Ferrous & Oak",
+          "Providence mill building inquiry",
+          "schedule walkthrough",
+          "mill loft contact"
+        ],
+        "ogImage": "",
+        "canonicalUrl": "",
+        "noindex": false,
+        "structuredDataType": "ContactPage",
+        "structuredData": null
+      },
+      "sections": [
+        "Header",
+        "ContactHero",
+        "ContactForm",
+        "ContactInfo",
+        "Map",
+        "Footer"
+      ],
+      "inNavigation": true
+    }
+  ],
+  "navigation": {
+    "header": [
+      "home",
+      "residences",
+      "offices",
+      "about",
+      "contact"
+    ],
+    "footer": [
+      "home",
+      "residences",
+      "offices",
+      "about",
+      "contact"
+    ]
+  },
+  "sections": {},
+  "sectionInstances": {
+    "e3e24d68-a096-4b2c-a708-3c42030c45f3": {
+      "component": "AboutCTA",
+      "file": "src/components/sections/AboutCTA.tsx",
+      "heading": "Talk to Someone Who Has Walked the Building",
+      "pages": [
+        {
+          "page": "about",
+          "order": 5
+        }
+      ]
+    },
+    "18bc15c6-1a43-4fb9-b85e-1d26f6ea288a": {
+      "component": "AboutHero",
+      "file": "src/components/sections/AboutHero.tsx",
+      "heading": "One Brokerage, One Building Type, Two Uses",
+      "pages": [
+        {
+          "page": "about",
+          "order": 1
+        }
+      ]
+    },
+    "81a2e635-48de-46d1-84a1-202abc2bf85a": {
+      "component": "ContactForm",
+      "file": "src/components/sections/ContactForm.tsx",
+      "heading": "Get in Touch",
+      "pages": [
+        {
+          "page": "contact",
+          "order": 2
+        }
+      ]
+    },
+    "e3825a2a-f3ac-41da-976f-1362ae19ecc2": {
+      "component": "ContactHero",
+      "file": "src/components/sections/ContactHero.tsx",
+      "heading": "Inquire About a Building",
+      "pages": [
+        {
+          "page": "contact",
+          "order": 1
+        }
+      ]
+    },
+    "fd145e1b-b1b3-4742-979c-f2e9f3563a7a": {
+      "component": "ContactInfo",
+      "file": "src/components/sections/ContactInfo.tsx",
+      "heading": "Our Office",
+      "pages": [
+        {
+          "page": "contact",
+          "order": 3
+        }
+      ]
+    },
+    "f7526823-b5e6-444d-86d7-18503347b060": {
+      "component": "Expertise",
+      "file": "src/components/sections/Expertise.tsx",
+      "heading": "What We Know",
+      "pages": [
+        {
+          "page": "about",
+          "order": 3
+        }
+      ]
+    },
+    "9c658c6d-ed09-48eb-95eb-3d2f74439ae1": {
+      "component": "FitOut",
+      "file": "src/components/sections/FitOut.tsx",
+      "heading": "Delivered Raw",
+      "pages": [
+        {
+          "page": "offices",
+          "order": 3
+        }
+      ]
+    },
+    "87fccac3-852c-4fbf-a62f-d37d3fd8e0a3": {
+      "component": "Footer",
+      "file": "src/components/sections/Footer.tsx",
+      "heading": "",
+      "pages": [
+        {
+          "page": "about",
+          "order": 6
+        },
+        {
+          "page": "contact",
+          "order": 5
+        },
+        {
+          "page": "home",
+          "order": 7
+        },
+        {
+          "page": "offices",
+          "order": 6
+        },
+        {
+          "page": "residences",
+          "order": 6
+        }
+      ]
+    },
+    "d0ab99ed-9c3f-4cbd-a078-c07622c6cf45": {
+      "component": "Header",
+      "file": "src/components/sections/Header.tsx",
+      "heading": "",
+      "pages": [
+        {
+          "page": "about",
+          "order": 0
+        },
+        {
+          "page": "contact",
+          "order": 0
+        },
+        {
+          "page": "home",
+          "order": 0
+        },
+        {
+          "page": "offices",
+          "order": 0
+        },
+        {
+          "page": "residences",
+          "order": 0
+        }
+      ]
+    },
+    "230adaf1-bdd3-49df-869b-fa4a1c05cc2b": {
+      "component": "Hero",
+      "file": "src/components/sections/Hero.tsx",
+      "heading": "One Brokerage, One Building Type, Two Uses",
+      "pages": [
+        {
+          "page": "home",
+          "order": 1
+        }
+      ]
+    },
+    "d99516b0-06d5-4828-abde-91dc8819643b": {
+      "component": "HomeCTA",
+      "file": "src/components/sections/HomeCTA.tsx",
+      "heading": "See the Buildings Firsthand",
+      "pages": [
+        {
+          "page": "home",
+          "order": 6
+        }
+      ]
+    },
+    "e1f12cc2-678f-42c8-95af-660a6ce1fe76": {
+      "component": "LeaseFAQ",
+      "file": "src/components/sections/LeaseFAQ.tsx",
+      "heading": "Leasing Questions",
+      "pages": [
+        {
+          "page": "residences",
+          "order": 4
+        }
+      ]
+    },
+    "69906d07-815c-49c6-8888-cf004af8589c": {
+      "component": "LivingExperience",
+      "file": "src/components/sections/LivingExperience.tsx",
+      "heading": "",
+      "pages": [
+        {
+          "page": "residences",
+          "order": 3
+        }
+      ]
+    },
+    "ddebc2a1-b390-4a49-9b50-d1a63d94b900": {
+      "component": "LoftsGrid",
+      "file": "src/components/sections/LoftsGrid.tsx",
+      "heading": "Currently Available",
+      "pages": [
+        {
+          "page": "residences",
+          "order": 2
+        }
+      ]
+    },
+    "c00f839e-aa5a-41d0-a03e-102ddfadbd00": {
+      "component": "Map",
+      "file": "src/components/sections/Map.tsx",
+      "heading": "Where to Find Us",
+      "pages": [
+        {
+          "page": "contact",
+          "order": 4
+        }
+      ]
+    },
+    "a48d0dad-dd53-469b-a1b3-5cd503199852": {
+      "component": "OfficesCTA",
+      "file": "src/components/sections/OfficesCTA.tsx",
+      "heading": "Inquire About a Floor",
+      "pages": [
+        {
+          "page": "offices",
+          "order": 5
+        }
+      ]
+    },
+    "444294fd-26ec-4cad-969d-5232fd090814": {
+      "component": "OfficesGrid",
+      "file": "src/components/sections/OfficesGrid.tsx",
+      "heading": "Available Floors",
+      "pages": [
+        {
+          "page": "offices",
+          "order": 2
+        }
+      ]
+    },
+    "7cfd7b8f-7a47-4b15-bf1e-75457ae6b673": {
+      "component": "OfficesHero",
+      "file": "src/components/sections/OfficesHero.tsx",
+      "heading": "Creative Office Space in Providence’s Mill Buildings",
+      "pages": [
+        {
+          "page": "offices",
+          "order": 1
+        }
+      ]
+    },
+    "55294be8-2992-4937-bea2-fe6ad29cfbfe": {
+      "component": "OurStory",
+      "file": "src/components/sections/OurStory.tsx",
+      "heading": "",
+      "pages": [
+        {
+          "page": "about",
+          "order": 2
+        }
+      ]
+    },
+    "db655079-5232-498f-b7e6-4b267baf345c": {
+      "component": "Portfolio",
+      "file": "src/components/sections/Portfolio.tsx",
+      "heading": "Current Portfolio",
+      "pages": [
+        {
+          "page": "home",
+          "order": 3
+        }
+      ]
+    },
+    "3650f724-8458-49b0-b54f-298ffd83f109": {
+      "component": "ResidencesCTA",
+      "file": "src/components/sections/ResidencesCTA.tsx",
+      "heading": "Walk a Loft Before You Decide",
+      "pages": [
+        {
+          "page": "residences",
+          "order": 5
+        }
+      ]
+    },
+    "5dfe9343-19c2-4e6d-a26f-a1710c72849d": {
+      "component": "ResidencesHero",
+      "file": "src/components/sections/ResidencesHero.tsx",
+      "heading": "Mill Loft Residences in Providence",
+      "pages": [
+        {
+          "page": "residences",
+          "order": 1
+        }
+      ]
+    },
+    "0de76f0a-4040-489e-b258-fe795b299316": {
+      "component": "Team",
+      "file": "src/components/sections/Team.tsx",
+      "heading": "The Two of Us",
+      "pages": [
+        {
+          "page": "about",
+          "order": 4
+        }
+      ]
+    },
+    "dc06e828-0e72-44e0-b60d-1d2791b5ae2d": {
+      "component": "Testimonials",
+      "file": "src/components/sections/Testimonials.tsx",
+      "heading": "From people who live and work in these buildings",
+      "pages": [
+        {
+          "page": "home",
+          "order": 5
+        }
+      ]
+    },
+    "04fee2a5-1ddb-4ffa-a294-05208f95ddae": {
+      "component": "TwoWaysIn",
+      "file": "src/components/sections/TwoWaysIn.tsx",
+      "heading": "Two ways into a mill building",
+      "pages": [
+        {
+          "page": "home",
+          "order": 2
+        }
+      ]
+    },
+    "2d4a3449-89d9-4b32-bc18-5c7c3043b163": {
+      "component": "WhyMillBuildings",
+      "file": "src/components/sections/WhyMillBuildings.tsx",
+      "heading": "Why mill buildings",
+      "pages": [
+        {
+          "page": "home",
+          "order": 4
+        }
+      ]
+    },
+    "6b0acfe0-deb0-47fd-bd89-b8ca2581ac10": {
+      "component": "WhyOfficeSpace",
+      "file": "src/components/sections/WhyOfficeSpace.tsx",
+      "heading": "What creative and studio tenants are actually looking for",
+      "pages": [
+        {
+          "page": "offices",
+          "order": 4
+        }
+      ]
+    }
+  }
+}
