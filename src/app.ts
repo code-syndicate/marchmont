@@ -3,25 +3,20 @@ import { createAssetHasher } from './asset-hash'
 import type { Config } from './config'
 import type { Database } from './db/client'
 import type { OfferType } from './db/repositories/offers'
-import { createImageProvider } from './providers/images'
+import { createImageProvider, createSandboxImageProvider } from './providers/images'
 import { createPortfolio } from './services/portfolio'
 
-const images = createImageProvider()
-
-const CSP = [
+const CSP_BASE = [
   "default-src 'self'",
   "script-src 'self'",
   "style-src 'self'",
-  // The photography provider is the only external origin the policy admits,
-  // and only for images. See src/providers/images.ts.
-  `img-src 'self' data: ${images.host}`,
   "font-src 'self'",
   "connect-src 'self'",
   "form-action 'self'",
   "base-uri 'self'",
   "frame-ancestors 'none'",
   "object-src 'none'",
-].join('; ')
+]
 
 const ROUTE_SIZES = '(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 380px'
 
@@ -60,6 +55,10 @@ function localeFor(req: Request): string {
 
 export function createApp(deps: { config: Config; database: Database }): express.Express {
   const { config, database } = deps
+  // The photography provider is the only external origin the policy admits,
+  // and only for images. See src/providers/images.ts.
+  const images = config.providers.images === 'unsplash' ? createImageProvider() : createSandboxImageProvider()
+  const CSP = [...CSP_BASE, `img-src 'self' data: ${images.host}`].join('; ')
   const assets = createAssetHasher(config)
   const portfolio = createPortfolio(database.repositories, images)
   const app = express()

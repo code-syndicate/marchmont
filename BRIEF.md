@@ -79,8 +79,9 @@ in code only where the why is non-obvious; never explain what the code does.
   event and staff action writes to it.
 - **Every external provider sits behind an interface** with a deterministic
   sandbox implementation: geocoding, mapping, email, SMS, image storage,
-  payments, currency rates. Production refuses to boot with a sandbox selected.
-  This keeps vendor choices open and the whole app testable offline.
+  payments, currency rates. This keeps vendor choices open and the whole app
+  testable offline. The sandbox is a valid choice in any environment, including
+  production; that constraint belonged to a regulated product, not this one.
 - **Rate-limit and back off on every third-party API.** Cache aggressively,
   dedupe concurrent calls into one, back off exponentially on failure, honour
   `Retry-After`, and persist the last good response so a restart does not spend

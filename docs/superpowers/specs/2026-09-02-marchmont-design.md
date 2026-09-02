@@ -204,7 +204,7 @@ Application states: `submitted` -> `in_review` -> `approved` | `declined` ->
 `paid` | `expired` | `withdrawn`. Every transition is audited.
 
 The payment provider sits behind an interface with a deterministic sandbox
-implementation. Production refuses to boot with a sandbox provider selected.
+implementation, so the flow is testable offline.
 
 ## 5. Architecture
 

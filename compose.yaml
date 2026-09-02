@@ -11,16 +11,14 @@ services:
     depends_on:
       - mongo
     ports:
-      - "3000:3000"
+      - "10000:10000"
     environment:
       NODE_ENV: production
-      PORT: "3000"
+      PORT: "10000"
       MONGO_URL: mongodb://mongo:27017
       MONGO_DB: marchmont
       SESSION_SECRET: ${SESSION_SECRET}
-      PAYMENTS_PROVIDER: ${PAYMENTS_PROVIDER}
-      GEOCODING_PROVIDER: ${GEOCODING_PROVIDER}
-      MAIL_PROVIDER: ${MAIL_PROVIDER}
+      IMAGES_PROVIDER: ${IMAGES_PROVIDER:-unsplash}
 
 volumes:
   mongo-data:

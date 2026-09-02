@@ -40,6 +40,9 @@ no Tailwind. Use `bun` for everything: `bun install`, `bun test`, `bun run`,
 - **CSP carries no `unsafe-inline` and no `unsafe-eval`.** No inline `<style>`,
   no `style=` attributes, no inline `<script>`. Alpine components register via
   `Alpine.data()`.
+- **A sandbox provider is valid in production.** Do not add a guard that
+  refuses one; that constraint came from a regulated product and does not apply
+  here.
 - **Offer status is a state machine**, not a boolean. Transitions are explicit,
   validated in `src/domain/`, and audited.
 

@@ -7,11 +7,12 @@ export type Config = {
   readonly mongoDb: string
   readonly sessionSecret: string
   readonly providers: {
-    readonly payments: string
-    readonly geocoding: string
-    readonly mail: string
+    /** Photography. 'unsplash' in production, 'sandbox' offline. */
+    readonly images: ImagesProvider
   }
 }
+
+export type ImagesProvider = 'unsplash' | 'sandbox'
 
 export class ConfigError extends Error {
   readonly code = 'CONFIG_INVALID'
@@ -22,6 +23,7 @@ export class ConfigError extends Error {
 }
 
 const NODE_ENVS: readonly string[] = ['development', 'production', 'test']
+const IMAGES_PROVIDERS: readonly string[] = ['unsplash', 'sandbox']
 
 export function loadConfig(env: Record<string, string | undefined>): Config {
   const problems: string[] = []
@@ -52,22 +54,17 @@ export function loadConfig(env: Record<string, string | undefined>): Config {
     problems.push(`SESSION_SECRET must be at least 32 characters, got ${sessionSecret.length}`)
   }
 
-  const providers = {
-    payments: env.PAYMENTS_PROVIDER ?? '',
-    geocoding: env.GEOCODING_PROVIDER ?? '',
-    mail: env.MAIL_PROVIDER ?? '',
+  // Only providers that actually have an implementation are validated here.
+  // Requiring a payments or mail provider before either exists would block a
+  // deploy on a setting nothing reads.
+  //
+  // The sandbox provider is allowed in production. It serves photography from
+  // /images with no network, which is a legitimate way to run this site.
+  const imagesProvider = env.IMAGES_PROVIDER ?? 'sandbox'
+  if (!IMAGES_PROVIDERS.includes(imagesProvider)) {
+    problems.push(`IMAGES_PROVIDER must be one of ${IMAGES_PROVIDERS.join(', ')}, got "${imagesProvider}"`)
   }
-  for (const [name, value] of Object.entries(providers)) {
-    if (!value) problems.push(`${name.toUpperCase()}_PROVIDER is required`)
-  }
-
-  if (nodeEnv === 'production') {
-    for (const [name, value] of Object.entries(providers)) {
-      if (value === 'sandbox') {
-        problems.push(`${name.toUpperCase()}_PROVIDER is "sandbox"; production refuses to boot with a sandbox provider`)
-      }
-    }
-  }
+  const providers = { images: imagesProvider as ImagesProvider }
 
   if (problems.length > 0) throw new ConfigError(problems)
 

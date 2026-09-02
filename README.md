@@ -40,13 +40,24 @@ local instance on 27017.
 
 ## Deploy
 
-A container on a host with a long-running process: Fly.io, Render, Railway or a
-VPS. Not Vercel, which runs Node rather than Bun and kills background intervals.
-MongoDB runs as a managed instance rather than in the app container.
+Render, from `render.yaml`, building the `Dockerfile` directly. Not Vercel,
+which runs Node rather than Bun and kills background intervals.
+
+Render has no managed MongoDB, so `MONGO_URL` points at an external cluster.
+Atlas M0 is free and sufficient. A free Render instance has no static outbound
+address, so allow `0.0.0.0/0` in Atlas Network Access and rely on the
+connection string credentials.
+
+The container seeds on boot before starting the server. Every seed write is an
+upsert, so it is safe against a database that already holds the portfolio, and
+a seeding failure does not stop the server from serving.
 
 Required environment: `NODE_ENV`, `PORT`, `MONGO_URL`, `MONGO_DB`,
-`SESSION_SECRET`, `PAYMENTS_PROVIDER`, `GEOCODING_PROVIDER`, `MAIL_PROVIDER`.
-Production refuses to boot if any provider is `sandbox`.
+`SESSION_SECRET`, `IMAGES_PROVIDER`.
+
+`IMAGES_PROVIDER` is `unsplash` or `sandbox`. Either is valid in any
+environment: `unsplash` serves photography from its CDN, `sandbox` serves it
+from `/images` with no external origin.
 
 `bun run seed` is safe to run on every boot and rebuilds a working demo, so a
 host without a persistent disk is never left with an empty site.

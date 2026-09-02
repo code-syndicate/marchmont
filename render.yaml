@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: marchmont
+    runtime: docker
+    plan: free
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Render routes to the port the service listens on. 10000 is its
+      # convention for a Docker web service.
+      - key: PORT
+        value: "10000"
+
+      # Render has no managed MongoDB, so this points at an external cluster.
+      # Atlas M0 is free and sufficient. Set the full connection string in the
+      # dashboard, including the database user, password and the
+      # retryWrites=true&w=majority options Atlas gives you.
+      #
+      # Atlas blocks connections from unknown addresses, and a free Render
+      # instance has no static outbound IP, so allow 0.0.0.0/0 in Atlas
+      # Network Access and rely on the connection string credentials.
+      - key: MONGO_URL
+        sync: false
+
+      - key: MONGO_DB
+        value: marchmont
+
+      # At least 32 characters. Render generates one on first deploy.
+      - key: SESSION_SECRET
+        generateValue: true
+
+      # unsplash serves the photography from its CDN and is the only external
+      # origin the content security policy admits. Set this to sandbox to serve
+      # from /images instead, with no external origin at all.
+      - key: IMAGES_PROVIDER
+        value: unsplash

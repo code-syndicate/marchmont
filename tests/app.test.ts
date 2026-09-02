@@ -15,7 +15,7 @@ beforeAll(async () => {
     NODE_ENV: 'test', PORT: '3000',
     MONGO_URL: 'mongodb://127.0.0.1:27017', MONGO_DB: 'marchmont_test',
     SESSION_SECRET: 'x'.repeat(32),
-    PAYMENTS_PROVIDER: 'sandbox', GEOCODING_PROVIDER: 'sandbox', MAIL_PROVIDER: 'sandbox',
+    IMAGES_PROVIDER: 'sandbox',
   })
   // listen(0) picks a free port; config.port is unused here because loadConfig
   // rejects 0 as out of range.

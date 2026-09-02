@@ -7,9 +7,7 @@ const valid = {
   MONGO_URL: 'mongodb://127.0.0.1:27017',
   MONGO_DB: 'marchmont_test',
   SESSION_SECRET: 'x'.repeat(32),
-  PAYMENTS_PROVIDER: 'sandbox',
-  GEOCODING_PROVIDER: 'sandbox',
-  MAIL_PROVIDER: 'sandbox',
+  IMAGES_PROVIDER: 'sandbox',
 }
 
 describe('loadConfig', () => {
@@ -17,7 +15,7 @@ describe('loadConfig', () => {
     const config = loadConfig(valid)
     expect(config.port).toBe(3000)
     expect(config.mongoDb).toBe('marchmont_test')
-    expect(config.providers.payments).toBe('sandbox')
+    expect(config.providers.images).toBe('sandbox')
   })
 
   test('reports every missing variable at once, not just the first', () => {
@@ -40,18 +38,22 @@ describe('loadConfig', () => {
     expect(() => loadConfig({ ...valid, SESSION_SECRET: 'short' })).toThrow(/SESSION_SECRET/)
   })
 
-  test('refuses to boot production with a sandbox provider', () => {
-    expect(() => loadConfig({ ...valid, NODE_ENV: 'production' })).toThrow(/sandbox/i)
+  test('allows the sandbox provider in production', () => {
+    expect(loadConfig({ ...valid, NODE_ENV: 'production' }).providers.images).toBe('sandbox')
   })
 
-  test('allows production with real providers', () => {
-    const config = loadConfig({
-      ...valid,
-      NODE_ENV: 'production',
-      PAYMENTS_PROVIDER: 'stripe',
-      GEOCODING_PROVIDER: 'mapbox',
-      MAIL_PROVIDER: 'postmark',
-    })
+  test('allows production with the network provider', () => {
+    const config = loadConfig({ ...valid, NODE_ENV: 'production', IMAGES_PROVIDER: 'unsplash' })
     expect(config.nodeEnv).toBe('production')
+    expect(config.providers.images).toBe('unsplash')
+  })
+
+  test('rejects an unknown images provider', () => {
+    expect(() => loadConfig({ ...valid, IMAGES_PROVIDER: 'flickr' })).toThrow(/IMAGES_PROVIDER/)
+  })
+
+  test('defaults to the sandbox provider outside production', () => {
+    const { IMAGES_PROVIDER, ...rest } = valid
+    expect(loadConfig(rest).providers.images).toBe('sandbox')
   })
 })
