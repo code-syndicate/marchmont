@@ -139,10 +139,28 @@ function termsFor(offer: Offer, property: Property, locale: string): { label: st
   return terms
 }
 
+export type Building = {
+  readonly slug: string
+  readonly name: string
+  readonly locality: string
+  readonly country: string
+  readonly countryCode: string
+  readonly buildingType: string
+  readonly formattedAddress: string
+  readonly yearBuilt: number
+  readonly floors: number
+  readonly area: string
+  readonly summary: string
+  readonly lead: Rendition | null
+  readonly shots: readonly Rendition[]
+  readonly offers: readonly { slug: string; typeLabel: string; headline: string; headlineNote: string; scopeLabel: string }[]
+}
+
 export type Portfolio = {
   list(query: OfferQuery, locale: string): Promise<Listing[]>
   detail(slug: string, locale: string): Promise<ListingDetail | null>
   counts(): Promise<Record<OfferType, number>>
+  buildings(locale: string): Promise<Building[]>
   featured(locale: string, limit: number): Promise<Listing[]>
 }
 
@@ -164,6 +182,39 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
     list: listFor,
 
     counts: () => offers.countsByType(),
+
+    async buildings(locale) {
+      const all = await properties.all()
+      const live = await offers.live({})
+      return all
+        .map((property) => {
+          const mine = live.filter((offer) => offer.propertyId === property.id)
+          const [lead, ...rest] = property.images
+          return {
+            slug: property.slug,
+            name: property.name,
+            locality: property.address.locality,
+            country: countryName(property.address.countryCode, locale),
+            countryCode: property.address.countryCode,
+            buildingType: BUILDING_LABEL[property.buildingType],
+            formattedAddress: property.address.formatted,
+            yearBuilt: property.yearBuilt,
+            floors: property.floors,
+            area: formatArea(property.area, unitForLocale(locale), locale),
+            summary: property.summary,
+            lead: lead ? images.render(lead, 'hero', '(max-width: 900px) 100vw, 1100px') : null,
+            shots: rest.map((shot) => images.render(shot, 'plate', '(max-width: 700px) 100vw, 33vw')),
+            offers: mine.map((offer) => ({
+              slug: offer.slug,
+              typeLabel: TYPE_LABEL[offer.type],
+              headline: formatMoneyShort(offer.headline, locale),
+              headlineNote: HEADLINE_NOTE[offer.type],
+              scopeLabel: offer.scopeLabel,
+            })),
+          }
+        })
+        .filter((building) => building.offers.length > 0)
+    },
 
     async featured(locale, limit) {
       return (await listFor({}, locale)).slice(0, limit)

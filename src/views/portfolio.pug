@@ -18,11 +18,11 @@ block content
 
     if listings.length
       +cards(listings, 'h2')
-      p.note Showing #{listings.length} of #{totalCount} offers. Prices are stated in the currency of the market the building sits in.
+      p.note Showing #{listings.length} of #{totalCount} available properties. Prices are quoted in the currency of the market in which each building is located.
     else
       .empty
-        h2 Nothing offered on these terms today
-        p The portfolio turns over slowly. Register and we will write when something matching comes up.
-        a.button(href="/register") Register an interest
+        h2 No properties currently available on these terms
+        p Register your requirement and we will contact you when a matching property is released.
+        a.button(href="/register") Register
 
   section.band.page

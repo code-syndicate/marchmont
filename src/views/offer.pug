@@ -42,7 +42,7 @@ block content
 
         if listing.otherOffers.length
           div
-            h2 Also available here
+            h2 Also available in this building
             .also
               each other in listing.otherOffers
                 a(href=`/portfolio/${other.slug}`)
@@ -51,10 +51,10 @@ block content
 
       aside.aside
         h2 Arrange a viewing
-        p Exact floor plans, the survey and the title documents are released once a registration has been reviewed. Registrations are usually answered within two working days.
+        p Floor plans, survey findings and title documents for this building are released to registered clients. Registrations are reviewed within two working days.
         a.button(href=`/register?offer=${listing.slug}`) Register an interest
         a.button.button-quiet(href="/contact") Ask a question
-        p.note We do not take payment of any kind before an application has been approved in writing.
+        p.note No payment is requested before an application has been approved in writing.
 
   section.band-tight.band-rule.page
     a(href="/portfolio") Back to the portfolio

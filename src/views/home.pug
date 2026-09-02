@@ -7,17 +7,17 @@ block content
       img(src=hero.src srcset=hero.srcset sizes=hero.sizes alt=hero.alt width=hero.width height=hero.height fetchpriority="high" decoding="async")
     .page
       .hero-inner
-        p.eyebrow Mills, warehouses and foundries in #{cityCount} cities
-        h1 You cannot build this twice.
-        p.lede Ceiling heights, column grids and window walls that no new building could justify the cost of today. Marchmont buys them, restores what matters, and holds them on its own account. #{totalCount} floors, lofts and whole buildings, for sale or to let.
+        p.eyebrow Converted industrial buildings in #{cityCount} cities
+        h1 Loft residences and creative office space in restored industrial buildings.
+        p.lede Marchmont acquires and restores mills, warehouses and foundries in established districts, then offers them directly. #{totalCount} floors, lofts and whole buildings are available now, for sale, on long lease, or on a corporate let.
         .button-row
-          a.button(href="/portfolio") See what is available
-          a.button.button-quiet(href="/register") Register an interest
+          a.button(href="/portfolio") View available properties
+          a.button.button-quiet(href="/gallery") See the buildings
 
   .page
     dl.index-strip
       div
-        dt Offered now
+        dt Available now
         dd= totalCount
       div
         dt Cities
@@ -26,22 +26,22 @@ block content
         dt Currencies
         dd= currencyCount
       div
-        dt Oldest building
+        dt Earliest building
         dd= oldestYear
 
   section.band.page
     .section-head
       div
         p.eyebrow Available now
-        h2 A working selection
-      a(href="/portfolio") See all #{totalCount} offers
+        h2 Current availability
+      a(href="/portfolio") View all #{totalCount} properties
     +cards(featured)
 
   section.band.band-rule.page
     .section-head
       div
-        p.eyebrow Three ways in
-        h2 Buy it, lease it, or take it for a season
+        p.eyebrow Ways to take space
+        h2 Purchase, long lease and corporate lets
     .routes
       each route in routes
         article.route
@@ -57,9 +57,9 @@ block content
     .page
       .section-head
         div
-          p.eyebrow Where we hold buildings
-          h2 Nine cities, and nothing in between
-      p.lede We buy on a small number of streets in a small number of districts, and we go back to them. It is the only way to know a building before the survey does.
+          p.eyebrow Locations
+          h2 Where we own buildings
+      p.lede Marchmont concentrates on a small number of districts in each city and acquires repeatedly within them. Local knowledge of planning, party wall history and contractors shortens every conversion we undertake.
       ul.cities
         each city in cities
           li
@@ -70,34 +70,34 @@ block content
   section.band.band-rule.page
     .policy
       div
-        p.eyebrow Direct from the owner
-        h2 No chain, no agent, no third party in the middle
-        p.lede Everything here belongs to us. That removes the two things that waste the most time in property: a seller who has to buy before they can sell, and an agent who is guessing at the answer to your question.
+        p.eyebrow Buying and leasing directly
+        h2 You deal with the owner
+        p.lede Every building on this site is owned by Marchmont. There is no vendor chain to wait on, no third party interpreting your questions, and no separate agency fee. Survey documents, title, floor plates and service charge history are all held in this office.
       ol.steps
         li
           div
-            h3 Ask us anything about the building
-            p We have the floor plates, the load ratings, the service charge history and the survey. You will get the answer in one message, not after a call to a client.
+            h3 Register your requirement
+            p Tell us the space, location and timing you need. Registration is reviewed within two working days and opens exact addresses, full terms, floor plans and supporting documents.
         li
           div
-            h3 Register once
-            p Tell us what you need and where. We answer within two working days, and approval opens exact addresses, full terms and the documents behind them.
+            h3 Receive detailed information
+            p Floor plates, load ratings, energy performance, service charge history and survey findings are provided in full for any building you are considering.
         li
           div
-            h3 View it with someone who knows it
-            p Every viewing is walked by a member of this office. We will tell you what is wrong with a building as readily as what is right.
+            h3 View with the building manager
+            p Viewings are arranged by appointment and accompanied by the member of staff responsible for that building.
         li
           div
             h3 Agree terms and complete
-            p Money moves only after we have approved your application, for an amount we have set, inside a window we have opened. There is no other payment route on this site.
+            p Reservation fees, holding deposits and first payments are taken only after your application has been approved in writing, for a fixed amount, within a defined payment window.
 
   section.closer
     figure.closer-media
       img(src=closer.src srcset=closer.srcset sizes=closer.sizes alt=closer.alt width=closer.width height=closer.height loading="lazy" decoding="async")
     .page
       .closer-inner
-        h2 The next one will not be on a portal.
-        p.lede We hold fewer than twenty offers at a time and most move before they are advertised anywhere else. Registering takes a few minutes and puts you on the list that hears first.
+        h2 Register for early access to new releases
+        p.lede Marchmont holds a small portfolio and completed conversions are frequently reserved before they are advertised. Registered clients are notified first and can arrange a viewing immediately.
         .button-row
-          a.button(href="/register") Register an interest
-          a.button.button-quiet(href="/contact") Speak to someone
+          a.button(href="/register") Register
+          a.button.button-quiet(href="/contact") Contact us

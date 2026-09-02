@@ -1,0 +1,58 @@
+extends layout
+include partials/pagehead
+
+block content
+  +pagehead("Gallery", "Every building, in full.", "Nine restored industrial buildings across nine cities, photographed inside and out. Each one lists what is currently available in it.", hero)
+
+  each building, index in buildings
+    section.building(class=(index % 2 === 1 ? "is-raised" : false))
+      .page
+        .building-head
+          div
+            p.eyebrow #{building.locality}, #{building.country}
+            h2= building.name
+            p.building-address= building.formattedAddress
+          dl.building-facts
+            div
+              dt Built
+              dd= building.yearBuilt
+            div
+              dt Floors
+              dd= building.floors
+            div
+              dt Area
+              dd= building.area
+
+        if building.lead
+          figure.building-lead
+            img(src=building.lead.src srcset=building.lead.srcset sizes=building.lead.sizes alt=building.lead.alt width=building.lead.width height=building.lead.height loading=(index === 0 ? "eager" : "lazy") decoding="async")
+
+        p.building-summary= building.summary
+
+        if building.shots.length
+          .building-shots
+            each shot in building.shots
+              figure
+                img(src=shot.src srcset=shot.srcset sizes=shot.sizes alt=shot.alt width=shot.width height=shot.height loading="lazy" decoding="async")
+
+        .building-offers
+          h3 Available in this building
+          ul
+            each offer in building.offers
+              li
+                a(href=`/portfolio/${offer.slug}`)
+                  span.offer-label #{offer.typeLabel} · #{offer.scopeLabel}
+                  span.offer-price
+                    strong= offer.headline
+                    span= offer.headlineNote
+
+  section.closer
+    figure.closer-media
+      img(src=closer.src srcset=closer.srcset sizes=closer.sizes alt=closer.alt width=closer.width height=closer.height loading="lazy" decoding="async")
+    .page
+      .closer-inner
+        h2 Book a viewing
+        p.lede Registered clients see exact addresses, full terms, floor plans and survey documents, and can book a viewing with the member of staff who manages the building.
+        .button-row
+          a.button(href="/register") Register
+          a.button.button-quiet(href="/contact") Contact us
