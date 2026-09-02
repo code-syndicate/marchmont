@@ -19,14 +19,11 @@ async function ensureCollection(
   name: string,
   options: Record<string, unknown> = {},
 ): Promise<void> {
-  const existing = await db.listCollections({ name }).toArray()
-  if (existing.length === 0) {
-    await db.createCollection(name, options)
-    return
-  }
-  if (Object.keys(options).length > 0) {
-    await db.command({ collMod: name, ...options })
-  }
+  const [existing] = await db.listCollections({ name }).toArray()
+  if (!existing) await db.createCollection(name, options)
+  // An existing collection is left alone. collMod is a privileged command that
+  // a shared-tier database user does not hold, and calling it on every boot
+  // crashed the second start on Atlas.
 }
 
 export async function applySchema(db: Db): Promise<void> {
