@@ -31,6 +31,18 @@ describe('money codec', () => {
     expect(decodeMoney(stored!.price).amount).toBe(9_007_199_254_740_993n)
   })
 
+  test('an ordinary price stays a Long through the database', async () => {
+    // The regression that matters: with promoteLongs left at its default, this
+    // comes back as a number and decodeMoney throws. The large value above does
+    // not catch it, because bson refuses to promote what a double cannot hold.
+    const value = parseMoney('18500.00', 'EUR')
+    const collection = database.db.collection('codec_probe')
+    await collection.insertOne({ _id: 'ordinary' as never, price: encodeMoney(value) })
+    const stored = await collection.findOne({ _id: 'ordinary' as never })
+    expect(stored!.price.amount).toBeInstanceOf(Long)
+    expect(decodeMoney(stored!.price)).toEqual(value)
+  })
+
   test('Long.toNumber loses the value the codec preserves', () => {
     const long = Long.fromBigInt(9_007_199_254_740_993n)
     expect(long.toNumber()).toBe(9_007_199_254_740_992)
