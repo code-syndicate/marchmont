@@ -9,10 +9,12 @@ block content
 
   section.page
     nav.filters(aria-label="Filter by offer type")
-      a(href="/portfolio" aria-current=(activeType === "all" ? "page" : false)) Everything
-      a(href="/portfolio?type=sale" aria-current=(activeType === "sale" ? "page" : false)) For sale
-      a(href="/portfolio?type=long_lease" aria-current=(activeType === "long_lease" ? "page" : false)) To let
-      a(href="/portfolio?type=corporate_let" aria-current=(activeType === "corporate_let" ? "page" : false)) Corporate lets
+      a(href=`/portfolio?${cityQuery.slice(1)}` aria-current=(activeType === "all" ? "page" : false)) Everything
+      a(href=`/portfolio?type=sale${cityQuery}` aria-current=(activeType === "sale" ? "page" : false)) For sale
+      a(href=`/portfolio?type=long_lease${cityQuery}` aria-current=(activeType === "long_lease" ? "page" : false)) To let
+      a(href=`/portfolio?type=corporate_let${cityQuery}` aria-current=(activeType === "corporate_let" ? "page" : false)) Corporate lets
+      if activeCity
+        a.filter-clear(href="/portfolio") Clear #{activeCity}
 
     if listings.length
       +cards(listings, 'h2')

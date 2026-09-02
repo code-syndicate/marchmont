@@ -1,12 +1,10 @@
 extends layout
+include partials/pagehead
 
 block content
-  section.band-tight.page
-    p.eyebrow Contact
-    h1 Speak to someone at the house.
-    p.lede Questions about a specific building are answered fastest if you name it. General enquiries are welcome either way.
+  +pagehead("Contact", "Ask us about a building.", "We hold the survey, the title and the service charge history for everything on this site, so a question about a specific building gets a real answer rather than a call back. Name the building and you will hear sooner.", hero)
 
-  section.band-tight.page
+  section.band.page
     .detail-grid
       form.stack(method="post" action="/contact")
         .field
@@ -24,5 +22,5 @@ block content
         h2 Enquiries
         p
           a(href="mailto:enquiries@marchmont.example") enquiries@marchmont.example
-        p Registrations are reviewed within two working days. Viewings are by appointment and walked by someone from this office.
+        p Registrations are reviewed within two working days. Viewings are by appointment and walked by someone from this office, not a call centre and not a lockbox.
         a.button.button-quiet(href="/register") Register an interest

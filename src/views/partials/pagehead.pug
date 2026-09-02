@@ -1,0 +1,11 @@
+mixin pagehead(eyebrow, heading, lede, image)
+  section.pagehead
+    if image
+      figure.pagehead-media
+        img(src=image.src srcset=image.srcset sizes=image.sizes alt=image.alt width=image.width height=image.height fetchpriority="high" decoding="async")
+    .page
+      .pagehead-inner
+        p.eyebrow= eyebrow
+        h1= heading
+        if lede
+          p.lede= lede

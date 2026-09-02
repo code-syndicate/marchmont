@@ -1,24 +1,53 @@
 extends layout
+include partials/pagehead
 
 block content
-  section.band-tight.page
-    p.eyebrow The house
-    h1 We own what we offer.
-    p.lede Marchmont is not a portal and not an agency. Every building on this site is held on our own account, which is why we can publish the terms in full rather than asking you to call for them.
+  +pagehead("The house", "We buy the buildings nobody else wants to take on.", "A mill with a listed frontage and a hole in the roof is a hard purchase and a harder conversion. It is also the only way to get a fourteen foot ceiling and a north window wall in a district where land is spoken for.", hero)
 
-  section.band-tight.page
+  section.band.page
     .detail-grid
       .prose
-        p A portal earns its money from listings, so it wants as many as possible and cannot afford to be selective about who posts them. That is the mechanism behind almost every property fraud: a listing that costs nothing to create, an agent nobody verified, and a deposit that leaves before anyone notices.
-        p We took the other side of that trade. The portfolio is small and turns over slowly. Everything in it is ours. Nobody else can list here, so there is nothing to police, and the only person you will deal with is someone whose name is on this page.
-        p That is also why we review registrations. It is not a growth tactic and it does cost us enquiries. It means that when we release an exact address, a floor plan or a title document, we know who we released it to.
-        h2 How the money works
-        p No payment is possible on this site until we have approved an application in writing. Approval fixes the amount and opens a single window for it. When the window closes, it cannot be reopened, only reissued by us as a fresh decision that is recorded.
-        p We take reservation fees on a sale, holding deposits on a lease, and first payments on a corporate let. We do not take a purchase price, we do not hold escrow, and we do not act as your conveyancer.
-        h2 What we do not do
-        p We give no investment advice. We make no representation about what a building is worth or what it will yield. Where a market requires estate agency registration or anti money laundering checks, we state our position at its actual current stage rather than implying one we do not hold.
+        h2 What we look for
+        p Structure first. A frame that can carry a floor load without being rebuilt, a column grid wide enough to leave open, and glazing on more than one elevation. Those three things decide whether a building converts into something worth living in or an expensive compromise with small rooms.
+        p After that, the street. We buy on a small number of streets in a small number of districts and we go back to them, because the second building on a street is always easier than the first. We already know the planning officer, the party wall history and which contractor turns up.
+        h2 What we will not do
+        p We do not buy for yield and we do not flip. A conversion takes us between two and four years, and we hold most of what we finish. That is why the portfolio is small and why we can afford to tell you what is wrong with a building.
+        p We give no investment advice and we make no representation about what a building is worth or what it will return. Where a market requires estate agency registration or anti money laundering checks, we state our position at its actual stage rather than implying one we do not hold.
       aside.aside
-        h2 By appointment
-        p Viewings are walked by someone from this office. We will tell you what is wrong with a building as readily as what is right, because you will find out anyway and we would rather you heard it first.
+        h2 Why buy from an owner
+        p There is no chain. We are not waiting on our own purchase, so a completion date means something when we give you one.
+        p There is no agent between you and the answer. The floor plates, the load ratings, the service charge history and the survey are in this office.
+        a.button(href="/portfolio") See what is available
+        a.button.button-quiet(href="/register") Register an interest
+
+  section.band.band-rule.band-raised
+    .page
+      .section-head
+        div
+          p.eyebrow How it goes
+          h2 Four steps, and we do not skip the first
+      ol.steps
+        li
+          div
+            h3 Register once
+            p Tell us what you need and where. We read every one and answer within two working days. Approval opens exact addresses, full terms, floor plans and the documents behind them.
+        li
+          div
+            h3 Ask us anything
+            p We hold the survey, the title and the service charge history. You get the answer in one message rather than after a call to a client.
+        li
+          div
+            h3 View it with someone who knows it
+            p Every viewing is walked by a member of this office. We will tell you where the damp was and what we did about it.
+        li
+          div
+            h3 Agree terms and complete
+            p Money moves only after we have approved your application, for an amount we have set, inside a window we have opened. There is no other payment route on this site.
+
+  section.band.band-rule.page
+    .stack
+      h2 A building usually goes before we advertise it
+      p.lede Registering takes a few minutes and puts you on the list that hears first.
+      .button-row
         a.button(href="/register") Register an interest
-        a.button.button-quiet(href="/portfolio") View the portfolio
+        a.button.button-quiet(href="/contact") Speak to someone

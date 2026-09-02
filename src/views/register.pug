@@ -1,12 +1,10 @@
 extends layout
+include partials/pagehead
 
 block content
-  section.band-tight.page
-    p.eyebrow Registration
-    h1 Tell us what you are looking for.
-    p.lede We read every registration and answer within two working days. Approval releases exact addresses, full terms, floor plans and the documents behind each listing.
+  +pagehead("Registration", "Get on the list that hears first.", "Most of what we finish is spoken for before it is advertised. Registration takes a few minutes, we answer within two working days, and approval opens exact addresses, full terms, floor plans and the documents behind them.", hero)
 
-  section.band-tight.page
+  section.band.page
     .detail-grid
       form.stack(method="post" action="/register")
         if offer
@@ -40,5 +38,5 @@ block content
 
       aside.aside
         h2 What happens next
-        p A member of this office reads your registration and either approves it or tells you plainly that we cannot help. Approval opens the full portfolio to you and lets you request a viewing.
-        p No payment is possible at this stage, or at any stage before we have approved an application in writing.
+        p A member of this office reads it and either approves you or tells you plainly that we cannot help. We would rather say no in two days than string you along for a month.
+        p Approval opens the full portfolio and lets you book a viewing. No payment is possible at this stage, or at any stage before we have approved an application in writing.

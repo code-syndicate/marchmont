@@ -2,25 +2,26 @@ extends layout
 include partials/schedule
 
 block content
-  section.hero.page
-    p.eyebrow Established practice, private portfolio
-    h1 The buildings we own, and the terms we offer them on.
-    p.lede Marchmont holds houses and offices on its own account across #{countryCount} countries. Each one is offered for sale, on a long lease, or on a corporate let, and shown by appointment once a registration has been reviewed.
-    .button-row
-      a.button(href="/portfolio") View the portfolio
-      a.button.button-quiet(href="/register") Register an interest
-
-  figure.hero-figure
-    img(src=hero.src srcset=hero.srcset sizes=hero.sizes alt=hero.alt width=hero.width height=hero.height fetchpriority="high" decoding="async")
+  section.hero
+    figure.hero-media
+      img(src=hero.src srcset=hero.srcset sizes=hero.sizes alt=hero.alt width=hero.width height=hero.height fetchpriority="high" decoding="async")
+    .page
+      .hero-inner
+        p.eyebrow Mills, warehouses and foundries in #{cityCount} cities
+        h1 You cannot build this twice.
+        p.lede Ceiling heights, column grids and window walls that no new building could justify the cost of today. Marchmont buys them, restores what matters, and holds them on its own account. #{totalCount} floors, lofts and whole buildings, for sale or to let.
+        .button-row
+          a.button(href="/portfolio") See what is available
+          a.button.button-quiet(href="/register") Register an interest
 
   .page
     dl.index-strip
       div
-        dt In the portfolio
+        dt Offered now
         dd= totalCount
       div
-        dt Countries
-        dd= countryCount
+        dt Cities
+        dd= cityCount
       div
         dt Currencies
         dd= currencyCount
@@ -28,65 +29,75 @@ block content
         dt Oldest building
         dd= oldestYear
 
-  section.band.band-rule.page
+  section.band.page
     .section-head
       div
-        p.eyebrow Currently offered
+        p.eyebrow Available now
         h2 A working selection
       a(href="/portfolio") See all #{totalCount} offers
     +cards(featured)
+
+  section.band.band-rule.page
+    .section-head
+      div
+        p.eyebrow Three ways in
+        h2 Buy it, lease it, or take it for a season
+    .routes
+      each route in routes
+        article.route
+          .route-frame
+            img(src=route.image.src srcset=route.image.srcset sizes=route.image.sizes alt=route.image.alt width=route.image.width height=route.image.height loading="lazy" decoding="async")
+          .route-body
+            span.route-count #{route.count} available
+            h3
+              a(href=route.href)= route.title
+            p= route.blurb
 
   section.band.band-rule.band-raised
     .page
       .section-head
         div
-          p.eyebrow Three ways in
-          h2 Buy it, lease it, or take it for a season
-      .ways
-        article
-          span.count= counts.sale
-          h3 For sale
-          p Freehold and leasehold, houses and whole buildings. Guide price, tenure and chain position are stated on every listing before you ask.
-          a(href="/portfolio?type=sale") View properties for sale
-        article
-          span.count= counts.long_lease
-          h3 On long lease
-          p Twelve months and up. Rent, deposit, service charge, minimum term and the available from date, all published rather than quoted on request.
-          a(href="/portfolio?type=long_lease") View properties to let
-        article
-          span.count= counts.corporate_let
-          h3 Corporate lets
-          p One to six months, furnished, for companies moving people between cities. Housekeeping and bills are itemised in the terms.
-          a(href="/portfolio?type=corporate_let") View corporate lets
+          p.eyebrow Where we hold buildings
+          h2 Nine cities, and nothing in between
+      p.lede We buy on a small number of streets in a small number of districts, and we go back to them. It is the only way to know a building before the survey does.
+      ul.cities
+        each city in cities
+          li
+            a(href=`/portfolio?city=${city.code}`)
+              = city.name
+              span #{city.count}
 
   section.band.band-rule.page
     .policy
       div
-        p.eyebrow House policy
-        h2 Why we ask before we show
-        p.lede Property fraud works because most portals let anyone list and anyone enquire. We do neither. Every building here is ours, and every person we deal with has been reviewed by someone at this office.
+        p.eyebrow Direct from the owner
+        h2 No chain, no agent, no third party in the middle
+        p.lede Everything here belongs to us. That removes the two things that waste the most time in property: a seller who has to buy before they can sell, and an agent who is guessing at the answer to your question.
       ol.steps
         li
           div
-            h3 Register
-            p Tell us what you are looking for and where. It takes a few minutes and we read every one.
+            h3 Ask us anything about the building
+            p We have the floor plates, the load ratings, the service charge history and the survey. You will get the answer in one message, not after a call to a client.
         li
           div
-            h3 We review it
-            p Usually within two working days. Once approved you see exact addresses, full terms and the documents behind them.
+            h3 Register once
+            p Tell us what you need and where. We answer within two working days, and approval opens exact addresses, full terms and the documents behind them.
         li
           div
-            h3 View by appointment
-            p Someone from this office walks the building with you. Not a call centre, not a lockbox.
+            h3 View it with someone who knows it
+            p Every viewing is walked by a member of this office. We will tell you what is wrong with a building as readily as what is right.
         li
           div
-            h3 Apply, then pay
-            p Money moves only after we have approved your application, for an amount we have set, within a window we have opened. There is no other payment route.
+            h3 Agree terms and complete
+            p Money moves only after we have approved your application, for an amount we have set, inside a window we have opened. There is no other payment route on this site.
 
-  section.band.band-rule.page
-    .stack
-      h2 Ready to see the detail
-      p.lede Registration takes a few minutes. Approval opens exact addresses, full terms, floor plans and the documents behind each listing.
-      .button-row
-        a.button(href="/register") Register an interest
-        a.button.button-quiet(href="/contact") Speak to someone
+  section.closer
+    figure.closer-media
+      img(src=closer.src srcset=closer.srcset sizes=closer.sizes alt=closer.alt width=closer.width height=closer.height loading="lazy" decoding="async")
+    .page
+      .closer-inner
+        h2 The next one will not be on a portal.
+        p.lede We hold fewer than twenty offers at a time and most move before they are advertised anywhere else. Registering takes a few minutes and puts you on the list that hears first.
+        .button-row
+          a.button(href="/register") Register an interest
+          a.button.button-quiet(href="/contact") Speak to someone
