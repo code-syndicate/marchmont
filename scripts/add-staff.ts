@@ -3,7 +3,7 @@
  * seeded default, so the first reviewer is created here by whoever runs the
  * service.
  *
- *   bun scripts/add-staff.ts "Name" name@nashluxuryrealty.com
+ *   bun scripts/add-staff.ts "Name" name@nashluxuryrealty.house
  *
  * The password is read from stdin rather than the command line, so it does not
  * end up in the shell history or in a process listing.
@@ -16,7 +16,7 @@ import { checkPassword, PASSWORD_MESSAGE } from '../src/domain/passwords'
 const [name, email] = process.argv.slice(2)
 
 if (!name || !email) {
-  console.error('Usage: bun scripts/add-staff.ts "Name" name@nashluxuryrealty.com')
+  console.error('Usage: bun scripts/add-staff.ts "Name" name@nashluxuryrealty.house')
   process.exit(1)
 }
 

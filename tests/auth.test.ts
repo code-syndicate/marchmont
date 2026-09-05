@@ -363,7 +363,7 @@ describe('two step sign in through the site', () => {
 
 describe('the back office', () => {
   async function staffClient() {
-    const email = `staff${Date.now()}${Math.random()}@nashluxuryrealty.com`
+    const email = `staff${Date.now()}${Math.random()}@nashluxuryrealty.house`
     const member = await database.repositories.staff.add({
       name: 'Reviewer',
       email,

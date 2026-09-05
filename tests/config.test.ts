@@ -65,11 +65,11 @@ describe('the public origin', () => {
   })
 
   test('keeps the origin and drops any path, so a canonical URL cannot double up', () => {
-    expect(loadConfig({ ...valid, PUBLIC_URL: 'https://nashluxuryrealty.com/site/' }).publicUrl).toBe('https://nashluxuryrealty.com')
+    expect(loadConfig({ ...valid, PUBLIC_URL: 'https://nashluxuryrealty.house/site/' }).publicUrl).toBe('https://nashluxuryrealty.house')
   })
 
   test('rejects a value that is not an absolute http or https URL', () => {
-    for (const PUBLIC_URL of ['nashluxuryrealty.com', 'ftp://nashluxuryrealty.com', '/portfolio']) {
+    for (const PUBLIC_URL of ['nashluxuryrealty.house', 'ftp://nashluxuryrealty.house', '/portfolio']) {
       expect(() => loadConfig({ ...valid, PUBLIC_URL })).toThrow(ConfigError)
     }
   })
