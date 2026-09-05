@@ -1224,7 +1224,9 @@ main { flex: 1 0 auto; }
 
 .hero-inner h1 {
   font-size: var(--step-6);
-  max-width: 15ch;
+  /* 15ch at this size wrapped a one sentence headline onto five lines and
+     pushed the lede and the buttons off the first screen. */
+  max-width: 19ch;
   letter-spacing: -0.03em;
   color: hsl(36 32% 98%);
 }
