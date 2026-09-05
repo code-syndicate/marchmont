@@ -1617,7 +1617,14 @@ main { flex: 1 0 auto; }
 .admin-nav a[aria-current="page"] { color: var(--accent-on); border-bottom-color: var(--accent-on); }
 .admin-out .link-button { color: hsl(36 20% 78%); }
 
-.admin-main { max-width: 1400px; margin-inline: auto; padding: calc(var(--u) * 10) calc(var(--u) * 6) calc(var(--u) * 20); }
+/* width:100% matters: body is a flex column, and an auto inline margin on a
+   flex item suppresses stretch, so without it this collapses to max-content. */
+.admin-main {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding: calc(var(--u) * 10) calc(var(--u) * 6) calc(var(--u) * 20);
+}
 .admin-page { display: grid; gap: calc(var(--u) * 8); }
 .admin-narrow { max-width: 46ch; }
 .admin-page h1 { margin: 0; }
@@ -1639,6 +1646,7 @@ main { flex: 1 0 auto; }
 
 a.admin-tile:hover { border-color: var(--text-faint); }
 .admin-tile-n { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; }
+.admin-tile-word { font-size: var(--step-1); }
 .admin-tile-l { font-family: var(--font-ui); font-size: var(--step--1); color: var(--text-faint); }
 
 .admin-warn {
@@ -1668,7 +1676,7 @@ a.admin-tile:hover { border-color: var(--text-faint); }
 
 .admin-table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: var(--step--1); }
 .admin-table th { text-align: start; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint); font-weight: 400; }
-.admin-table th, .admin-table td { border-bottom: 1px solid var(--line); padding: calc(var(--u) * 3) calc(var(--u) * 2); vertical-align: top; }
+.admin-table th, .admin-table td { border-bottom: 1px solid var(--line); padding: calc(var(--u) * 2) calc(var(--u) * 2); vertical-align: middle; }
 .admin-table tbody tr:hover { background: var(--ground); }
 
 .pill {

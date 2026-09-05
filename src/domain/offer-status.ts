@@ -36,6 +36,19 @@ export const STATUS_LABEL: Record<OfferStatus, string> = {
   expired: 'Expired',
 }
 
+/** The words used on the public site. Staff read the same language. */
+export const TYPE_LABEL: Record<OfferType, string> = {
+  sale: 'For sale',
+  long_lease: 'To let',
+  corporate_let: 'Corporate let',
+}
+
+export const ACCOUNT_LABEL: Record<string, string> = {
+  pending: 'Awaiting review',
+  approved: 'Approved',
+  declined: 'Not taken forward',
+}
+
 /** Which transitions make sense for a tenure type. A sale is never let agreed. */
 const BY_TYPE: Record<OfferType, readonly OfferStatus[]> = {
   sale: ['under_offer', 'sold'],

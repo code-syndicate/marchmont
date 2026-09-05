@@ -1,5 +1,5 @@
 import { Router, type NextFunction, type Request, type Response } from 'express'
-import { OFFER_STATUSES, STATUS_LABEL, nextStatuses } from '../domain/offer-status'
+import { ACCOUNT_LABEL, OFFER_STATUSES, STATUS_LABEL, TYPE_LABEL, nextStatuses } from '../domain/offer-status'
 import { VIEWING_LABEL, contactFor } from '../domain/threads'
 import { IllegalTransition } from '../domain/offer-status'
 import { parseMajorUnits } from '../domain/search'
@@ -105,6 +105,7 @@ export function adminRoutes(ctx: Context): Router {
           ...offer,
           property: byId.get(offer.propertyId),
           headlineText: formatMoneyShort(offer.headline, locale),
+          typeLabel: TYPE_LABEL[offer.type],
           statusLabel: STATUS_LABEL[offer.status],
           moves: nextStatuses(offer.status, offer.type),
         })),
@@ -332,6 +333,8 @@ export function adminRoutes(ctx: Context): Router {
           ...(search ? { search } : {}),
         }),
         counts: await repos.users.countByStatus(),
+        accountLabel: ACCOUNT_LABEL,
+        intentLabel: TYPE_LABEL,
         activeStatus: status ?? null,
         search,
       })
@@ -356,6 +359,8 @@ export function adminRoutes(ctx: Context): Router {
         description: `Account for ${person.email}.`,
         person, threads, viewings, sessions, trail,
         viewingLabel: VIEWING_LABEL,
+        accountLabel: ACCOUNT_LABEL,
+        intentLabel: TYPE_LABEL,
       })
     } catch (error) {
       next(error)

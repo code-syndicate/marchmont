@@ -10,13 +10,13 @@ block content
 
     .admin-tiles
       .admin-tile
-        span.admin-tile-n= person.accountStatus
+        span.admin-tile-n.admin-tile-word= accountLabel[person.accountStatus]
         span.admin-tile-l Account status
       .admin-tile
-        span.admin-tile-n= person.emailVerifiedAt ? "yes" : "no"
+        span.admin-tile-n.admin-tile-word= person.emailVerifiedAt ? "Confirmed" : "Not confirmed"
         span.admin-tile-l Address confirmed
       .admin-tile
-        span.admin-tile-n= person.twoFactor ? "on" : "off"
+        span.admin-tile-n.admin-tile-word= person.twoFactor ? "On" : "Off"
         span.admin-tile-l Two step sign in
       .admin-tile
         span.admin-tile-n= sessions.length

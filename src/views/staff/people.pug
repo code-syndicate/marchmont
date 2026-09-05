@@ -32,9 +32,9 @@ block content
               td
                 a(href=`/staff/people/${person.id}`)= person.name
               td= person.email
-              td= person.intent
+              td= intentLabel[person.intent]
               td
-                span.pill(class=`pill-${person.accountStatus}`)= person.accountStatus
+                span.pill(class=`pill-${person.accountStatus}`)= accountLabel[person.accountStatus]
               td= person.createdAt.toISOString().slice(0, 10)
     else
       p.admin-empty Nobody matches that.
