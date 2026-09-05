@@ -1,5 +1,6 @@
 extends layout
 include partials/schedule
+include partials/filters
 
 block content
   section.band-tight.page
@@ -9,20 +10,38 @@ block content
 
   section.page
     nav.filters(aria-label="Filter by offer type")
-      a(href=`/portfolio?${cityQuery.slice(1)}` aria-current=(activeType === "all" ? "page" : false)) Everything
-      a(href=`/portfolio?type=sale${cityQuery}` aria-current=(activeType === "sale" ? "page" : false)) For sale
-      a(href=`/portfolio?type=long_lease${cityQuery}` aria-current=(activeType === "long_lease" ? "page" : false)) To let
-      a(href=`/portfolio?type=corporate_let${cityQuery}` aria-current=(activeType === "corporate_let" ? "page" : false)) Corporate lets
-      if activeCity
-        a.filter-clear(href="/portfolio") Clear #{activeCity}
+      a(href=link({ type: undefined }) aria-current=(activeType === "all" ? "page" : false)) Everything
+      a(href=link({ type: "sale" }) aria-current=(activeType === "sale" ? "page" : false)) For sale
+      a(href=link({ type: "long_lease" }) aria-current=(activeType === "long_lease" ? "page" : false)) To let
+      a(href=link({ type: "corporate_let" }) aria-current=(activeType === "corporate_let" ? "page" : false)) Corporate lets
+
+    +filters(search, values, facets, link, narrowed)
+
+    .results-bar
+      p.results-count
+        if narrowed
+          | Showing #{listings.length} of #{totalCount} available properties
+        else
+          | #{totalCount} available properties
+      nav.results-sort(aria-label="Order results")
+        span.results-sort-label Order by
+        a(href=link({ sort: undefined }) aria-current=(search.sort === "featured" ? "page" : false)) Featured
+        a(href=link({ sort: "area_desc" }) aria-current=(search.sort === "area_desc" ? "page" : false)) Largest
+        a(href=link({ sort: "area_asc" }) aria-current=(search.sort === "area_asc" ? "page" : false)) Smallest
+        a(href=link({ sort: "year_asc" }) aria-current=(search.sort === "year_asc" ? "page" : false)) Oldest
+        if search.currency
+          a(href=link({ sort: "price_asc" }) aria-current=(search.sort === "price_asc" ? "page" : false)) Lowest price
+          a(href=link({ sort: "price_desc" }) aria-current=(search.sort === "price_desc" ? "page" : false)) Highest price
 
     if listings.length
       +cards(listings, 'h2')
-      p.note Showing #{listings.length} of #{totalCount} available properties. Prices are quoted in the currency of the market in which each building is located.
+      p.note Prices are quoted in the currency of the market in which each building is located.
     else
       .empty
-        h2 No properties currently available on these terms
-        p Register your requirement and we will contact you when a matching property is released.
-        a.button(href="/register") Register
+        h2 Nothing available on these terms
+        p No property in the portfolio matches this search. Widening the area, the city or the tenure will usually turn something up.
+        .button-row
+          a.button.button-quiet(href="/portfolio") Clear the filters
+          a.button(href="/register") Register a requirement
 
   section.band.page

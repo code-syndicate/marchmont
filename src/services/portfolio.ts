@@ -3,6 +3,16 @@ import { formatMoney, formatMoneyShort } from '../domain/money'
 import type { Repositories } from '../db/repositories'
 import type { ImageProvider, Rendition } from '../providers/images'
 import type { Offer, OfferQuery, OfferType } from '../db/repositories/offers'
+import type { Search, Sort } from '../domain/search'
+import {
+  ANONYMOUS,
+  PUBLIC_GALLERY_LIMIT,
+  addressFor,
+  canSeeExactAddress,
+  canSeeFullGallery,
+  type Viewer,
+} from '../domain/viewer'
+import type { MapProvider, MapView } from '../providers/maps'
 import type { Property } from '../db/repositories/properties'
 
 export type Listing = {
@@ -29,6 +39,10 @@ export type ListingDetail = Listing & {
   readonly gallery: readonly Rendition[]
   readonly thumbs: readonly Rendition[]
   readonly formattedAddress: string
+  /** True when photographs are being withheld until the viewer is approved. */
+  readonly galleryWithheld: boolean
+  readonly addressWithheld: boolean
+  readonly map: MapView
   readonly description: readonly string[]
   readonly features: readonly string[]
   readonly terms: readonly { label: string; value: string }[]
@@ -156,15 +170,59 @@ export type Building = {
   readonly offers: readonly { slug: string; typeLabel: string; headline: string; headlineNote: string; scopeLabel: string }[]
 }
 
+export type Facets = {
+  readonly cities: readonly string[]
+  readonly currencies: readonly string[]
+}
+
 export type Portfolio = {
   list(query: OfferQuery, locale: string): Promise<Listing[]>
-  detail(slug: string, locale: string): Promise<ListingDetail | null>
+  search(search: Search, locale: string): Promise<Listing[]>
+  facets(): Promise<Facets>
+  detail(slug: string, locale: string, viewer?: Viewer): Promise<ListingDetail | null>
   counts(): Promise<Record<OfferType, number>>
   buildings(locale: string): Promise<Building[]>
   featured(locale: string, limit: number): Promise<Listing[]>
 }
 
-export function createPortfolio(repositories: Repositories, images: ImageProvider): Portfolio {
+type Pair = { offer: Offer; property: Property }
+
+function compare(a: bigint | number, b: bigint | number): number {
+  return a < b ? -1 : a > b ? 1 : 0
+}
+
+/**
+ * Ordering happens here rather than in the driver because area and year live on
+ * the property while price lives on the offer, and price is a bigint of minor
+ * units that must never be compared as a float.
+ */
+function order(pairs: Pair[], sort: Sort): Pair[] {
+  if (sort === 'featured') return pairs
+
+  // Several offers can sit in one building and share its area and year, so
+  // every key needs a tiebreak or the order of tied rows is whatever the
+  // driver happened to return.
+  const key = (pair: Pair): bigint | number => {
+    switch (sort) {
+      case 'area_desc':
+      case 'area_asc':
+        return pair.property.area.hundredthsM2
+      case 'year_asc':
+      case 'year_desc':
+        return pair.property.yearBuilt
+      default:
+        return pair.offer.headline.amount
+    }
+  }
+
+  const descending = sort === 'area_desc' || sort === 'year_desc' || sort === 'price_desc'
+  return [...pairs].sort((a, b) => {
+    const ranked = descending ? compare(key(b), key(a)) : compare(key(a), key(b))
+    return ranked !== 0 ? ranked : a.offer.slug.localeCompare(b.offer.slug)
+  })
+}
+
+export function createPortfolio(repositories: Repositories, images: ImageProvider, maps: MapProvider): Portfolio {
   const { offers, properties } = repositories
 
   const listFor = async (query: OfferQuery, locale: string): Promise<Listing[]> => {
@@ -178,8 +236,61 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
       .filter((listing): listing is Listing => listing !== null)
   }
 
+  const pairsFor = async (query: OfferQuery, buildingIds?: readonly string[]): Promise<Pair[]> => {
+    const live = await offers.live(buildingIds ? { ...query, buildingIds } : query)
+    const byId = await properties.byIds([...new Set(live.map((offer) => offer.propertyId))])
+    return live
+      .map((offer) => {
+        const property = byId.get(offer.propertyId)
+        return property ? { offer, property } : null
+      })
+      .filter((pair): pair is Pair => pair !== null)
+  }
+
   return {
     list: listFor,
+
+    async search(criteria, locale) {
+      const wantsProperty =
+        criteria.text || criteria.buildingType || criteria.city || criteria.minArea !== undefined || criteria.bedrooms !== undefined
+
+      // An empty match is a real answer, not an absent filter, so it has to be
+      // carried through as an empty list rather than dropped.
+      const buildingIds = wantsProperty
+        ? await properties.matching({
+            ...(criteria.text ? { text: criteria.text } : {}),
+            ...(criteria.buildingType ? { buildingType: criteria.buildingType } : {}),
+            ...(criteria.city ? { locality: criteria.city } : {}),
+            ...(criteria.minArea !== undefined ? { minArea: criteria.minArea } : {}),
+            ...(criteria.bedrooms !== undefined ? { bedrooms: criteria.bedrooms } : {}),
+          })
+        : undefined
+      if (buildingIds?.length === 0) return []
+
+      const query: OfferQuery = {
+        ...(criteria.type ? { type: criteria.type } : {}),
+        ...(criteria.scope ? { scope: criteria.scope } : {}),
+        ...(criteria.tenure ? { tenure: criteria.tenure } : {}),
+        ...(criteria.furnished ? { furnished: criteria.furnished } : {}),
+        ...(criteria.currency ? { currency: criteria.currency } : {}),
+        ...(criteria.termMonths !== undefined ? { termMonths: criteria.termMonths } : {}),
+        ...(criteria.availableBy ? { availableBy: criteria.availableBy } : {}),
+        ...(criteria.minPrice !== undefined ? { minPrice: criteria.minPrice } : {}),
+        ...(criteria.maxPrice !== undefined ? { maxPrice: criteria.maxPrice } : {}),
+      }
+
+      return order(await pairsFor(query, buildingIds), criteria.sort)
+        .map(({ offer, property }) => toListing(offer, property, locale, images))
+    },
+
+    async facets() {
+      const [all, live] = await Promise.all([properties.all(), offers.live({})])
+      const present = new Set(live.map((offer) => offer.propertyId))
+      return {
+        cities: [...new Set(all.filter((p) => present.has(p.id)).map((p) => p.address.locality))].sort(),
+        currencies: [...new Set(live.map((offer) => offer.currency))].sort(),
+      }
+    },
 
     counts: () => offers.countsByType(),
 
@@ -220,7 +331,7 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
       return (await listFor({}, locale)).slice(0, limit)
     },
 
-    async detail(slug, locale) {
+    async detail(slug, locale, viewer = ANONYMOUS) {
       const offer = await offers.bySlug(slug)
       if (!offer || offer.status !== 'live') return null
       const byId = await properties.byIds([offer.propertyId])
@@ -235,13 +346,23 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
           headline: formatMoneyShort(other.headline, locale),
         }))
 
+      const shots = canSeeFullGallery(viewer)
+        ? property.images
+        : property.images.slice(0, PUBLIC_GALLERY_LIMIT)
+
       return {
         ...toListing(offer, property, locale, images),
-        gallery: property.images.map((image, index) =>
+        gallery: shots.map((image, index) =>
           images.render(image, index === 0 ? 'hero' : 'plate', '(max-width: 900px) 100vw, 760px'),
         ),
-        thumbs: property.images.map((image) => images.render(image, 'thumb', '96px')),
-        formattedAddress: property.address.formatted,
+        thumbs: shots.map((image) => images.render(image, 'thumb', '96px')),
+        formattedAddress: addressFor(viewer, property.address),
+        galleryWithheld: shots.length < property.images.length,
+        addressWithheld: !canSeeExactAddress(viewer),
+        map: maps.render(property.coordinates, {
+          label: `${property.name}, ${property.address.locality}`,
+          precise: canSeeExactAddress(viewer),
+        }),
         description: property.description,
         features: property.features,
         terms: termsFor(offer, property, locale),

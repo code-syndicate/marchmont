@@ -46,3 +46,10 @@ services:
       # external origin at all.
       - key: IMAGES_PROVIDER
         value: unsplash
+
+      # osm draws locator maps from OpenStreetMap tiles and adds that host to
+      # img-src. sandbox draws a schematic locator with no external origin.
+      # A locator never resolves the exact building for a viewer who has not
+      # been approved, under either provider.
+      - key: MAPS_PROVIDER
+        value: sandbox

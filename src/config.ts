@@ -11,10 +11,13 @@ export type Config = {
   readonly providers: {
     /** Photography. 'unsplash' in production, 'sandbox' offline. */
     readonly images: ImagesProvider
+    /** Locator maps. 'osm' in production, 'sandbox' offline. */
+    readonly maps: MapsProvider
   }
 }
 
 export type ImagesProvider = 'unsplash' | 'sandbox'
+export type MapsProvider = 'osm' | 'sandbox'
 
 export class ConfigError extends Error {
   readonly code = 'CONFIG_INVALID'
@@ -26,6 +29,7 @@ export class ConfigError extends Error {
 
 const NODE_ENVS: readonly string[] = ['development', 'production', 'test']
 const IMAGES_PROVIDERS: readonly string[] = ['unsplash', 'sandbox']
+const MAPS_PROVIDERS: readonly string[] = ['osm', 'sandbox']
 
 export function loadConfig(env: Record<string, string | undefined>): Config {
   const problems: string[] = []
@@ -81,7 +85,12 @@ export function loadConfig(env: Record<string, string | undefined>): Config {
   if (!IMAGES_PROVIDERS.includes(imagesProvider)) {
     problems.push(`IMAGES_PROVIDER must be one of ${IMAGES_PROVIDERS.join(', ')}, got "${imagesProvider}"`)
   }
-  const providers = { images: imagesProvider as ImagesProvider }
+  const mapsProvider = env.MAPS_PROVIDER ?? 'sandbox'
+  if (!MAPS_PROVIDERS.includes(mapsProvider)) {
+    problems.push(`MAPS_PROVIDER must be one of ${MAPS_PROVIDERS.join(', ')}, got "${mapsProvider}"`)
+  }
+
+  const providers = { images: imagesProvider as ImagesProvider, maps: mapsProvider as MapsProvider }
 
   if (problems.length > 0) throw new ConfigError(problems)
 

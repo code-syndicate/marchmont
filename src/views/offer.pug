@@ -18,6 +18,8 @@ block content
 
   .page
     +gallery(listing)
+    if listing.galleryWithheld
+      p.note.gallery-note Further photographs of this building, together with floor plans and survey findings, are released to registered clients.
 
   section.band-tight.page
     .detail-grid
@@ -39,6 +41,13 @@ block content
           ul.features
             each feature in listing.features
               li= feature
+
+        div
+          h2 Where it is
+          figure.locator
+            img.locator-map(src=listing.map.src alt=listing.map.alt width=listing.map.width height=listing.map.height loading="lazy" decoding="async")
+            if listing.addressWithheld
+              figcaption.locator-note The district is shown here. The street address is released to registered clients once a registration has been approved.
 
         if listing.otherOffers.length
           div

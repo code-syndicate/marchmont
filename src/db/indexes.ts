@@ -42,6 +42,18 @@ export async function applySchema(db: Db): Promise<void> {
 
   await db.collection('properties').createIndex({ location: '2dsphere' })
   await db.collection('properties').createIndex({ 'address.countryCode': 1 })
+  await db.collection('properties').createIndex({ 'address.locality': 1 })
+  await db.collection('properties').createIndex({ buildingType: 1 })
+  // One text index per collection is the server limit, so every field the
+  // portfolio search reads has to be named here.
+  await db.collection('properties').createIndex({
+    name: 'text',
+    summary: 'text',
+    description: 'text',
+    features: 'text',
+    'address.locality': 'text',
+    'address.formatted': 'text',
+  })
 
   await db.collection('offers').createIndex({ status: 1, type: 1 })
   await db.collection('offers').createIndex({ propertyId: 1 })

@@ -1,0 +1,92 @@
+mixin filters(search, values, facets, link, narrowed)
+  form.filters-form(method="get" action="/portfolio")
+    if search.sort !== "featured"
+      input(type="hidden" name="sort" value=search.sort)
+
+    .filters-row
+      .filters-field.filters-field-wide
+        label(for="q") Search
+        input#q(name="q" type="search" value=values.q placeholder="Building, city or feature")
+
+      .filters-field
+        label(for="city") City
+        select#city(name="city")
+          option(value="") Any city
+          each city in facets.cities
+            option(value=city selected=search.city === city)= city
+
+      .filters-field
+        label(for="buildingType") Building
+        select#buildingType(name="buildingType")
+          option(value="") Any building
+          each option in [{ v: "house", l: "House" }, { v: "office", l: "Office" }, { v: "mixed", l: "Mixed use" }]
+            option(value=option.v selected=search.buildingType === option.v)= option.l
+
+      .filters-field
+        label(for="currency") Market
+        select#currency(name="currency")
+          option(value="") Any currency
+          each code in facets.currencies
+            option(value=code selected=search.currency === code)= code
+
+      .filters-actions
+        button.button(type="submit") Apply
+        if narrowed
+          a.filter-clear(href="/portfolio") Clear
+
+    details.filters-more(open=narrowed)
+      summary More filters
+      .filters-row
+        .filters-field
+          label(for="scope") Offered as
+          select#scope(name="scope")
+            option(value="") Whole or part
+            each option in [{ v: "whole", l: "Whole building" }, { v: "floor", l: "By the floor" }, { v: "unit", l: "Single unit" }]
+              option(value=option.v selected=search.scope === option.v)= option.l
+
+        .filters-field
+          label(for="tenure") Tenure
+          select#tenure(name="tenure")
+            option(value="") Any tenure
+            each option in [{ v: "freehold", l: "Freehold" }, { v: "leasehold", l: "Leasehold" }, { v: "commonhold", l: "Commonhold" }]
+              option(value=option.v selected=search.tenure === option.v)= option.l
+
+        .filters-field
+          label(for="furnished") Furnishing
+          select#furnished(name="furnished")
+            option(value="") Any furnishing
+            each option in [{ v: "furnished", l: "Furnished" }, { v: "part furnished", l: "Part furnished" }, { v: "unfurnished", l: "Unfurnished" }]
+              option(value=option.v selected=search.furnished === option.v)= option.l
+
+        .filters-field
+          label(for="bedrooms") Bedrooms, at least
+          input#bedrooms(name="bedrooms" type="number" min="1" max="20" step="1" inputmode="numeric" value=values.bedrooms)
+
+        .filters-field
+          label(for="minArea") Area, at least
+          .filters-suffix
+            input#minArea(name="minArea" type="number" min="1" step="1" inputmode="numeric" value=values.minArea)
+            span.filters-unit m²
+
+        .filters-field
+          label(for="termMonths") Term, in months
+          input#termMonths(name="termMonths" type="number" min="1" max="120" step="1" inputmode="numeric" value=values.termMonths)
+
+        .filters-field
+          label(for="availableBy") Available by
+          input#availableBy(name="availableBy" type="date" value=values.availableBy)
+
+        if search.currency
+          .filters-field
+            label(for="minPrice") Price from
+            .filters-suffix
+              input#minPrice(name="minPrice" type="text" inputmode="decimal" value=values.minPrice)
+              span.filters-unit= search.currency
+          .filters-field
+            label(for="maxPrice") Price to
+            .filters-suffix
+              input#maxPrice(name="maxPrice" type="text" inputmode="decimal" value=values.maxPrice)
+              span.filters-unit= search.currency
+
+      .filters-row
+        button.button(type="submit") Apply filters

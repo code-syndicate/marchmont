@@ -74,3 +74,17 @@ describe('the public origin', () => {
     }
   })
 })
+
+describe('the maps provider', () => {
+  test('defaults to the sandbox, which needs no network', () => {
+    expect(loadConfig({ ...valid, MAPS_PROVIDER: undefined }).providers.maps).toBe('sandbox')
+  })
+
+  test('accepts the tile provider', () => {
+    expect(loadConfig({ ...valid, MAPS_PROVIDER: 'osm' }).providers.maps).toBe('osm')
+  })
+
+  test('rejects a provider with no implementation behind it', () => {
+    expect(() => loadConfig({ ...valid, MAPS_PROVIDER: 'google' })).toThrow(ConfigError)
+  })
+})

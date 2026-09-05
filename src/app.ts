@@ -4,8 +4,11 @@ import type { Config } from './config'
 import type { Database } from './db/client'
 import type { OfferType } from './db/repositories/offers'
 import { createImageProvider, createSandboxImageProvider, renderSandboxImage } from './providers/images'
+import { createMapProvider, createSandboxMapProvider, renderSandboxMap } from './providers/maps'
+import { ANONYMOUS } from './domain/viewer'
 import { CSRF_COOKIE, CSRF_FIELD, issueToken, readCookie, verifyToken } from './security/csrf'
 import { validateEnquiry, validateRegistration } from './domain/submissions'
+import { isNarrowed, parseSearch, toFormValues, toQueryString, type Search } from './domain/search'
 import { createRateLimiter } from './security/rate-limit'
 import { createPortfolio } from './services/portfolio'
 
@@ -63,6 +66,27 @@ const BRAND_IMAGE = {
 
 const SITEMAP_PAGES = ['/', '/portfolio', '/gallery', '/about', '/register', '/contact']
 
+/**
+ * parseSearch drops anything it does not recognise so a stray parameter cannot
+ * break a page. The route still wants to know it happened, so a bad value can
+ * be a 404 rather than a quietly different listing.
+ */
+function suppliedValueSurvived(key: string, raw: string, search: Search): boolean {
+  switch (key) {
+    case 'type': return search.type === raw
+    case 'city': return search.city?.toLowerCase() === raw.toLowerCase()
+    case 'currency': return search.currency === raw.toUpperCase()
+    case 'buildingType': return search.buildingType === raw
+    case 'scope': return search.scope === raw
+    case 'tenure': return search.tenure === raw
+    case 'furnished': return search.furnished === raw
+    // A price sort with no currency deliberately falls back, and that is a
+    // usable page rather than a wrong address.
+    case 'sort': return search.sort === raw || raw.startsWith('price_')
+    default: return true
+  }
+}
+
 function escapeXml(value: string): string {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 }
@@ -72,9 +96,11 @@ export function createApp(deps: { config: Config; database: Database }): express
   // The photography provider is the only external origin the policy admits,
   // and only for images. See src/providers/images.ts.
   const images = config.providers.images === 'unsplash' ? createImageProvider() : createSandboxImageProvider()
-  const CSP = [...CSP_BASE, `img-src 'self' data: ${images.host}`].join('; ')
+  const maps = config.providers.maps === 'osm' ? createMapProvider() : createSandboxMapProvider()
+  const imageHosts = [...new Set([images.host, maps.host])].filter((host) => host !== "'self'")
+  const CSP = [...CSP_BASE, ['img-src', "'self'", 'data:', ...imageHosts].join(' ')].join('; ')
   const assets = createAssetHasher(config)
-  const portfolio = createPortfolio(database.repositories, images)
+  const portfolio = createPortfolio(database.repositories, images, maps)
   const app = express()
 
   function absolute(source: string): string {
@@ -123,6 +149,9 @@ export function createApp(deps: { config: Config; database: Database }): express
     res.locals.canonical = new URL(req.path, config.publicUrl).toString()
     res.locals.ogImage = absolute(images.render(BRAND_IMAGE, 'card', '800px').src)
     res.locals.csrfToken = csrfToken(req, res)
+    // Slice 4 replaces this with a session lookup. Everything downstream reads
+    // the viewer, so that is the only line that has to change.
+    res.locals.viewer = ANONYMOUS
     next()
   })
 
@@ -138,6 +167,16 @@ export function createApp(deps: { config: Config; database: Database }): express
   if (config.providers.images === 'sandbox') {
     app.get('/images/:file', (req, res, next) => {
       const drawn = renderSandboxImage(req.params.file)
+      if (!drawn) return next()
+      res.type('image/svg+xml')
+      res.setHeader('Cache-Control', config.nodeEnv === 'production' ? 'public, max-age=31536000, immutable' : 'no-store')
+      res.send(drawn.body)
+    })
+  }
+
+  if (config.providers.maps === 'sandbox') {
+    app.get('/maps/:file', (req, res, next) => {
+      const drawn = renderSandboxMap(req.params.file)
       if (!drawn) return next()
       res.type('image/svg+xml')
       res.setHeader('Cache-Control', config.nodeEnv === 'production' ? 'public, max-age=31536000, immutable' : 'no-store')
@@ -244,31 +283,26 @@ export function createApp(deps: { config: Config; database: Database }): express
   app.get('/portfolio', async (req, res, next) => {
     try {
       const locale = localeFor(req)
-      const rawType = typeof req.query.type === 'string' ? req.query.type : ''
-      const type = OFFER_TYPES.find((candidate) => candidate === rawType)
-      // A tenure that does not exist is a wrong address, not a silent reset to
-      // everything. Returning 200 with the full list lets a mistyped link get
-      // indexed as a duplicate of /portfolio.
-      if (rawType && !type) return next()
+      const facets = await portfolio.facets()
+      const params = req.query as Record<string, unknown>
 
-      const city = typeof req.query.city === 'string' ? req.query.city.trim() : ''
+      // A value the portfolio does not hold is a wrong address rather than a
+      // silent reset to everything, which was getting mistyped links indexed as
+      // duplicates of the plain listing.
+      const asked = ['type', 'city', 'currency', 'buildingType', 'scope', 'tenure', 'furnished', 'sort']
+      const search = parseSearch(params, facets)
+      for (const key of asked) {
+        const raw = typeof params[key] === 'string' ? (params[key] as string).trim() : ''
+        if (raw && !suppliedValueSurvived(key, raw, search)) return next()
+      }
 
-      const [matching, everything] = await Promise.all([
-        portfolio.list(type ? { type } : {}, locale),
+      const [listings, everything] = await Promise.all([
+        portfolio.search(search, locale),
         portfolio.list({}, locale),
       ])
 
-      // Locality, not country. A country holds many cities, and matching on the
-      // country code labelled the page with whichever city happened to be first.
-      const cities = [...new Set(everything.map((listing) => listing.locality))]
-        .sort((a, b) => a.localeCompare(b, locale))
-      const activeCity = cities.find((name) => name.toLowerCase() === city.toLowerCase())
-      if (city && !activeCity) return next()
-
-      const listings = activeCity ? matching.filter((listing) => listing.locality === activeCity) : matching
-
-      const key = type ?? 'all'
-      const heading = activeCity ? `${HEADING[key]!.heading} in ${activeCity}` : HEADING[key]!.heading
+      const key = search.type ?? 'all'
+      const heading = search.city ? `${HEADING[key]!.heading} in ${search.city}` : HEADING[key]!.heading
 
       res.render('portfolio', {
         nav: 'portfolio',
@@ -276,10 +310,12 @@ export function createApp(deps: { config: Config; database: Database }): express
         description: HEADING[key]!.blurb,
         heading,
         blurb: HEADING[key]!.blurb,
+        search,
+        values: toFormValues(search),
+        facets,
+        narrowed: isNarrowed(search),
+        link: (changes: Record<string, string | undefined>) => `/portfolio${toQueryString(search, changes)}`,
         activeType: key,
-        activeCity: activeCity ?? null,
-        cities,
-        cityQuery: activeCity ? `&city=${encodeURIComponent(activeCity)}` : '',
         listings,
         totalCount: everything.length,
       })
@@ -290,7 +326,7 @@ export function createApp(deps: { config: Config; database: Database }): express
 
   app.get('/portfolio/:slug', async (req, res, next) => {
     try {
-      const listing = await portfolio.detail(req.params.slug, localeFor(req))
+      const listing = await portfolio.detail(req.params.slug, localeFor(req), res.locals.viewer ?? ANONYMOUS)
       if (!listing) return next()
       res.render('offer', {
         nav: 'portfolio',

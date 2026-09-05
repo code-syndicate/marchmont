@@ -290,6 +290,116 @@ describe('static assets', () => {
   })
 })
 
+describe('portfolio search', () => {
+  test('free text narrows the listing and stays in the box', async () => {
+    const properties = await database.repositories.properties.all()
+    const term = properties[0]!.address.locality
+    const response = await fetch(`${origin}/portfolio?q=${encodeURIComponent(term)}`)
+    expect(response.status).toBe(200)
+
+    const body = await response.text()
+    expect(body).toContain(`value="${term}"`)
+    expect(body).toContain('Showing')
+  })
+
+  test('a search matching nothing renders the empty state, not a broken page', async () => {
+    const response = await fetch(`${origin}/portfolio?q=zzzznotabuilding`)
+    expect(response.status).toBe(200)
+    expect(await response.text()).toContain('Nothing available on these terms')
+  })
+
+  test('a filter is reflected as the selected option, so the form shows the current search', async () => {
+    const body = await (await fetch(`${origin}/portfolio?buildingType=office`)).text()
+    expect(body).toMatch(/<option value="office"[^>]*selected/)
+  })
+
+  test('every filter combination the form can produce renders', async () => {
+    const queries = [
+      'type=sale', 'type=long_lease&scope=floor', 'buildingType=mixed', 'tenure=freehold',
+      'furnished=furnished', 'bedrooms=2', 'minArea=200', 'termMonths=3',
+      'availableBy=2027-01-01', 'sort=area_desc', 'sort=year_asc',
+    ]
+    for (const query of queries) {
+      const response = await fetch(`${origin}/portfolio?${query}`)
+      expect(`${query} ${response.status}`).toBe(`${query} 200`)
+    }
+  })
+
+  test('links on the page carry the rest of the search rather than dropping it', async () => {
+    const body = await (await fetch(`${origin}/portfolio?q=mill&buildingType=office`)).text()
+    const sortLink = /href="(\/portfolio\?[^"]*sort=area_desc[^"]*)"/.exec(body)?.[1] ?? ''
+    expect(sortLink).toContain('q=mill')
+    expect(sortLink).toContain('buildingType=office')
+  })
+
+  test('a value the portfolio does not offer is a 404', async () => {
+    for (const query of ['type=rent_to_own', 'buildingType=castle', 'tenure=perpetual', 'currency=XXX', 'city=Atlantis']) {
+      const response = await fetch(`${origin}/portfolio?${query}`)
+      expect(`${query} ${response.status}`).toBe(`${query} 404`)
+    }
+  })
+
+  test('a price control only appears once a market is pinned', async () => {
+    const currency = (await database.repositories.offers.live())[0]!.currency
+    expect(await (await fetch(`${origin}/portfolio`)).text()).not.toContain('id="minPrice"')
+    expect(await (await fetch(`${origin}/portfolio?currency=${currency}`)).text()).toContain('id="minPrice"')
+  })
+
+  test('a price sort is offered only once a market is pinned', async () => {
+    const currency = (await database.repositories.offers.live())[0]!.currency
+    expect(await (await fetch(`${origin}/portfolio`)).text()).not.toContain('sort=price_asc')
+    expect(await (await fetch(`${origin}/portfolio?currency=${currency}`)).text()).toContain('sort=price_asc')
+  })
+
+  test('asking for a price sort without a market still renders, on the default order', async () => {
+    const response = await fetch(`${origin}/portfolio?sort=price_asc`)
+    expect(response.status).toBe(200)
+  })
+})
+
+describe('gate 1', () => {
+  test('an unregistered visitor gets the district, not the street address', async () => {
+    const offer = (await database.repositories.offers.live())[0]!
+    const property = (await database.repositories.properties.byIds([offer.propertyId])).get(offer.propertyId)!
+
+    const body = await (await fetch(`${origin}/portfolio/${offer.slug}`)).text()
+    expect(body).toContain(property.address.locality)
+    expect(body).not.toContain(property.address.formatted)
+  })
+
+  test('says plainly what approval releases, rather than showing an empty section', async () => {
+    const slug = (await database.repositories.offers.live())[0]!.slug
+    const body = await (await fetch(`${origin}/portfolio/${slug}`)).text()
+    expect(body).toContain('released to registered clients')
+  })
+
+  test('a locator map is shown, and it is served', async () => {
+    const slug = (await database.repositories.offers.live())[0]!.slug
+    const body = await (await fetch(`${origin}/portfolio/${slug}`)).text()
+    const src = /src="(\/maps\/[^"]+)"/.exec(body)?.[1]
+    expect(src).toBeTruthy()
+
+    const map = await fetch(`${origin}${src}`)
+    expect(map.status).toBe(200)
+    expect(map.headers.get('content-type')).toContain('image/svg+xml')
+  })
+
+  test('the map an unregistered visitor gets does not carry the exact coordinate', async () => {
+    const offer = (await database.repositories.offers.live())[0]!
+    const property = (await database.repositories.properties.byIds([offer.propertyId])).get(offer.propertyId)!
+    const body = await (await fetch(`${origin}/portfolio/${offer.slug}`)).text()
+    const src = /src="(\/maps\/[^"]+)"/.exec(body)?.[1] ?? ''
+
+    for (const coordinate of property.coordinates) {
+      expect(src).not.toContain(String(coordinate))
+    }
+  })
+
+  test('a map request the provider never issued is a 404', async () => {
+    expect((await fetch(`${origin}/maps/not-a-map.txt`)).status).toBe(404)
+  })
+})
+
 describe('flood protection', () => {
   // Last, because it deliberately exhausts the allowance for this path and a
   // later submission from the same address would then be refused.
