@@ -465,10 +465,12 @@ export async function seed(database: Database): Promise<{ properties: number; of
 
   for (const property of PROPERTIES) {
     const { _id, areaM2, ...rest } = property
+    const content = { ...rest, area: encodeArea(areaFromM2(areaM2)), seeded: true }
+    await properties.updateOne({ _id: _id as never }, { $setOnInsert: content as never }, { upsert: true })
+    // Refresh what this file says, unless staff have taken the row over.
     await properties.updateOne(
-      { _id: _id as never },
-      { $setOnInsert: { ...rest, area: encodeArea(areaFromM2(areaM2)), seeded: true } as never },
-      { upsert: true },
+      { _id: _id as never, staffEditedAt: { $exists: false } },
+      { $set: content as never },
     )
   }
 
@@ -482,6 +484,10 @@ export async function seed(database: Database): Promise<{ properties: number; of
       if (field === 'price' || field === 'rentPerMonth') document.currency = value.currency
     }
     await offers.updateOne({ _id: _id as never }, { $setOnInsert: document as never }, { upsert: true })
+    await offers.updateOne(
+      { _id: _id as never, staffEditedAt: { $exists: false } },
+      { $set: document as never },
+    )
   }
 
   const keepProperties = PROPERTIES.map((p) => p._id)

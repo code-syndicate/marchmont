@@ -32,7 +32,7 @@ export function createAuthoring(deps: { repositories: Repositories }): Authoring
       const before = await offers.byId(id)
       if (!before) return null
 
-      const after = await offers.update(id, patch)
+      const after = await offers.update(id, { ...patch, staffEditedAt: new Date() } as never)
       if (!after) return null
 
       // What changed, not the whole document. A trail nobody can read is a
@@ -58,6 +58,7 @@ export function createAuthoring(deps: { repositories: Repositories }): Authoring
       if (!canTransition(offer.status, to, offer.type)) throw new IllegalTransition(offer.status, to)
 
       const moved = await offers.moveStatus(id, offer.status, to)
+      if (moved) await offers.update(id, { staffEditedAt: new Date() } as never)
       // Lost the race to another reviewer.
       if (!moved) throw new IllegalTransition(offer.status, to)
 
@@ -82,7 +83,7 @@ export function createAuthoring(deps: { repositories: Repositories }): Authoring
     },
 
     async updateProperty(id, patch, staffId) {
-      const after = await properties.update(id, patch)
+      const after = await properties.update(id, { ...patch, staffEditedAt: new Date() } as never)
       if (!after) return null
       await audit.append({
         actor: `staff:${staffId}`,
