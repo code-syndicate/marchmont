@@ -5,7 +5,7 @@ import type { Database } from './db/client'
 import { ANONYMOUS } from './domain/viewer'
 import { createImageProvider, createSandboxImageProvider, renderSandboxImage } from './providers/images'
 import { createMapProvider, createSandboxMapProvider, renderSandboxMap } from './providers/maps'
-import { CSRF_COOKIE, CSRF_FIELD, issueToken, readCookie, verifyToken } from './security/csrf'
+import { CSRF_COOKIE, CSRF_FIELD, issueToken, readCookie, tokenFor, verifyToken } from './security/csrf'
 import { createRateLimiter } from './security/rate-limit'
 import { SESSION_LIFETIME_MS } from './services/accounts'
 import { createPortfolio } from './services/portfolio'
@@ -71,9 +71,18 @@ export function createApp(deps: AppDeps): express.Express {
     return source.startsWith('http') ? source : new URL(source, config.publicUrl).toString()
   }
 
-  // One token per response, so a page rendered from cache never carries a
-  // token whose cookie the browser no longer holds.
+  /**
+   * A token is minted per response, but the salt it is bound to is reused for
+   * as long as the browser holds one. Minting a fresh cookie every time meant
+   * the stylesheet request that follows a page load rotated the salt out from
+   * under the token already rendered into that page, so every form submission
+   * failed. The token still changes per response, which is what double submit
+   * needs; the cookie only changes when there is not already a usable one.
+   */
   function csrfToken(req: Request, res: Response): string {
+    const held = readCookie(req.headers.cookie, CSRF_COOKIE)
+    if (held && /^[0-9a-f]{32}$/.test(held)) return tokenFor(config.sessionSecret, held)
+
     const issued = issueToken(config.sessionSecret)
     res.cookie(CSRF_COOKIE, issued.cookie, {
       httpOnly: true,

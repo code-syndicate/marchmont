@@ -14,7 +14,12 @@ function sign(secret: string, salt: string, issuedAt: number): string {
 
 export function issueToken(secret: string, issuedAt: number = Date.now()): { cookie: string; token: string } {
   const salt = randomBytes(16).toString('hex')
-  return { cookie: salt, token: `${salt}.${issuedAt}.${sign(secret, salt, issuedAt)}` }
+  return { cookie: salt, token: tokenFor(secret, salt, issuedAt) }
+}
+
+/** A fresh token bound to a salt the browser already holds. */
+export function tokenFor(secret: string, salt: string, issuedAt: number = Date.now()): string {
+  return `${salt}.${issuedAt}.${sign(secret, salt, issuedAt)}`
 }
 
 function equal(a: string, b: string): boolean {

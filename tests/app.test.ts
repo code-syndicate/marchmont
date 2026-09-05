@@ -267,6 +267,37 @@ describe('sandbox photography', () => {
   })
 })
 
+describe('csrf across a real page load', () => {
+  // A browser fetches the stylesheet, the fonts and the images straight after
+  // the page. Minting a new cookie on each of those rotated the salt out from
+  // under the token already rendered, and every form on the site failed. The
+  // suite missed it because these tests only ever fetched the HTML.
+  test('the token in a page still works after the browser loads its assets', async () => {
+    const page = await fetch(`${origin}/register`)
+    const token = /name="_csrf" value="([^"]+)"/.exec(await page.text())![1]!
+    const cookie = (page.headers.get('set-cookie') ?? '').split(';')[0] ?? ''
+
+    for (const asset of ['/app.css', '/favicon.svg']) {
+      const response = await fetch(`${origin}${asset}`, { headers: { cookie } })
+      const rotated = (response.headers.getSetCookie?.() ?? []).find((line) => line.startsWith('mc_csrf='))
+      expect(rotated).toBeUndefined()
+    }
+
+    const submitted = await post('/register', {
+      name: 'Asset Loader', email: 'assets@example.com', intent: 'sale',
+      password: 'a-long-enough-passphrase', _csrf: token,
+    }, cookie)
+
+    expect(submitted.status).toBe(303)
+    expect(await database.repositories.users.byEmail('assets@example.com')).not.toBeNull()
+  })
+
+  test('a browser with no cookie at all is given one', async () => {
+    const response = await fetch(`${origin}/signin`)
+    expect((response.headers.getSetCookie?.() ?? []).some((line) => line.startsWith('mc_csrf='))).toBe(true)
+  })
+})
+
 describe('security headers', () => {
   test('sends a content security policy with no unsafe directive', async () => {
     const policy = (await fetch(`${origin}/`)).headers.get('content-security-policy') ?? ''
