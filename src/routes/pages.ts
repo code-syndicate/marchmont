@@ -72,7 +72,7 @@ export function pageRoutes(ctx: Context): Router {
         nav: 'home',
         title: null,
         description:
-          'Loft residences and creative office space in restored mills, warehouses and foundries across nine cities. Offered directly for sale, on long lease, or on a corporate let.',
+          'Loft residences and office floors in restored mills, warehouses and foundries. Offered directly for sale, on long lease, or on a corporate let.',
         hero: images.render(
           {
             id: 'photo-1773069459477-e9fe9d6eeb60',
@@ -110,7 +110,7 @@ export function pageRoutes(ctx: Context): Router {
         nav: 'gallery',
         title: 'Gallery',
         description:
-          'Nine restored industrial buildings across nine cities, photographed inside and out, with what is currently available in each.',
+          'Every building in the collection, photographed inside and out, with what is currently available in each.',
         buildings,
         hero: images.render(
           { id: 'photo-1690368358248-6ab7d1921e27', alt: 'Large mill interior with rows of tall factory windows' },
@@ -132,7 +132,7 @@ export function pageRoutes(ctx: Context): Router {
     res.render('about', {
       nav: 'about',
       title: 'The house',
-      description: 'Nash Luxury Realty acquires, restores and holds industrial buildings, converting them into loft residences and creative office space in nine cities.',
+      description: 'Nash Luxury Realty acquires, restores and holds industrial buildings, converting them into loft residences and office floors.',
       hero: images.render(
         { id: 'photo-1710547284002-255fc868e88b', alt: 'Large brick mill building with rows of tall factory windows' },
         'hero',

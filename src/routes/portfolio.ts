@@ -10,7 +10,7 @@ const HEADING: Record<string, { heading: string; blurb: string }> = {
   },
   sale: {
     heading: 'For sale',
-    blurb: 'Whole buildings and individual lofts, offered freehold and leasehold. Guide price, tenure, service charge and chain position are published on each listing.',
+    blurb: 'Whole buildings and individual loft residences, offered freehold and leasehold. Guide price, tenure, service charge and chain position are published on each listing.',
   },
   long_lease: {
     heading: 'To let',
@@ -18,7 +18,7 @@ const HEADING: Record<string, { heading: string; blurb: string }> = {
   },
   corporate_let: {
     heading: 'Corporate lets',
-    blurb: 'Furnished and serviced accommodation from one to six months, for organisations relocating staff. Housekeeping and included utilities are itemised in the terms.',
+    blurb: 'Furnished and serviced residences from one to six months, for organisations relocating senior staff. Housekeeping and included utilities are itemised in the terms.',
   },
 }
 

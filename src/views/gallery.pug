@@ -2,7 +2,7 @@ extends layout
 include partials/pagehead
 
 block content
-  +pagehead("Gallery", "Every building, in full.", "Nine restored industrial buildings across nine cities, photographed inside and out. Each one lists what is currently available in it.", hero)
+  +pagehead("Gallery", "Every building, in full.", "Every building in the collection, photographed inside and out. Each one lists what is currently available in it.", hero)
 
   each building, index in buildings
     section.building(class=(index % 2 === 1 ? "is-raised" : false))
