@@ -7,7 +7,29 @@ export function pageRoutes(ctx: Context): Router {
   const router = Router()
   const { database, portfolio, images } = ctx
 
+  /**
+   * Liveness. Answers 200 whenever the process is up, and reports the database
+   * alongside rather than failing on it.
+   *
+   * This is what the platform restarts on, so it must not depend on anything
+   * else being reachable. It used to answer 503 when Mongo did not respond,
+   * which handed a shared database tier the power to kill the instance: one
+   * slow ping and the host replaced a process that was serving pages perfectly
+   * well, and a database having a bad minute became an outage.
+   */
   router.get('/health', async (_req, res) => {
+    let database_ = 'unreachable'
+    try {
+      await database.db.command({ ping: 1 })
+      database_ = 'ready'
+    } catch {
+      // Reported, never fatal.
+    }
+    res.status(200).json({ status: 'alive', database: database_ })
+  })
+
+  /** Readiness. Fails when the site cannot actually serve, for monitoring. */
+  router.get('/health/ready', async (_req, res) => {
     try {
       await database.db.command({ ping: 1 })
       res.status(200).json({ status: 'ready' })

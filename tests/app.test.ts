@@ -55,8 +55,14 @@ function post(path: string, fields: Record<string, string>, cookie: string): Pro
 }
 
 describe('health', () => {
-  test('reports ready when the database answers', async () => {
+  test('liveness answers 200 and reports the database alongside', async () => {
     const response = await fetch(`${origin}/health`)
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({ status: 'alive', database: 'ready' })
+  })
+
+  test('readiness is a separate endpoint, so a database blip cannot restart us', async () => {
+    const response = await fetch(`${origin}/health/ready`)
     expect(response.status).toBe(200)
     expect(await response.json()).toEqual({ status: 'ready' })
   })
