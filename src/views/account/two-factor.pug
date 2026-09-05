@@ -1,0 +1,29 @@
+extends ../layout
+include ../partials/field
+
+block content
+  section.band.page.page-narrow
+    h1 Set up two step sign in
+    p.lede Add the secret below to an authenticator app, then enter the code it shows to confirm it works.
+
+    dl.terms
+      div
+        dt Account
+        dd Marchmont
+      div
+        dt Secret
+        dd
+          code.secret= secret
+
+    p.note If your app can scan a code, it can also take this address directly:
+    p.note
+      code.secret= uri
+
+    form.stack(method="post" action="/account/two-factor" novalidate)
+      input(type="hidden" name="_csrf" value=csrfToken)
+      input(type="hidden" name="secret" value=secret)
+      +field("code", "Code from your app", { inputmode: "numeric", autocomplete: "one-time-code", required: true, autofocus: true })
+      .button-row
+        button.button(type="submit") Turn on two step sign in
+        a.button.button-quiet(href="/account") Cancel
+    p.note Nothing changes until the code is accepted, so a mistyped secret cannot lock you out.

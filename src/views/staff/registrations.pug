@@ -1,0 +1,48 @@
+extends ../layout
+
+block content
+  section.band-tight.page
+    p.eyebrow Back office
+    h1 Registrations
+    p.lede #{counts.pending} awaiting review. #{counts.approved} approved, #{counts.declined} not taken forward.
+    form.stack(method="post" action="/staff/signout")
+      input(type="hidden" name="_csrf" value=csrfToken)
+      p.note Signed in as #{staff.name}.
+      .button-row
+        button.button.button-quiet(type="submit") Sign out
+
+  section.page
+    if queue.length
+      ul.queue
+        each entry in queue
+          li.queue-row
+            .queue-who
+              h2= entry.name
+              p.queue-email= entry.email
+              p.queue-meta
+                = entry.createdAt.toISOString().slice(0, 10)
+                |  ·
+                if entry.emailVerifiedAt
+                  |  Address confirmed
+                else
+                  |  Address not confirmed
+                if entry.market
+                  |  · #{entry.market}
+            if entry.requirement
+              p.queue-requirement= entry.requirement
+            .queue-actions
+              form(method="post" action=`/staff/registrations/${entry.id}/decide`)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                input(type="hidden" name="decision" value="approve")
+                button.button(type="submit") Approve
+              form.queue-decline(method="post" action=`/staff/registrations/${entry.id}/decide`)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                input(type="hidden" name="decision" value="decline")
+                .field
+                  label(for=`reason-${entry.id}`) Reason, sent to the registrant
+                  input(id=`reason-${entry.id}` name="reason" type="text" maxlength="500")
+                button.button.button-quiet(type="submit") Decline
+    else
+      .empty
+        h2 Nothing awaiting review
+        p Every registration has been decided.

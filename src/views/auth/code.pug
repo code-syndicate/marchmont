@@ -1,0 +1,23 @@
+extends ../layout
+include ../partials/formerror
+include ../partials/field
+
+block content
+  section.band.page.page-narrow
+    h1 Enter your code
+    p.lede Open your authenticator app and enter the current six digit code for Marchmont.
+
+    form.stack(method="post" action="/signin/code" novalidate)
+      input(type="hidden" name="_csrf" value=csrfToken)
+      +formerror(formError)
+      +field("code", "Six digit code", { inputmode: "numeric", autocomplete: "one-time-code", required: true, autofocus: true })
+      .button-row
+        button.button(type="submit") Continue
+
+    details.filters-more
+      summary Use a recovery code instead
+      form.stack(method="post" action="/signin/code" novalidate)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        +field("recovery", "Recovery code", { hint: "One of the codes you saved when you set this up. Each one works once." })
+        .button-row
+          button.button.button-quiet(type="submit") Use recovery code

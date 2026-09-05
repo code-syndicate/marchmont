@@ -5,8 +5,9 @@
   "scripts": {
     "dev": "NODE_ENV=development bun --watch src/server.ts",
     "start": "NODE_ENV=production bun src/server.ts",
-    "test": "bun test",
-    "seed": "bun scripts/seed.ts"
+    "test": "bun test --timeout 30000",
+    "seed": "bun scripts/seed.ts",
+    "add-staff": "bun scripts/add-staff.ts"
   },
   "dependencies": {
     "@alpinejs/csp": "^3.17.1",

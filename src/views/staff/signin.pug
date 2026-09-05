@@ -1,0 +1,15 @@
+extends ../layout
+include ../partials/formerror
+include ../partials/field
+
+block content
+  section.band.page.page-narrow
+    p.eyebrow Back office
+    h1 Staff sign in
+    form.stack(method="post" action="/staff/signin" novalidate)
+      input(type="hidden" name="_csrf" value=csrfToken)
+      +formerror(formError)
+      +field("email", "Email address", { type: "email", value: values.email, autocomplete: "username", required: true, autofocus: true })
+      +field("password", "Password", { type: "password", autocomplete: "current-password", required: true })
+      .button-row
+        button.button(type="submit") Sign in

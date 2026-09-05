@@ -1,11 +1,12 @@
 import { formatArea, unitForLocale } from '../domain/area'
-import { formatMoney, formatMoneyShort } from '../domain/money'
+import { formatMoney, formatMoneyShort, priceBand } from '../domain/money'
 import type { Repositories } from '../db/repositories'
 import type { ImageProvider, Rendition } from '../providers/images'
 import type { Offer, OfferQuery, OfferType } from '../db/repositories/offers'
 import type { Search, Sort } from '../domain/search'
 import {
   ANONYMOUS,
+  canSeeExactPrice,
   PUBLIC_GALLERY_LIMIT,
   addressFor,
   canSeeExactAddress,
@@ -28,6 +29,8 @@ export type Listing = {
   readonly type: OfferType
   readonly headline: string
   readonly headlineNote: string
+  /** True when the headline is an indicative band rather than the figure. */
+  readonly priceWithheld: boolean
   readonly area: string
   readonly summary: string
   readonly yearBuilt: number
@@ -100,8 +103,10 @@ function coverFor(offer: Offer, property: Property): Property['images'][number] 
   return interiors[hash % interiors.length]
 }
 
-function toListing(offer: Offer, property: Property, locale: string, images: ImageProvider): Listing {
+function toListing(offer: Offer, property: Property, locale: string, images: ImageProvider, viewer: Viewer = ANONYMOUS): Listing {
   const cover = coverFor(offer, property)
+  const exact = canSeeExactPrice(viewer)
+  const band = exact ? null : priceBand(offer.headline)
   return {
     slug: offer.slug,
     cover: cover ? images.render(cover, 'card', CARD_SIZES) : null,
@@ -113,8 +118,11 @@ function toListing(offer: Offer, property: Property, locale: string, images: Ima
     scopeLabel: offer.scopeLabel,
     typeLabel: TYPE_LABEL[offer.type],
     type: offer.type,
-    headline: formatMoneyShort(offer.headline, locale),
-    headlineNote: HEADLINE_NOTE[offer.type],
+    headline: band
+      ? `${formatMoneyShort(band.from, locale)} to ${formatMoneyShort(band.to, locale)}`
+      : formatMoneyShort(offer.headline, locale),
+    headlineNote: band ? `${HEADLINE_NOTE[offer.type]}, indicative` : HEADLINE_NOTE[offer.type],
+    priceWithheld: Boolean(band),
     area: formatArea(property.area, unitForLocale(locale), locale),
     summary: property.summary,
     yearBuilt: property.yearBuilt,
@@ -176,13 +184,13 @@ export type Facets = {
 }
 
 export type Portfolio = {
-  list(query: OfferQuery, locale: string): Promise<Listing[]>
-  search(search: Search, locale: string): Promise<Listing[]>
+  list(query: OfferQuery, locale: string, viewer?: Viewer): Promise<Listing[]>
+  search(search: Search, locale: string, viewer?: Viewer): Promise<Listing[]>
   facets(): Promise<Facets>
   detail(slug: string, locale: string, viewer?: Viewer): Promise<ListingDetail | null>
   counts(): Promise<Record<OfferType, number>>
-  buildings(locale: string): Promise<Building[]>
-  featured(locale: string, limit: number): Promise<Listing[]>
+  buildings(locale: string, viewer?: Viewer): Promise<Building[]>
+  featured(locale: string, limit: number, viewer?: Viewer): Promise<Listing[]>
 }
 
 type Pair = { offer: Offer; property: Property }
@@ -225,13 +233,13 @@ function order(pairs: Pair[], sort: Sort): Pair[] {
 export function createPortfolio(repositories: Repositories, images: ImageProvider, maps: MapProvider): Portfolio {
   const { offers, properties } = repositories
 
-  const listFor = async (query: OfferQuery, locale: string): Promise<Listing[]> => {
+  const listFor = async (query: OfferQuery, locale: string, viewer: Viewer = ANONYMOUS): Promise<Listing[]> => {
     const live = await offers.live(query)
     const byId = await properties.byIds([...new Set(live.map((offer) => offer.propertyId))])
     return live
       .map((offer) => {
         const property = byId.get(offer.propertyId)
-        return property ? toListing(offer, property, locale, images) : null
+        return property ? toListing(offer, property, locale, images, viewer) : null
       })
       .filter((listing): listing is Listing => listing !== null)
   }
@@ -250,7 +258,7 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
   return {
     list: listFor,
 
-    async search(criteria, locale) {
+    async search(criteria, locale, viewer = ANONYMOUS) {
       const wantsProperty =
         criteria.text || criteria.buildingType || criteria.city || criteria.minArea !== undefined || criteria.bedrooms !== undefined
 
@@ -280,7 +288,7 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
       }
 
       return order(await pairsFor(query, buildingIds), criteria.sort)
-        .map(({ offer, property }) => toListing(offer, property, locale, images))
+        .map(({ offer, property }) => toListing(offer, property, locale, images, viewer))
     },
 
     async facets() {
@@ -294,7 +302,7 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
 
     counts: () => offers.countsByType(),
 
-    async buildings(locale) {
+    async buildings(locale, viewer = ANONYMOUS) {
       const all = await properties.all()
       const live = await offers.live({})
       return all
@@ -315,20 +323,25 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
             summary: property.summary,
             lead: lead ? images.render(lead, 'hero', '(max-width: 900px) 100vw, 1100px') : null,
             shots: rest.map((shot) => images.render(shot, 'plate', '(max-width: 700px) 100vw, 33vw')),
-            offers: mine.map((offer) => ({
-              slug: offer.slug,
-              typeLabel: TYPE_LABEL[offer.type],
-              headline: formatMoneyShort(offer.headline, locale),
-              headlineNote: HEADLINE_NOTE[offer.type],
-              scopeLabel: offer.scopeLabel,
-            })),
+            offers: mine.map((offer) => {
+              const band = canSeeExactPrice(viewer) ? null : priceBand(offer.headline)
+              return {
+                slug: offer.slug,
+                typeLabel: TYPE_LABEL[offer.type],
+                headline: band
+                  ? `${formatMoneyShort(band.from, locale)} to ${formatMoneyShort(band.to, locale)}`
+                  : formatMoneyShort(offer.headline, locale),
+                headlineNote: band ? `${HEADLINE_NOTE[offer.type]}, indicative` : HEADLINE_NOTE[offer.type],
+                scopeLabel: offer.scopeLabel,
+              }
+            }),
           }
         })
         .filter((building) => building.offers.length > 0)
     },
 
-    async featured(locale, limit) {
-      return (await listFor({}, locale)).slice(0, limit)
+    async featured(locale, limit, viewer = ANONYMOUS) {
+      return (await listFor({}, locale, viewer)).slice(0, limit)
     },
 
     async detail(slug, locale, viewer = ANONYMOUS) {
@@ -340,18 +353,23 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
 
       const siblings = (await offers.forProperty(offer.propertyId))
         .filter((other) => other.slug !== offer.slug)
-        .map((other) => ({
-          slug: other.slug,
-          typeLabel: TYPE_LABEL[other.type],
-          headline: formatMoneyShort(other.headline, locale),
-        }))
+        .map((other) => {
+          const band = canSeeExactPrice(viewer) ? null : priceBand(other.headline)
+          return {
+            slug: other.slug,
+            typeLabel: TYPE_LABEL[other.type],
+            headline: band
+              ? `${formatMoneyShort(band.from, locale)} to ${formatMoneyShort(band.to, locale)}`
+              : formatMoneyShort(other.headline, locale),
+          }
+        })
 
       const shots = canSeeFullGallery(viewer)
         ? property.images
         : property.images.slice(0, PUBLIC_GALLERY_LIMIT)
 
       return {
-        ...toListing(offer, property, locale, images),
+        ...toListing(offer, property, locale, images, viewer),
         gallery: shots.map((image, index) =>
           images.render(image, index === 0 ? 'hero' : 'plate', '(max-width: 900px) 100vw, 760px'),
         ),

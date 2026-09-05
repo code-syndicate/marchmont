@@ -13,11 +13,14 @@ export type Config = {
     readonly images: ImagesProvider
     /** Locator maps. 'osm' in production, 'sandbox' offline. */
     readonly maps: MapsProvider
+    /** Mail. 'log' writes each message to the service log, 'sandbox' records it in memory. */
+    readonly mail: MailProvider
   }
 }
 
 export type ImagesProvider = 'unsplash' | 'sandbox'
 export type MapsProvider = 'osm' | 'sandbox'
+export type MailProvider = 'log' | 'sandbox'
 
 export class ConfigError extends Error {
   readonly code = 'CONFIG_INVALID'
@@ -30,6 +33,7 @@ export class ConfigError extends Error {
 const NODE_ENVS: readonly string[] = ['development', 'production', 'test']
 const IMAGES_PROVIDERS: readonly string[] = ['unsplash', 'sandbox']
 const MAPS_PROVIDERS: readonly string[] = ['osm', 'sandbox']
+const MAIL_PROVIDERS: readonly string[] = ['log', 'sandbox']
 
 export function loadConfig(env: Record<string, string | undefined>): Config {
   const problems: string[] = []
@@ -90,7 +94,16 @@ export function loadConfig(env: Record<string, string | undefined>): Config {
     problems.push(`MAPS_PROVIDER must be one of ${MAPS_PROVIDERS.join(', ')}, got "${mapsProvider}"`)
   }
 
-  const providers = { images: imagesProvider as ImagesProvider, maps: mapsProvider as MapsProvider }
+  const mailProvider = env.MAIL_PROVIDER ?? 'log'
+  if (!MAIL_PROVIDERS.includes(mailProvider)) {
+    problems.push(`MAIL_PROVIDER must be one of ${MAIL_PROVIDERS.join(', ')}, got "${mailProvider}"`)
+  }
+
+  const providers = {
+    images: imagesProvider as ImagesProvider,
+    maps: mapsProvider as MapsProvider,
+    mail: mailProvider as MailProvider,
+  }
 
   if (problems.length > 0) throw new ConfigError(problems)
 

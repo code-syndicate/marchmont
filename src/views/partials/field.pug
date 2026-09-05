@@ -1,0 +1,11 @@
+mixin field(name, label, options)
+  - var opts = options || {}
+  - var type = opts.type || "text"
+  - var error = (typeof errors !== "undefined" && errors) ? errors[name] : null
+  .field(class=error ? "field-invalid" : false)
+    label(for=name)= label
+    input(id=name name=name type=type value=opts.value autocomplete=opts.autocomplete required=opts.required inputmode=opts.inputmode autofocus=opts.autofocus aria-describedby=error ? name + "-error" : (opts.hint ? name + "-hint" : false) aria-invalid=error ? "true" : false)
+    if opts.hint && !error
+      p.field-hint(id=name + "-hint")= opts.hint
+    if error
+      p.field-error(id=name + "-error")= error

@@ -1,0 +1,18 @@
+extends ../layout
+include ../partials/formerror
+include ../partials/field
+
+block content
+  section.band.page.page-narrow
+    h1 Set a new password
+    p.lede Choose a password you do not use anywhere else.
+
+    form.stack(method="post" action="/reset" novalidate)
+      input(type="hidden" name="_csrf" value=csrfToken)
+      input(type="hidden" name="token" value=token)
+      +formerror(formError)
+      +field("password", "New password", { type: "password", autocomplete: "new-password", required: true, autofocus: true, hint: "At least 12 characters." })
+      +field("confirm", "Confirm new password", { type: "password", autocomplete: "new-password", required: true })
+      .button-row
+        button.button(type="submit") Set password
+      p.note Setting a new password signs you out everywhere else.

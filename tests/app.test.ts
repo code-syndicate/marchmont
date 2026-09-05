@@ -21,7 +21,7 @@ beforeAll(async () => {
     MONGO_URL: 'mongodb://127.0.0.1:27017', MONGO_DB: 'marchmont_test',
     SESSION_SECRET: 'x'.repeat(32),
     PUBLIC_URL,
-    IMAGES_PROVIDER: 'sandbox',
+    IMAGES_PROVIDER: 'sandbox', MAIL_PROVIDER: 'sandbox',
   })
   // listen(0) picks a free port; config.port is unused here because loadConfig
   // rejects 0 as out of range.
@@ -128,6 +128,7 @@ describe('registration', () => {
     intent: 'long_lease',
     market: 'GB',
     requirement: 'Two floors, about 400 square metres, from March.',
+    password: 'a-long-enough-passphrase',
   }
 
   test('a complete submission is stored as pending and redirects to a confirmation', async () => {
@@ -157,6 +158,14 @@ describe('registration', () => {
     expect(body).toContain('Enter an email address we can reply to.')
     expect(body).toContain('value="Aoife Brennan"')
     expect(await database.repositories.users.byEmail('not-an-address')).toBeNull()
+  })
+
+  test('a password that is too easy to guess comes back with the reason', async () => {
+    const { token, cookie } = await openForm('/register')
+    const response = await post('/register', { ...valid, email: 'weak@example.com', password: 'short', _csrf: token }, cookie)
+    expect(response.status).toBe(422)
+    expect(await response.text()).toContain('at least 12 characters')
+    expect(await database.repositories.users.byEmail('weak@example.com')).toBeNull()
   })
 
   test('a submission with no token is refused', async () => {

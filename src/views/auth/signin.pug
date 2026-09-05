@@ -1,0 +1,23 @@
+extends ../layout
+include ../partials/formerror
+include ../partials/field
+
+block content
+  section.band.page.page-narrow
+    h1 Sign in
+    p.lede Approved accounts see exact addresses, full terms and the complete gallery across the portfolio.
+
+    form.stack(method="post" action="/signin" novalidate)
+      input(type="hidden" name="_csrf" value=csrfToken)
+      if next
+        input(type="hidden" name="next" value=next)
+      +formerror(formError)
+      +field("email", "Email address", { type: "email", value: values.email, autocomplete: "username", required: true, autofocus: true })
+      +field("password", "Password", { type: "password", autocomplete: "current-password", required: true })
+      .button-row
+        button.button(type="submit") Sign in
+      p.note
+        a(href="/forgotten") Forgotten your password?
+      p.note New here?
+        |  
+        a(href="/register") Register an interest

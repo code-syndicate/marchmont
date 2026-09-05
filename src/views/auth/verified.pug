@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+  section.band.page.page-narrow
+    if confirmed
+      h1 Email address confirmed
+      if status === "approved"
+        p.lede Your address is confirmed and your registration has been approved.
+        .button-row
+          a.button(href="/signin") Sign in
+      else if status === "declined"
+        p.lede Your address is confirmed. Your registration was not taken forward, and we wrote to you about that separately.
+        .button-row
+          a.button.button-quiet(href="/portfolio") View available properties
+      else
+        p.lede Your address is confirmed. A member of staff is reviewing your registration and will respond within two working days.
+        p Approval opens exact addresses, full terms, floor plans and supporting documentation across the portfolio, and lets you arrange a viewing.
+        .button-row
+          a.button.button-quiet(href="/portfolio") View available properties
+    else
+      h1 That link has expired
+      p.lede Confirmation links are good for two days and can be used once.
+      p Sign in and ask for a new one, or register if you have not yet.
+      .button-row
+        a.button(href="/signin") Sign in
+        a.button.button-quiet(href="/register") Register an interest

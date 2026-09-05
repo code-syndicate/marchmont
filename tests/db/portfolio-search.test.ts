@@ -207,10 +207,26 @@ describe('gate 1 on a detail page', () => {
     expect(open!.map.src).not.toBe(closed!.map.src)
   })
 
-  test('the price is the same figure for everyone, until accounts exist', async () => {
+  test('an unapproved viewer gets a band, an approved one gets the figure', async () => {
     const offer = await anyOffer()
     const open = await portfolio.detail(offer.slug, 'en-GB', approved)
     const closed = await portfolio.detail(offer.slug, 'en-GB')
-    expect(closed!.headline).toBe(open!.headline)
+
+    expect(open!.priceWithheld).toBe(false)
+    expect(closed!.priceWithheld).toBe(true)
+    expect(closed!.headline).toContain(' to ')
+    expect(closed!.headline).not.toBe(open!.headline)
+    expect(closed!.headlineNote).toContain('indicative')
+  })
+
+  test('the band brackets the real figure rather than misstating it', async () => {
+    const offer = await anyOffer()
+    const closed = await portfolio.detail(offer.slug, 'en-GB')
+    const [from, to] = closed!.headline.split(' to ')
+    const digits = (value: string) => BigInt(value.replace(/[^0-9]/g, ''))
+    const exact = offer.headline.amount / 100n
+
+    expect(digits(from!)).toBeLessThanOrEqual(exact)
+    expect(digits(to!)).toBeGreaterThanOrEqual(exact)
   })
 })

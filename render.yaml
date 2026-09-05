@@ -53,3 +53,10 @@ services:
       # been approved, under either provider.
       - key: MAPS_PROVIDER
         value: sandbox
+
+      # There is no mail vendor wired up yet. log writes every message to the
+      # service log, so a verification or reset link can still be read out of
+      # the Render logs and an account finished. Replace this with a real
+      # provider before opening registration to the public.
+      - key: MAIL_PROVIDER
+        value: log

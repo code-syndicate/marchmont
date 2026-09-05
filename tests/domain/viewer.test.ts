@@ -45,8 +45,9 @@ describe('gate 1', () => {
     expect(addressFor(approved, address)).toBe('70 Water Street, Brooklyn, NY 11201')
   })
 
-  test('the price stays open to everyone until a registration can be approved', () => {
-    expect(canSeeExactPrice(ANONYMOUS)).toBe(true)
+  test('the precise figure is released on approval, like the rest of gate 1', () => {
+    expect(canSeeExactPrice(ANONYMOUS)).toBe(false)
+    expect(canSeeExactPrice(pending)).toBe(false)
     expect(canSeeExactPrice(approved)).toBe(true)
   })
 })

@@ -1,0 +1,17 @@
+extends ../layout
+include ../partials/formerror
+include ../partials/field
+
+block content
+  section.band.page.page-narrow
+    h1 Reset your password
+    p.lede Enter the address you registered with and we will send a link to set a new password.
+
+    form.stack(method="post" action="/forgotten" novalidate)
+      input(type="hidden" name="_csrf" value=csrfToken)
+      +formerror(formError)
+      +field("email", "Email address", { type: "email", value: values.email, autocomplete: "username", required: true, autofocus: true })
+      .button-row
+        button.button(type="submit") Send the link
+      p.note
+        a(href="/signin") Back to sign in

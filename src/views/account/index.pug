@@ -1,0 +1,68 @@
+extends ../layout
+
+block content
+  section.band-tight.page
+    p.eyebrow Your account
+    h1= account.name
+    p.lede= account.email
+
+  section.page
+    .detail-grid
+      .stack-lg
+        div
+          h2 Registration
+          dl.terms
+            div
+              dt Status
+              dd
+                if account.accountStatus === "approved"
+                  | Approved
+                else if account.accountStatus === "declined"
+                  | Not taken forward
+                else
+                  | Awaiting review
+            div
+              dt Email address
+              dd= account.emailVerifiedAt ? "Confirmed" : "Not yet confirmed"
+            div
+              dt Registered
+              dd= account.createdAt.toISOString().slice(0, 10)
+
+          if account.accountStatus === "pending"
+            p A member of staff reviews every registration and responds within two working days. Approval opens exact addresses, full terms, floor plans and supporting documentation across the portfolio, and lets you arrange a viewing.
+          else if account.accountStatus === "approved"
+            p Your account is approved. Exact addresses, full terms and the complete gallery are open to you across the portfolio.
+          else
+            p We were not able to take your registration forward. Nothing further is required from you, and no payment was taken.
+
+          if !account.emailVerifiedAt
+            form.stack(method="post" action="/verify/resend")
+              input(type="hidden" name="_csrf" value=csrfToken)
+              p.note Confirming your address lets us reach you about your registration.
+              .button-row
+                button.button.button-quiet(type="submit") Send the confirmation link again
+            if verificationSent
+              p.note A new confirmation link is on its way.
+
+        div
+          h2 Signing in
+          if twoFactorOn
+            p Two step sign in is on. You are asked for a code from your authenticator app each time you sign in, and again before changing how you sign in.
+            form.stack(method="post" action="/account/two-factor/off")
+              input(type="hidden" name="_csrf" value=csrfToken)
+              .button-row
+                button.button.button-quiet(type="submit") Turn off two step sign in
+          else
+            p Two step sign in asks for a code from an authenticator app as well as your password. It is off.
+            .button-row
+              a.button.button-quiet(href="/account/two-factor") Set up two step sign in
+
+      aside.aside
+        h2 Session
+        p Signing out ends this session on this device. Setting a new password ends every session everywhere.
+        form.stack(method="post" action="/signout")
+          input(type="hidden" name="_csrf" value=csrfToken)
+          .button-row
+            button.button(type="submit") Sign out
+        p.note
+          a(href="/forgotten") Change your password

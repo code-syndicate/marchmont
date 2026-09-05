@@ -16,12 +16,11 @@ export function isApproved(viewer: Viewer): boolean {
 }
 
 /**
- * The precise figure is released with the rest of gate 1 in the spec. It stays
- * open until accounts exist, because until a registration can actually be
- * approved there is no route from a band back to the number, and a price no
- * visitor can ever reach is worse than no gate at all.
+ * Slice 4 made approval reachable, so the precise figure joins the rest of
+ * gate 1. An unapproved viewer sees a band and a registration route that
+ * actually leads somewhere.
  */
-export const PRICE_REQUIRES_APPROVAL = false
+export const PRICE_REQUIRES_APPROVAL = true
 
 export function canSeeExactAddress(viewer: Viewer): boolean {
   return isApproved(viewer)

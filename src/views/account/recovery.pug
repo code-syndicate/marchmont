@@ -1,0 +1,15 @@
+extends ../layout
+
+block content
+  section.band.page.page-narrow
+    h1 Your recovery codes
+    p.lede Two step sign in is on. Save these codes somewhere safe now. Each one works once, and they are the way back in if you lose your authenticator app.
+
+    ul.codes
+      each code in codes
+        li
+          code.secret= code
+
+    p.note This is the only time these are shown. They are stored hashed, so they cannot be shown again.
+    .button-row
+      a.button(href="/account") Back to your account

@@ -91,3 +91,26 @@ export function formatMoneyShort(value: Money, locale: string): string {
   })
   return formatter.format(toDecimalString(value) as unknown as number)
 }
+
+/**
+ * An indicative band around an amount, for a viewer who has not been approved.
+ * Integer arithmetic throughout: the step is a power of ten chosen from the
+ * magnitude, and the amount is floored and raised by one step. Two significant
+ * figures is wide enough not to be the figure and narrow enough to be useful.
+ */
+export function priceBand(value: Money): { from: Money; to: Money } {
+  const magnitude = value.amount < 0n ? -value.amount : value.amount
+
+  let digits = 0n
+  for (let rest = magnitude; rest >= 10n; rest /= 10n) digits += 1n
+
+  let step = 1n
+  for (let i = 0n; i < digits - 1n; i += 1n) step *= 10n
+  if (step < 1n) step = 1n
+
+  const from = (magnitude / step) * step
+  return {
+    from: money(from, value.currency),
+    to: money(from + step, value.currency),
+  }
+}

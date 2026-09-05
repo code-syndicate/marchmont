@@ -88,3 +88,17 @@ describe('the maps provider', () => {
     expect(() => loadConfig({ ...valid, MAPS_PROVIDER: 'google' })).toThrow(ConfigError)
   })
 })
+
+describe('the mail provider', () => {
+  test('defaults to the log, so a link can always be recovered', () => {
+    expect(loadConfig({ ...valid, MAIL_PROVIDER: undefined }).providers.mail).toBe('log')
+  })
+
+  test('accepts the sandbox', () => {
+    expect(loadConfig({ ...valid, MAIL_PROVIDER: 'sandbox' }).providers.mail).toBe('sandbox')
+  })
+
+  test('rejects a provider with no implementation behind it', () => {
+    expect(() => loadConfig({ ...valid, MAIL_PROVIDER: 'sendgrid' })).toThrow(ConfigError)
+  })
+})

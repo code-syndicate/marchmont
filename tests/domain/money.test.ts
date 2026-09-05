@@ -1,7 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import {
-  money, parseMoney, formatMoney, formatMoneyShort, addMoney, subtractMoney, compareMoney, toDecimalString,
-} from '../../src/domain/money'
+import { addMoney, compareMoney, formatMoney, formatMoneyShort, money, parseMoney, priceBand, subtractMoney, toDecimalString } from '../../src/domain/money'
 import { CurrencyMismatchError, UnknownCurrencyError, InvalidAmountError } from '../../src/domain/errors'
 
 describe('money', () => {
@@ -122,5 +120,41 @@ describe('arithmetic', () => {
     expect(compareMoney(a, b)).toBe(1)
     expect(compareMoney(b, a)).toBe(-1)
     expect(compareMoney(a, a)).toBe(0)
+  })
+})
+
+describe('priceBand', () => {
+  test('brackets the amount at two significant figures', () => {
+    expect(priceBand(money(1_640_000n, 'EUR'))).toEqual({
+      from: money(1_600_000n, 'EUR'),
+      to: money(1_700_000n, 'EUR'),
+    })
+  })
+
+  test('always contains the amount it describes', () => {
+    for (const amount of [1n, 99n, 100n, 12_345n, 980_000n, 2_750_000n, 125_000_000n, 9_007_199_254_740_993n]) {
+      const band = priceBand(money(amount, 'GBP'))
+      expect(band.from.amount).toBeLessThanOrEqual(amount)
+      expect(band.to.amount).toBeGreaterThanOrEqual(amount)
+    }
+  })
+
+  test('keeps precision above what a double holds', () => {
+    // The input is above 2^53, where a double would already have lost the
+    // last digit before the band was computed.
+    const band = priceBand(money(9_007_199_254_740_993n, 'USD'))
+    expect(band.from.amount).toBe(9_000_000_000_000_000n)
+    expect(band.to.amount).toBe(9_100_000_000_000_000n)
+  })
+
+  test('carries the currency through, because a band is still money', () => {
+    expect(priceBand(money(500_00n, 'NGN')).from.currency).toBe('NGN')
+  })
+
+  test('never returns a band that is not wider than a point', () => {
+    for (const amount of [0n, 1n, 7n]) {
+      const band = priceBand(money(amount, 'GBP'))
+      expect(band.to.amount).toBeGreaterThan(band.from.amount)
+    }
   })
 })

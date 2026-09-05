@@ -25,6 +25,13 @@ block content
           input#email(name="email" type="email" autocomplete="email" value=values.email required aria-describedby=errors.email ? "email-error" : false aria-invalid=errors.email ? "true" : false)
           if errors.email
             p.field-error#email-error= errors.email
+        .field(class=errors.password ? "field-invalid" : false)
+          label(for="password") Choose a password
+          input#password(name="password" type="password" autocomplete="new-password" required aria-describedby=errors.password ? "password-error" : "password-hint" aria-invalid=errors.password ? "true" : false)
+          if errors.password
+            p.field-error#password-error= errors.password
+          else
+            p.field-hint#password-hint At least 12 characters. You will use this to sign in once your registration is approved.
         .field(class=errors.market ? "field-invalid" : false)
           label(for="market") Where are you looking
           select#market(name="market" aria-describedby=errors.market ? "market-error" : false aria-invalid=errors.market ? "true" : false)
