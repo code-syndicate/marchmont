@@ -58,6 +58,39 @@ export function createImageProvider(): ImageProvider {
   }
 }
 
+export const PHOTOGRAPHY_PATH = '/photography'
+
+/** The widths written by scripts/fetch-photography.ts. */
+const LOCAL_WIDTHS = [800, 1600, 2400]
+
+/**
+ * Serves the photographs committed to this repository. This is the one that
+ * should run in production: a listing keeps its pictures whether or not anybody
+ * else's CDN still has them, and the policy needs no external image origin.
+ */
+export function createLocalImageProvider(): ImageProvider {
+  const url = (id: string, width: number): string => `${PHOTOGRAPHY_PATH}/${id}-${width}.jpg`
+
+  return {
+    host: "'self'",
+    render(image, shape, sizes) {
+      const spec = SHAPES[shape]
+      // The stored widths are the real ones; the shape's own list would ask for
+      // files that were never written.
+      const nearest = LOCAL_WIDTHS.reduce((best, w) =>
+        Math.abs(w - spec.width) < Math.abs(best - spec.width) ? w : best, LOCAL_WIDTHS[0]!)
+      return {
+        src: url(image.id, nearest),
+        srcset: LOCAL_WIDTHS.map((w) => `${url(image.id, w)} ${w}w`).join(', '),
+        sizes,
+        alt: image.alt,
+        width: spec.width,
+        height: Math.round(spec.width / spec.ratio),
+      }
+    },
+  }
+}
+
 /** Deterministic offline double: no network, stable output, same shape. */
 export function createSandboxImageProvider(): ImageProvider {
   return {

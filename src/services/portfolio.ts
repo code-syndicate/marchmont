@@ -14,7 +14,7 @@ import {
   type Viewer,
 } from '../domain/viewer'
 import type { MapProvider, MapView } from '../providers/maps'
-import type { Property } from '../db/repositories/properties'
+import type { ImageUse, Property } from '../db/repositories/properties'
 
 export type Listing = {
   readonly slug: string
@@ -87,20 +87,37 @@ function formatDate(iso: string, locale: string): string {
 const CARD_SIZES = '(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 380px'
 
 /**
- * One building can carry several offers, and giving them all the same cover
- * makes the grid look like it is repeating itself. The choice is semantic
- * rather than arbitrary: an offer on the whole building leads with the
- * exterior, an offer on part of it leads with an interior, and where a
- * building has several parts on offer they take different interiors.
+ * Which kind of photograph a given offer should lead with. A building can carry
+ * an office floor to let, a residence for sale and a serviced apartment at the
+ * same time, and each has to look like the thing being offered rather than like
+ * whichever picture happened to be first.
  */
+function usesFor(offer: Offer, property: Property): ImageUse[] {
+  if (offer.scope === 'whole') return ['exterior', 'office', 'residence', 'serviced', 'detail']
+  if (offer.type === 'corporate_let') return ['serviced', 'residence', 'exterior', 'detail']
+  if (offer.type === 'long_lease') {
+    return property.buildingType === 'house'
+      ? ['residence', 'serviced', 'exterior', 'detail']
+      : ['office', 'exterior', 'residence', 'detail']
+  }
+  // A sale of part of a building is a residence unless the building is offices.
+  return property.buildingType === 'office'
+    ? ['office', 'exterior', 'residence', 'detail']
+    : ['residence', 'serviced', 'exterior', 'detail']
+}
+
+/** The building's photographs, most relevant to this offer first. */
+function orderedFor(offer: Offer, property: Property): Property['images'] {
+  const wanted = usesFor(offer, property)
+  const rank = (image: Property['images'][number]): number => {
+    const index = wanted.indexOf(image.use)
+    return index === -1 ? wanted.length : index
+  }
+  return [...property.images].sort((a, b) => rank(a) - rank(b))
+}
+
 function coverFor(offer: Offer, property: Property): Property['images'][number] | undefined {
-  const shots = property.images
-  if (shots.length === 0) return undefined
-  if (offer.scope === 'whole' || shots.length === 1) return shots[0]
-  const interiors = shots.slice(1)
-  let hash = 0
-  for (const character of offer.slug) hash = (hash * 31 + character.charCodeAt(0)) % 100000
-  return interiors[hash % interiors.length]
+  return orderedFor(offer, property)[0]
 }
 
 function toListing(offer: Offer, property: Property, locale: string, images: ImageProvider, viewer: Viewer = ANONYMOUS): Listing {
@@ -364,9 +381,8 @@ export function createPortfolio(repositories: Repositories, images: ImageProvide
           }
         })
 
-      const shots = canSeeFullGallery(viewer)
-        ? property.images
-        : property.images.slice(0, PUBLIC_GALLERY_LIMIT)
+      const ordered = orderedFor(offer, property)
+      const shots = canSeeFullGallery(viewer) ? ordered : ordered.slice(0, PUBLIC_GALLERY_LIMIT)
 
       return {
         ...toListing(offer, property, locale, images, viewer),

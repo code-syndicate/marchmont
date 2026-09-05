@@ -3,7 +3,7 @@ import { createAssetHasher } from './asset-hash'
 import type { Config } from './config'
 import type { Database } from './db/client'
 import { ANONYMOUS } from './domain/viewer'
-import { createImageProvider, createSandboxImageProvider, renderSandboxImage } from './providers/images'
+import { createImageProvider, createLocalImageProvider, createSandboxImageProvider, renderSandboxImage } from './providers/images'
 import { createMapProvider, createSandboxMapProvider, renderSandboxMap } from './providers/maps'
 import { CSRF_COOKIE, CSRF_FIELD, issueToken, readCookie, tokenFor, verifyToken } from './security/csrf'
 import { createRateLimiter } from './security/rate-limit'
@@ -51,7 +51,10 @@ export function createApp(deps: AppDeps): express.Express {
   const { config, database } = deps
   // The photography provider is the only external origin the policy admits,
   // and only for images. See src/providers/images.ts.
-  const images = config.providers.images === 'unsplash' ? createImageProvider() : createSandboxImageProvider()
+  const images =
+    config.providers.images === 'unsplash' ? createImageProvider()
+    : config.providers.images === 'sandbox' ? createSandboxImageProvider()
+    : createLocalImageProvider()
   const maps = config.providers.maps === 'osm' ? createMapProvider() : createSandboxMapProvider()
   const imageHosts = [...new Set([images.host, maps.host])].filter((host) => host !== "'self'")
   const CSP = [...CSP_BASE, ['img-src', "'self'", 'data:', ...imageHosts].join(' ')].join('; ')

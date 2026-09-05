@@ -9,9 +9,17 @@ export type Address = {
   readonly region?: string
 }
 
+/**
+ * What the photograph shows. A listing is chosen against the offer, not the
+ * building: an office floor to let must lead with an office floor, and a
+ * corporate let with somewhere furnished enough to move into.
+ */
+export type ImageUse = 'exterior' | 'office' | 'residence' | 'serviced' | 'detail'
+
 export type PropertyImage = {
   readonly id: string
   readonly alt: string
+  readonly use: ImageUse
 }
 
 export type Property = {

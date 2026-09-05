@@ -35,10 +35,10 @@ const PROPERTIES: Seeded[] = [
       "Eight minutes from Antwerpen-Centraal",
     ],
     images: [
-      { id: 'photo-1738463267273-7263f3a47f92', alt: "Restored brick warehouse with clock tower on the Eilandje" },
-      { id: 'photo-1773069459477-e9fe9d6eeb60', alt: "Office floor with exposed brick columns and tall windows" },
-      { id: 'photo-1785381523158-86cbb796ef2b', alt: "Empty office floor with exposed structure, ready for fit out" },
-      { id: 'photo-1776238491015-54add7928b7f', alt: "Weathered brick wall with exposed pipework" },
+      { id: 'photo-1738463267273-7263f3a47f92', alt: "Restored brick warehouse with clock tower on the Eilandje", use: 'exterior' },
+      { id: 'photo-1773069459477-e9fe9d6eeb60', alt: "Office floor with exposed brick columns and tall windows", use: 'office' },
+      { id: 'photo-1785381523158-86cbb796ef2b', alt: "Empty office floor with exposed structure, ready for fit out", use: 'office' },
+      { id: 'photo-1776238491015-54add7928b7f', alt: "Weathered brick wall with exposed pipework", use: 'detail' },
     ],
   },
   {
@@ -70,10 +70,10 @@ const PROPERTIES: Seeded[] = [
       "Twelve minutes to Centraal by ferry",
     ],
     images: [
-      { id: 'photo-1710547284002-255fc868e88b', alt: "Brick warehouse with rows of tall factory windows" },
-      { id: 'photo-1773069459487-3d2d7bb4532e', alt: "Loft with exposed brick, timber posts and factory windows" },
-      { id: 'photo-1706967413741-b8461ff8d370', alt: "Living room with tall factory windows and exposed structure" },
-      { id: 'photo-1764726331208-71cb385ab08c', alt: "Late afternoon light across an empty loft floor" },
+      { id: 'photo-1710547284002-255fc868e88b', alt: "Brick warehouse with rows of tall factory windows", use: 'exterior' },
+      { id: 'photo-1773069459487-3d2d7bb4532e', alt: "Loft with exposed brick, timber posts and factory windows", use: 'residence' },
+      { id: 'photo-1706967413741-b8461ff8d370', alt: "Living room with tall factory windows and exposed structure", use: 'residence' },
+      { id: 'photo-1764726331208-71cb385ab08c', alt: "Late afternoon light across an empty loft floor", use: 'detail' },
     ],
   },
   {
@@ -103,10 +103,10 @@ const PROPERTIES: Seeded[] = [
       "Six minutes from Bethnal Green",
     ],
     images: [
-      { id: 'photo-1774957108662-80d697d70844', alt: "Tall brick facade with many windows against the sky" },
-      { id: 'photo-1505873242700-f289a29e1e0f', alt: "Loft interior with exposed brick, timber posts and open living area" },
-      { id: 'photo-1740446569003-0746d2a4c485', alt: "Brick walled loft with a timber ladder to a sleeping loft" },
-      { id: 'photo-1727639707159-eb0c8c779996', alt: "Warm brick stairwell lit by a tall window" },
+      { id: 'photo-1774957108662-80d697d70844', alt: "Tall brick facade with many windows against the sky", use: 'exterior' },
+      { id: 'photo-1786051390136-d705fe0e7309', alt: "Bright living room with ceiling fans and tall windows", use: 'serviced' },
+      { id: 'photo-1690368358248-6ab7d1921e27', alt: "Large office interior with rows of tall factory windows", use: 'office' },
+      { id: 'photo-1727639707159-eb0c8c779996', alt: "Warm brick stairwell lit by a tall window", use: 'detail' },
     ],
   },
   {
@@ -138,10 +138,10 @@ const PROPERTIES: Seeded[] = [
       "Tortona and Navigli on foot",
     ],
     images: [
-      { id: 'photo-1649982294301-21a0668505a4', alt: "Red brick industrial building with mature trees in front" },
-      { id: 'photo-1740446568848-bfb43e66bfd2', alt: "Loft with sleeping mezzanine and factory windows" },
-      { id: 'photo-1740446569677-a79c3186a16b', alt: "Compact loft with brick wall and timber bed platform" },
-      { id: 'photo-1786051390136-d705fe0e7309', alt: "Bright living room with ceiling fans and tall windows" },
+      { id: 'photo-1649982294301-21a0668505a4', alt: "Red brick industrial building with mature trees in front", use: 'exterior' },
+      { id: 'photo-1740446568848-bfb43e66bfd2', alt: "Loft with sleeping mezzanine and factory windows", use: 'serviced' },
+      { id: 'photo-1505873242700-f289a29e1e0f', alt: "Loft interior with exposed brick, timber posts and open living area", use: 'residence' },
+      { id: 'photo-1771530789155-b1f03fbf82b5', alt: "Empty floor with polished concrete and clerestory light", use: 'detail' },
     ],
   },
   {
@@ -171,10 +171,10 @@ const PROPERTIES: Seeded[] = [
       "Alcantara-Mar station at the door",
     ],
     images: [
-      { id: 'photo-1675711329496-ae122ca149a3', alt: "Brick industrial building with mature trees in front" },
-      { id: 'photo-1690368358248-6ab7d1921e27', alt: "Large interior with rows of tall factory windows" },
-      { id: 'photo-1771530789155-b1f03fbf82b5', alt: "Empty floor with polished concrete and clerestory light" },
-      { id: 'photo-1692696746783-14e5e56a6387', alt: "Empty interior with exposed brick and timber ceiling structure" },
+      { id: 'photo-1675711329496-ae122ca149a3', alt: "Brick industrial building with mature trees in front", use: 'exterior' },
+      { id: 'photo-1772300704502-410f0fbd43bb', alt: "Spacious empty office floor with polished concrete", use: 'office' },
+      { id: 'photo-1634834576400-56f5e1ad8db8', alt: "Empty office floor with a long run of windows", use: 'office' },
+      { id: 'photo-1692696746783-14e5e56a6387', alt: "Empty interior with exposed brick and timber ceiling structure", use: 'detail' },
     ],
   },
   {
@@ -204,42 +204,42 @@ const PROPERTIES: Seeded[] = [
       "Parmentier on line 3",
     ],
     images: [
-      { id: 'photo-1710547284002-255fc868e88b', alt: "Brick foundry building with rows of tall windows" },
-      { id: 'photo-1785381523158-86cbb796ef2b', alt: "Empty office floor with exposed structure, ready for fit out" },
-      { id: 'photo-1772300704502-410f0fbd43bb', alt: "Spacious empty floor with polished concrete" },
-      { id: 'photo-1634834576400-56f5e1ad8db8', alt: "Empty warehouse floor with a long run of windows" },
+      { id: 'photo-1710547284002-255fc868e88b', alt: "Brick foundry building with rows of tall factory windows", use: 'exterior' },
+      { id: 'photo-1785381523158-86cbb796ef2b', alt: "Empty office floor with exposed structure, ready for fit out", use: 'office' },
+      { id: 'photo-1690368358248-6ab7d1921e27', alt: "Large office interior with rows of tall factory windows", use: 'office' },
+      { id: 'photo-1776238491015-54add7928b7f', alt: "Weathered brick wall with exposed pipework", use: 'detail' },
     ],
   },
   {
-    _id: 'prop-yaba',
-    slug: 'yaba-works-14',
-    name: 'Yaba Works 14',
+    _id: 'prop-vulkan',
+    slug: 'vulkan-stoperi-3',
+    name: 'Vulkan Støperi 3',
     buildingType: 'office',
-    address: { formatted: '14 Commercial Avenue, Yaba, Lagos', countryCode: 'NG', locality: 'Lagos' },
-    timeZone: 'Africa/Lagos',
-    location: { type: 'Point', coordinates: [3.3792, 6.5095] },
-    coordinates: [3.3792, 6.5095],
+    address: { formatted: 'Maridalsveien 3, 0175 Oslo', countryCode: 'NO', locality: 'Oslo', region: 'Vulkan' },
+    timeZone: 'Europe/Oslo',
+    location: { type: 'Point', coordinates: [10.7515, 59.923] },
+    coordinates: [10.7515, 59.923],
     areaM2: '2200.00',
     floors: 4,
-    yearBuilt: 1974,
-    summary: "A 1974 works building on Commercial Avenue, rebuilt in 2022 as serviced creative office.",
+    yearBuilt: 1898,
+    summary: "An 1898 iron foundry on the Akerselva, converted in 2021 to office floors under the original roof trusses.",
     description: [
-      "Built as a printing and packaging works in 1974 and stripped back to frame in 2021. What was kept is the frame, the loading yard and the double height ground floor.",
-      "Power is the point here: the building runs on a solar array with battery storage and a generator behind it, so the floors do not go dark and the tenants do not each run their own plant.",
+      "Built as an iron foundry in 1898 on the east bank of the Akerselva and worked until 1974. The riveted steel trusses, the travelling crane rail and the tall north glazing are all original and were restored rather than replaced.",
+      "The conversion added a new insulated envelope inside the masonry, so the floors hold temperature through a Norwegian winter without touching the elevations. Heat comes from the river through a ground source loop.",
     ],
     features: [
-      "Solar array with battery storage",
-      "Standby generator behind it",
-      "Double height ground floor",
-      "Loading yard retained",
-      "Fibre from two carriers",
-      "Yaba tech cluster on foot",
+      "Riveted steel roof trusses restored",
+      "Travelling crane rail retained",
+      "North glazing the length of the building",
+      "Ground source heat from the Akerselva",
+      "Passive house level envelope",
+      "Vulkan and Mathallen at the door",
     ],
     images: [
-      { id: 'photo-1738463267273-7263f3a47f92', alt: "Brick industrial building with a clock tower" },
-      { id: 'photo-1772300704502-410f0fbd43bb', alt: "Spacious empty floor with polished concrete" },
-      { id: 'photo-1771530789155-b1f03fbf82b5', alt: "Empty floor with polished concrete and clerestory light" },
-      { id: 'photo-1773069459477-e9fe9d6eeb60', alt: "Interior with exposed brick columns and tall windows" },
+      { id: 'photo-1738463267273-7263f3a47f92', alt: "Restored brick foundry with a clock tower on the Akerselva", use: 'exterior' },
+      { id: 'photo-1773069459477-e9fe9d6eeb60', alt: "Office floor with exposed brick columns and tall windows", use: 'office' },
+      { id: 'photo-1772300704502-410f0fbd43bb', alt: "Spacious empty office floor with polished concrete", use: 'office' },
+      { id: 'photo-1771530789155-b1f03fbf82b5', alt: "Empty floor with polished concrete and clerestory light", use: 'detail' },
     ],
   },
   {
@@ -269,10 +269,10 @@ const PROPERTIES: Seeded[] = [
       "Tanjong Pagar MRT nearby",
     ],
     images: [
-      { id: 'photo-1774957108662-80d697d70844', alt: "Tall warehouse facade with many windows against the sky" },
-      { id: 'photo-1773069459487-3d2d7bb4532e', alt: "Loft with exposed brick, timber posts and factory windows" },
-      { id: 'photo-1786051390136-d705fe0e7309', alt: "Bright living room with ceiling fans and tall windows" },
-      { id: 'photo-1706967413741-b8461ff8d370', alt: "Living room with tall factory windows and exposed structure" },
+      { id: 'photo-1774957108662-80d697d70844', alt: "Tall brick godown facade with many windows against the sky", use: 'exterior' },
+      { id: 'photo-1634834576400-56f5e1ad8db8', alt: "Empty office floor with a long run of windows", use: 'office' },
+      { id: 'photo-1740446569003-0746d2a4c485', alt: "Brick walled loft with a timber ladder to a sleeping loft", use: 'residence' },
+      { id: 'photo-1727639707159-eb0c8c779996', alt: "Warm brick stairwell lit by a tall window", use: 'detail' },
     ],
   },
   {
@@ -303,10 +303,10 @@ const PROPERTIES: Seeded[] = [
       "York Street on the F",
     ],
     images: [
-      { id: 'photo-1649982294301-21a0668505a4', alt: "Red brick warehouse exterior with trees" },
-      { id: 'photo-1505873242700-f289a29e1e0f', alt: "Loft interior with exposed brick and open living area" },
-      { id: 'photo-1740446569003-0746d2a4c485', alt: "Brick walled loft with a timber ladder to a sleeping loft" },
-      { id: 'photo-1764726331208-71cb385ab08c', alt: "Late afternoon light across an empty loft floor" },
+      { id: 'photo-1649982294301-21a0668505a4', alt: "Red brick mill with mature trees in front", use: 'exterior' },
+      { id: 'photo-1740446569677-a79c3186a16b', alt: "Compact loft with brick wall and timber bed platform", use: 'serviced' },
+      { id: 'photo-1773069459487-3d2d7bb4532e', alt: "Loft with exposed brick, timber posts and factory windows", use: 'residence' },
+      { id: 'photo-1764726331208-71cb385ab08c', alt: "Late afternoon light across an empty loft floor", use: 'detail' },
     ],
   },
 ]
@@ -394,20 +394,20 @@ const OFFERS: SeededOffer[] = [
     minTermMonths: 36, furnished: 'unfurnished', availableFrom: '2027-01-04',
   },
   {
-    _id: 'offer-yaba-lease', slug: 'yaba-works-14-whole-building',
-    propertyId: 'prop-yaba', type: 'long_lease', status: 'live', scope: 'whole',
+    _id: 'offer-vulkan-lease', slug: 'vulkan-stoperi-3-whole-building',
+    propertyId: 'prop-vulkan', type: 'long_lease', status: 'live', scope: 'whole',
     scopeLabel: 'Whole building',
-    rentPerMonth: { decimal: '18500000.00', currency: 'NGN' },
-    serviceCharge: { decimal: '42000000.00', currency: 'NGN' },
-    deposit: { decimal: '55500000.00', currency: 'NGN' },
-    minTermMonths: 24, furnished: 'part furnished', availableFrom: '2026-10-01',
+    rentPerMonth: { decimal: '465000.00', currency: 'NOK' },
+    serviceCharge: { decimal: '1540000.00', currency: 'NOK' },
+    deposit: { decimal: '1395000.00', currency: 'NOK' },
+    minTermMonths: 24, furnished: 'unfurnished', availableFrom: '2026-10-01',
   },
   {
-    _id: 'offer-yaba-sale', slug: 'yaba-works-14-leasehold',
-    propertyId: 'prop-yaba', type: 'sale', status: 'live', scope: 'whole',
+    _id: 'offer-vulkan-sale', slug: 'vulkan-stoperi-3-freehold',
+    propertyId: 'prop-vulkan', type: 'sale', status: 'live', scope: 'whole',
     scopeLabel: 'Whole building',
-    price: { decimal: '2350000000.00', currency: 'NGN' },
-    tenure: 'leasehold', leaseYearsRemaining: 82, chainStatus: 'No onward chain',
+    price: { decimal: '165000000.00', currency: 'NOK' },
+    tenure: 'freehold', chainStatus: 'No onward chain',
   },
   {
     _id: 'offer-godown-lease', slug: 'keppel-godown-6-second-to-fourth-floors',
@@ -447,33 +447,54 @@ const OFFERS: SeededOffer[] = [
 
 const MONEY_FIELDS = ['price', 'rentPerMonth', 'deposit', 'serviceCharge'] as const
 
-export async function seed(database: Database): Promise<{ properties: number; offers: number }> {
+/**
+ * Idempotent, and deliberately not authoritative after the first run.
+ *
+ * This used to replaceOne on every boot, which was fine while nothing but the
+ * seed could write. Staff can now author offers and move them through the state
+ * machine, so overwriting on restart would revert every edit and put a
+ * withdrawn offer back on the site. Seeded documents are therefore inserted
+ * once and left alone; the back office owns them from then on.
+ *
+ * Seeded rows carry a marker so a building dropped from this file can be
+ * removed on the next boot without touching anything staff created.
+ */
+export async function seed(database: Database): Promise<{ properties: number; offers: number; removed: number }> {
   const properties = database.db.collection('properties')
   const offers = database.db.collection('offers')
 
   for (const property of PROPERTIES) {
     const { _id, areaM2, ...rest } = property
-    // _id must not appear in a replaceOne replacement document.
-    await properties.replaceOne(
+    await properties.updateOne(
       { _id: _id as never },
-      { ...rest, area: encodeArea(areaFromM2(areaM2)) } as never,
+      { $setOnInsert: { ...rest, area: encodeArea(areaFromM2(areaM2)), seeded: true } as never },
       { upsert: true },
     )
   }
 
   for (const offer of OFFERS) {
     const { _id, ...rest } = offer
-    const document: Record<string, unknown> = { ...rest }
+    const document: Record<string, unknown> = { ...rest, seeded: true }
     for (const field of MONEY_FIELDS) {
       const value = rest[field] as { decimal: string; currency: string } | undefined
       if (!value) continue
       document[field] = encodeMoney(parseMoney(value.decimal, value.currency))
       if (field === 'price' || field === 'rentPerMonth') document.currency = value.currency
     }
-    await offers.replaceOne({ _id: _id as never }, document as never, { upsert: true })
+    await offers.updateOne({ _id: _id as never }, { $setOnInsert: document as never }, { upsert: true })
   }
 
-  return { properties: PROPERTIES.length, offers: OFFERS.length }
+  // Only rows this file put there, and only ones it no longer lists.
+  const keepProperties = PROPERTIES.map((p) => p._id)
+  const keepOffers = OFFERS.map((o) => o._id)
+  const goneOffers = await offers.deleteMany({ seeded: true, _id: { $nin: keepOffers as never[] } })
+  const goneProperties = await properties.deleteMany({ seeded: true, _id: { $nin: keepProperties as never[] } })
+
+  return {
+    properties: PROPERTIES.length,
+    offers: OFFERS.length,
+    removed: goneOffers.deletedCount + goneProperties.deletedCount,
+  }
 }
 
 if (import.meta.main) {
@@ -481,6 +502,6 @@ if (import.meta.main) {
   const database = await connect(config)
   await applySchema(database.db)
   const counts = await seed(database)
-  console.log(`seeded ${counts.properties} properties and ${counts.offers} offers`)
+  console.log(`seeded ${counts.properties} properties and ${counts.offers} offers` + (counts.removed ? `, removed ${counts.removed} no longer listed` : ''))
   await database.close()
 }

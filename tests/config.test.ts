@@ -52,9 +52,15 @@ describe('loadConfig', () => {
     expect(() => loadConfig({ ...valid, IMAGES_PROVIDER: 'flickr' })).toThrow(/IMAGES_PROVIDER/)
   })
 
-  test('defaults to the sandbox provider outside production', () => {
+  test('defaults to the photographs committed to this repository', () => {
     const { IMAGES_PROVIDER, ...rest } = valid
-    expect(loadConfig(rest).providers.images).toBe('sandbox')
+    expect(loadConfig(rest).providers.images).toBe('local')
+  })
+
+  test('still accepts the sandbox and the CDN', () => {
+    for (const provider of ['sandbox', 'unsplash'] as const) {
+      expect(loadConfig({ ...valid, IMAGES_PROVIDER: provider }).providers.images).toBe(provider)
+    }
   })
 })
 

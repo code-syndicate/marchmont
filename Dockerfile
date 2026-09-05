@@ -24,7 +24,8 @@ EXPOSE 10000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=15s \
   CMD bun --eval "const r = await fetch('http://127.0.0.1:' + (process.env.PORT ?? 10000) + '/health'); process.exit(r.ok ? 0 : 1)"
 
-# Seeding is idempotent: every write is an upsert, so this is safe to run on
-# each boot against a database that already holds the portfolio. A seeding
-# failure must not stop the server from serving.
-CMD ["sh", "-c", "bun scripts/seed.ts || true; exec bun src/server.ts"]
+# Seeding runs on every boot and is idempotent: seeded rows are inserted once
+# and never overwritten, so a restart cannot revert a staff edit or put a
+# withdrawn offer back on the site. A seeding failure is logged and must not
+# stop the server from serving.
+CMD ["sh", "-c", "bun scripts/seed.ts || echo 'seed failed, serving anyway' >&2; exec bun src/server.ts"]

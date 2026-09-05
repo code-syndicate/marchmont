@@ -9,7 +9,7 @@ export type Config = {
   /** Absolute origin the site is served from. Canonical links, Open Graph and the sitemap need it. */
   readonly publicUrl: string
   readonly providers: {
-    /** Photography. 'unsplash' in production, 'sandbox' offline. */
+    /** Photography. 'local' serves the committed pictures and is the default. */
     readonly images: ImagesProvider
     /** Locator maps. 'osm' in production, 'sandbox' offline. */
     readonly maps: MapsProvider
@@ -18,7 +18,7 @@ export type Config = {
   }
 }
 
-export type ImagesProvider = 'unsplash' | 'sandbox'
+export type ImagesProvider = 'local' | 'unsplash' | 'sandbox'
 export type MapsProvider = 'osm' | 'sandbox'
 export type MailProvider = 'log' | 'sandbox'
 
@@ -31,7 +31,7 @@ export class ConfigError extends Error {
 }
 
 const NODE_ENVS: readonly string[] = ['development', 'production', 'test']
-const IMAGES_PROVIDERS: readonly string[] = ['unsplash', 'sandbox']
+const IMAGES_PROVIDERS: readonly string[] = ['local', 'unsplash', 'sandbox']
 const MAPS_PROVIDERS: readonly string[] = ['osm', 'sandbox']
 const MAIL_PROVIDERS: readonly string[] = ['log', 'sandbox']
 
@@ -85,7 +85,7 @@ export function loadConfig(env: Record<string, string | undefined>): Config {
   //
   // The sandbox provider is allowed in production. It serves photography from
   // /images with no network, which is a legitimate way to run this site.
-  const imagesProvider = env.IMAGES_PROVIDER ?? 'sandbox'
+  const imagesProvider = env.IMAGES_PROVIDER ?? 'local'
   if (!IMAGES_PROVIDERS.includes(imagesProvider)) {
     problems.push(`IMAGES_PROVIDER must be one of ${IMAGES_PROVIDERS.join(', ')}, got "${imagesProvider}"`)
   }

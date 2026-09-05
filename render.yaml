@@ -45,7 +45,7 @@ services:
       # the app draw its own images at the same dimensions instead, with no
       # external origin at all.
       - key: IMAGES_PROVIDER
-        value: unsplash
+        value: local
 
       # osm draws locator maps from OpenStreetMap tiles and adds that host to
       # img-src. sandbox draws a schematic locator with no external origin.
