@@ -484,11 +484,30 @@ export async function seed(database: Database): Promise<{ properties: number; of
     await offers.updateOne({ _id: _id as never }, { $setOnInsert: document as never }, { upsert: true })
   }
 
-  // Only rows this file put there, and only ones it no longer lists.
   const keepProperties = PROPERTIES.map((p) => p._id)
   const keepOffers = OFFERS.map((o) => o._id)
-  const goneOffers = await offers.deleteMany({ seeded: true, _id: { $nin: keepOffers as never[] } })
-  const goneProperties = await properties.deleteMany({ seeded: true, _id: { $nin: keepProperties as never[] } })
+
+  // Rows written before the marker existed do not carry it, and a prune that
+  // only trusted the marker left them behind forever. The id is the other
+  // signal: this file writes literal prop- and offer- ids, while anything staff
+  // author gets a uuid. Backfilling the marker on what is still listed makes it
+  // true from here on.
+  await properties.updateMany(
+    { _id: { $in: keepProperties as never[] }, seeded: { $exists: false } },
+    { $set: { seeded: true } },
+  )
+  await offers.updateMany(
+    { _id: { $in: keepOffers as never[] }, seeded: { $exists: false } },
+    { $set: { seeded: true } },
+  )
+
+  const stale = (keep: string[], prefix: string) => ({
+    _id: { $nin: keep as never[] },
+    $or: [{ seeded: true }, { _id: { $regex: `^${prefix}-` } }],
+  })
+
+  const goneOffers = await offers.deleteMany(stale(keepOffers, 'offer') as never)
+  const goneProperties = await properties.deleteMany(stale(keepProperties, 'prop') as never)
 
   return {
     properties: PROPERTIES.length,
