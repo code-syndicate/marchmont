@@ -1,37 +1,51 @@
 extends layout
 include partials/pagehead
+include partials/formerror
 
 block content
   +pagehead("Registration", "Register your requirement.", "Registration is reviewed within two working days. Approval opens exact addresses, full terms, floor plans and supporting documentation across the portfolio, and allows you to arrange a viewing.", hero)
 
   section.band.page
     .detail-grid
-      form.stack(method="post" action="/register")
-        if offer
+      form.stack(method="post" action="/register" novalidate)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        +formerror(formError)
+        - var offerValue = values.offer || offer
+        if offerValue
           .field
             label(for="offer") Enquiry about
-            input#offer(name="offer" type="text" value=offer readonly)
-        .field
+            input#offer(name="offer" type="text" value=offerValue readonly)
+        .field(class=errors.name ? "field-invalid" : false)
           label(for="name") Your name
-          input#name(name="name" type="text" autocomplete="name" required)
-        .field
+          input#name(name="name" type="text" autocomplete="name" value=values.name required aria-describedby=errors.name ? "name-error" : false aria-invalid=errors.name ? "true" : false)
+          if errors.name
+            p.field-error#name-error= errors.name
+        .field(class=errors.email ? "field-invalid" : false)
           label(for="email") Email address
-          input#email(name="email" type="email" autocomplete="email" required)
-        .field
+          input#email(name="email" type="email" autocomplete="email" value=values.email required aria-describedby=errors.email ? "email-error" : false aria-invalid=errors.email ? "true" : false)
+          if errors.email
+            p.field-error#email-error= errors.email
+        .field(class=errors.market ? "field-invalid" : false)
           label(for="market") Where are you looking
-          select#market(name="market")
+          select#market(name="market" aria-describedby=errors.market ? "market-error" : false aria-invalid=errors.market ? "true" : false)
             option(value="") No preference
             each country in countries
-              option(value=country.code)= country.name
-        .field
+              option(value=country.code selected=values.market === country.code)= country.name
+          if errors.market
+            p.field-error#market-error= errors.market
+        .field(class=errors.intent ? "field-invalid" : false)
           label(for="intent") What are you looking for
-          select#intent(name="intent")
-            option(value="sale") To buy
-            option(value="long_lease") To lease long term
-            option(value="corporate_let") A corporate let
-        .field
+          select#intent(name="intent" aria-describedby=errors.intent ? "intent-error" : false aria-invalid=errors.intent ? "true" : false)
+            option(value="sale" selected=values.intent === "sale") To buy
+            option(value="long_lease" selected=values.intent === "long_lease") To lease long term
+            option(value="corporate_let" selected=values.intent === "corporate_let") A corporate let
+          if errors.intent
+            p.field-error#intent-error= errors.intent
+        .field(class=errors.requirement ? "field-invalid" : false)
           label(for="requirement") Your requirement
-          textarea#requirement(name="requirement" rows="6" placeholder="Approximate size, target date, and any specific requirements.")
+          textarea#requirement(name="requirement" rows="6" placeholder="Approximate size, target date, and any specific requirements." aria-describedby=errors.requirement ? "requirement-error" : false aria-invalid=errors.requirement ? "true" : false)= values.requirement
+          if errors.requirement
+            p.field-error#requirement-error= errors.requirement
         .button-row
           button.button(type="submit") Submit registration
         p.note Your details are used to assess your requirement and to contact you about matching properties. They are not published and are not shared with third parties.

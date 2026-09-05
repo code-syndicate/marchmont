@@ -65,9 +65,12 @@ export function createSandboxImageProvider(): ImageProvider {
     render(image, shape, sizes) {
       const spec = SHAPES[shape]
       const height = Math.round(spec.width / spec.ratio)
+      const src = sandboxSrc(image.id, spec.width, height)
       return {
-        src: `/images/${image.id}-${spec.width}.jpg`,
-        srcset: `/images/${image.id}-${spec.width}.jpg ${spec.width}w`,
+        src,
+        srcset: spec.widths
+          .map((w) => `${sandboxSrc(image.id, w, Math.round(w / spec.ratio))} ${w}w`)
+          .join(', '),
         sizes,
         alt: image.alt,
         width: spec.width,
@@ -75,4 +78,46 @@ export function createSandboxImageProvider(): ImageProvider {
       }
     },
   }
+}
+
+export const SANDBOX_IMAGE_PATH = '/images'
+
+function sandboxSrc(id: string, width: number, height: number): string {
+  return `${SANDBOX_IMAGE_PATH}/${encodeURIComponent(id)}-${width}x${height}.svg`
+}
+
+const SANDBOX_PATTERN = /^(.+)-(\d{1,5})x(\d{1,5})\.svg$/
+
+export type SandboxImage = { body: string; width: number; height: number }
+
+/**
+ * The sandbox draws its own image rather than shipping binary assets, so the
+ * offline provider is a real, cacheable image at the exact dimensions the
+ * layout reserved and nothing reflows as it loads. The tone is derived from the
+ * id, so a building looks the same on every page and across restarts.
+ */
+export function renderSandboxImage(file: string): SandboxImage | null {
+  const match = SANDBOX_PATTERN.exec(file)
+  if (!match) return null
+
+  const [, id, rawWidth, rawHeight] = match as unknown as [string, string, string, string]
+  const width = Number(rawWidth)
+  const height = Number(rawHeight)
+  if (width < 1 || height < 1 || width > 4000 || height > 4000) return null
+
+  let hash = 0
+  for (const character of id) hash = (hash * 31 + character.charCodeAt(0)) >>> 0
+  const hue = hash % 360
+  const base = `hsl(${hue} 14% 30%)`
+  const lift = `hsl(${(hue + 24) % 360} 16% 52%)`
+
+  const body =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" ` +
+    `viewBox="0 0 ${width} ${height}" role="presentation">` +
+    `<defs><linearGradient id="g" x1="0" y1="0" x2="0.7" y2="1">` +
+    `<stop offset="0" stop-color="${lift}"/><stop offset="1" stop-color="${base}"/>` +
+    `</linearGradient></defs>` +
+    `<rect width="${width}" height="${height}" fill="url(#g)"/></svg>`
+
+  return { body, width, height }
 }

@@ -6,6 +6,18 @@ html(lang="en")
     title= title ? `${title} | Marchmont` : "Marchmont"
     if description
       meta(name="description" content=description)
+    if canonical
+      link(rel="canonical" href=canonical)
+    meta(property="og:site_name" content="Marchmont")
+    meta(property="og:type" content="website")
+    meta(property="og:title" content=title ? `${title} | Marchmont` : "Marchmont")
+    if description
+      meta(property="og:description" content=description)
+    if canonical
+      meta(property="og:url" content=canonical)
+    if ogImage
+      meta(property="og:image" content=ogImage)
+    meta(name="twitter:card" content="summary_large_image")
     link(rel="icon" href="/favicon.svg" type="image/svg+xml")
     link(rel="preload" href="/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin)
     link(rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin)

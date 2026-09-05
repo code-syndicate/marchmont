@@ -63,7 +63,7 @@ block content
       ul.cities
         each city in cities
           li
-            a(href=`/portfolio?city=${city.code}`)
+            a(href=`/portfolio?city=${encodeURIComponent(city.name)}`)
               = city.name
               span #{city.count}
 

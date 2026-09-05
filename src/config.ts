@@ -6,6 +6,8 @@ export type Config = {
   readonly mongoUrl: string
   readonly mongoDb: string
   readonly sessionSecret: string
+  /** Absolute origin the site is served from. Canonical links, Open Graph and the sitemap need it. */
+  readonly publicUrl: string
   readonly providers: {
     /** Photography. 'unsplash' in production, 'sandbox' offline. */
     readonly images: ImagesProvider
@@ -54,6 +56,21 @@ export function loadConfig(env: Record<string, string | undefined>): Config {
     problems.push(`SESSION_SECRET must be at least 32 characters, got ${sessionSecret.length}`)
   }
 
+  // Canonical URLs, Open Graph tags and the sitemap have to be absolute, and
+  // a request's Host header is attacker controlled, so the origin is
+  // configuration rather than something derived per request.
+  const rawPublicUrl = env.PUBLIC_URL ?? `http://localhost:${Number.isInteger(port) ? port : 3000}`
+  let publicUrl = ''
+  try {
+    const parsed = new URL(rawPublicUrl)
+    if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+      problems.push(`PUBLIC_URL must be an http or https URL, got "${rawPublicUrl}"`)
+    }
+    publicUrl = parsed.origin
+  } catch {
+    problems.push(`PUBLIC_URL must be an absolute URL, got "${rawPublicUrl}"`)
+  }
+
   // Only providers that actually have an implementation are validated here.
   // Requiring a payments or mail provider before either exists would block a
   // deploy on a setting nothing reads.
@@ -74,6 +91,7 @@ export function loadConfig(env: Record<string, string | undefined>): Config {
     mongoUrl: mongoUrl!,
     mongoDb: mongoDb!,
     sessionSecret: sessionSecret!,
+    publicUrl,
     providers,
   }
 }

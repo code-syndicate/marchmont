@@ -29,12 +29,20 @@ services:
       - key: MONGO_DB
         value: marchmont
 
-      # At least 32 characters. Render generates one on first deploy.
+      # At least 32 characters. Signs the CSRF tokens on the public forms.
+      # Render generates one on first deploy.
       - key: SESSION_SECRET
         generateValue: true
 
+      # The origin canonical links, Open Graph tags and the sitemap are built
+      # from. Set this to the custom domain once one is attached; until then it
+      # is the onrender.com hostname Render assigns to the service.
+      - key: PUBLIC_URL
+        sync: false
+
       # unsplash serves the photography from its CDN and is the only external
-      # origin the content security policy admits. Set this to sandbox to serve
-      # from /images instead, with no external origin at all.
+      # origin the content security policy admits. Set this to sandbox to have
+      # the app draw its own images at the same dimensions instead, with no
+      # external origin at all.
       - key: IMAGES_PROVIDER
         value: unsplash

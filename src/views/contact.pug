@@ -1,21 +1,32 @@
 extends layout
 include partials/pagehead
+include partials/formerror
 
 block content
   +pagehead("Contact", "Contact Marchmont.", "Enquiries about a specific building are answered fastest if you name it in your message. Survey findings, title documents and service charge history are held in this office for every property we market.", hero)
 
   section.band.page
     .detail-grid
-      form.stack(method="post" action="/contact")
-        .field
+      form.stack(method="post" action="/contact" novalidate)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        +formerror(formError)
+        if values.offer
+          input(type="hidden" name="offer" value=values.offer)
+        .field(class=errors.name ? "field-invalid" : false)
           label(for="name") Your name
-          input#name(name="name" type="text" autocomplete="name" required)
-        .field
+          input#name(name="name" type="text" autocomplete="name" value=values.name required aria-describedby=errors.name ? "name-error" : false aria-invalid=errors.name ? "true" : false)
+          if errors.name
+            p.field-error#name-error= errors.name
+        .field(class=errors.email ? "field-invalid" : false)
           label(for="email") Email address
-          input#email(name="email" type="email" autocomplete="email" required)
-        .field
+          input#email(name="email" type="email" autocomplete="email" value=values.email required aria-describedby=errors.email ? "email-error" : false aria-invalid=errors.email ? "true" : false)
+          if errors.email
+            p.field-error#email-error= errors.email
+        .field(class=errors.message ? "field-invalid" : false)
           label(for="message") Your message
-          textarea#message(name="message" rows="8" required)
+          textarea#message(name="message" rows="8" required aria-describedby=errors.message ? "message-error" : false aria-invalid=errors.message ? "true" : false)= values.message
+          if errors.message
+            p.field-error#message-error= errors.message
         .button-row
           button.button(type="submit") Send message
       aside.aside

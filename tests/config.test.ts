@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { loadConfig } from '../src/config'
+import { ConfigError, loadConfig } from '../src/config'
 
 const valid = {
   NODE_ENV: 'test',
@@ -55,5 +55,22 @@ describe('loadConfig', () => {
   test('defaults to the sandbox provider outside production', () => {
     const { IMAGES_PROVIDER, ...rest } = valid
     expect(loadConfig(rest).providers.images).toBe('sandbox')
+  })
+})
+
+describe('the public origin', () => {
+  test('defaults to localhost on the configured port', () => {
+    const config = loadConfig({ ...valid, PORT: '4100', PUBLIC_URL: undefined })
+    expect(config.publicUrl).toBe('http://localhost:4100')
+  })
+
+  test('keeps the origin and drops any path, so a canonical URL cannot double up', () => {
+    expect(loadConfig({ ...valid, PUBLIC_URL: 'https://marchmont.house/site/' }).publicUrl).toBe('https://marchmont.house')
+  })
+
+  test('rejects a value that is not an absolute http or https URL', () => {
+    for (const PUBLIC_URL of ['marchmont.house', 'ftp://marchmont.house', '/portfolio']) {
+      expect(() => loadConfig({ ...valid, PUBLIC_URL })).toThrow(ConfigError)
+    }
   })
 })

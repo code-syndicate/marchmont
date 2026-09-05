@@ -598,6 +598,26 @@ main { flex: 1 0 auto; }
 
 .note { font-size: var(--step--1); color: var(--text-faint); font-family: var(--font-body); line-height: 1.65; }
 
+.field-invalid input, .field-invalid textarea, .field-invalid select { border-color: var(--danger); }
+
+.field-error {
+  font-size: var(--step--1);
+  font-family: var(--font-ui);
+  color: var(--danger);
+}
+
+.form-error {
+  border-left: 3px solid var(--danger);
+  background: var(--surface-2);
+  padding: calc(var(--u) * 3) calc(var(--u) * 4);
+  font-family: var(--font-ui);
+  font-size: var(--step--1);
+  color: var(--text);
+}
+
+.page-narrow { max-width: 72ch; }
+.page-narrow .button-row { margin-top: calc(var(--u) * 8); }
+
 /* ---------- policy ---------- */
 
 .policy {

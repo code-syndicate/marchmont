@@ -35,6 +35,7 @@ export async function applySchema(db: Db): Promise<void> {
   await ensureCollection(db, 'properties')
   await ensureCollection(db, 'offers')
   await ensureCollection(db, 'users')
+  await ensureCollection(db, 'enquiries')
 
   await db.collection('audit').createIndex({ at: -1 })
   await db.collection('audit').createIndex({ subject: 1, at: -1 })
@@ -48,4 +49,6 @@ export async function applySchema(db: Db): Promise<void> {
 
   await db.collection('users').createIndex({ email: 1 }, { unique: true })
   await db.collection('users').createIndex({ accountStatus: 1, createdAt: -1 })
+
+  await db.collection('enquiries').createIndex({ receivedAt: -1 })
 }
