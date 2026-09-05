@@ -22,6 +22,7 @@ export type Registrant = {
   readonly market?: string
   readonly requirement?: string
   readonly offer?: string
+  readonly phone?: string
   readonly passwordHash?: string
   readonly emailVerifiedAt?: Date
   readonly twoFactor?: TwoFactor
@@ -50,6 +51,10 @@ export type UserRepository = {
   disableTwoFactor(id: string): Promise<void>
   decide(id: string, status: Exclude<AccountStatus, 'pending'>, decision: Decision): Promise<Registrant | null>
   awaitingReview(limit?: number): Promise<Registrant[]>
+  all(options?: { status?: AccountStatus; search?: string; limit?: number }): Promise<Registrant[]>
+  setPhone(id: string, phone: string | null): Promise<void>
+  /** Puts an account back in the queue, which is an audited staff act. */
+  reopen(id: string): Promise<Registrant | null>
   countByStatus(): Promise<Record<AccountStatus, number>>
 }
 
@@ -154,6 +159,33 @@ export function createUserRepository(db: Db): UserRepository {
         .limit(limit)
         .toArray()
       return docs.map(toRegistrant)
+    },
+
+    async all(options = {}) {
+      const filter: Record<string, unknown> = {}
+      if (options.status) filter.accountStatus = options.status
+      if (options.search) {
+        const safe = options.search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+        filter.$or = [{ email: { $regex: safe, $options: 'i' } }, { name: { $regex: safe, $options: 'i' } }]
+      }
+      const docs = await collection.find(filter).sort({ createdAt: -1 }).limit(options.limit ?? 200).toArray()
+      return docs.map(toRegistrant)
+    },
+
+    async setPhone(id, phone) {
+      await collection.updateOne(
+        { _id: id },
+        phone ? { $set: { phone } } : ({ $unset: { phone: '' } } as never),
+      )
+    },
+
+    async reopen(id) {
+      const result = await collection.findOneAndUpdate(
+        { _id: id },
+        { $set: { accountStatus: 'pending' }, $unset: { decidedAt: '', decidedBy: '', declineReason: '' } } as never,
+        { returnDocument: 'after' },
+      )
+      return result ? toRegistrant(result) : null
     },
 
     async countByStatus() {

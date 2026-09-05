@@ -60,9 +60,43 @@ block content
 
       aside.aside
         h2 Arrange a viewing
-        p Floor plans, survey findings and title documents for this building are released to registered clients. Registrations are reviewed within two working days.
-        a.button(href=`/register?offer=${listing.slug}`) Register an interest
-        a.button.button-quiet(href="/contact") Ask a question
+        if account
+          if account.accountStatus === "declined"
+            p Floor plans, survey findings and title documents are released to registered clients.
+            a.button.button-quiet(href="/contact") Contact the office
+          else
+            form.stack(method="post" action=`/portfolio/${listing.slug}/enquire`)
+              input(type="hidden" name="_csrf" value=csrfToken)
+              .field
+                label(for="message") Ask about this building
+                textarea#message(name="message" rows="4" required placeholder="What would you like to know?")
+              .button-row
+                button.button(type="submit") Send enquiry
+            details.filters-more
+              summary Request a viewing
+              form.stack(method="post" action=`/portfolio/${listing.slug}/viewing`)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                p.note Offer up to three times that suit you. A member of staff confirms one or offers alternatives.
+                .field
+                  label(for="time1") First choice
+                  input#time1(name="time1" type="datetime-local" required)
+                .field
+                  label(for="time2") Second choice
+                  input#time2(name="time2" type="datetime-local")
+                .field
+                  label(for="time3") Third choice
+                  input#time3(name="time3" type="datetime-local")
+                .field
+                  label(for="note") Anything we should know
+                  input#note(name="note" maxlength="500")
+                .button-row
+                  button.button.button-quiet(type="submit") Request a viewing
+            p.note
+              a(href="/account/enquiries") Your enquiries
+        else
+          p Floor plans, survey findings and title documents for this building are released to registered clients. Registrations are reviewed within two working days.
+          a.button(href=`/register?offer=${listing.slug}`) Register an interest
+          a.button.button-quiet(href="/signin") Sign in
         p.note No payment is requested before an application has been approved in writing.
 
   section.band-tight.band-rule.page

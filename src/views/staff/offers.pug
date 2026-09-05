@@ -1,0 +1,37 @@
+extends shell
+
+block content
+  .admin-page
+    .admin-head
+      div
+        h1 Offers
+        p.admin-lede Every offer, whatever its status.
+      a.button(href="/staff/offers/new") New offer
+
+    nav.admin-filters(aria-label="Filter by status")
+      a(href="/staff/offers" aria-current=(activeStatus === null ? "page" : false)) All
+      each status in statuses
+        if counts[status]
+          a(href=`/staff/offers?status=${status}` aria-current=(activeStatus === status ? "page" : false))= `${statusLabel[status]} (${counts[status]})`
+
+    if rows.length
+      table.admin-table
+        thead
+          tr
+            th(scope="col") Offer
+            th(scope="col") Building
+            th(scope="col") Type
+            th(scope="col") Headline
+            th(scope="col") Status
+        tbody
+          each row in rows
+            tr
+              td
+                a(href=`/staff/offers/${row.id}`)= row.slug
+              td= row.property ? row.property.name : "unattached"
+              td= row.type
+              td= row.headlineText
+              td
+                span.pill(class=`pill-${row.status}`)= row.statusLabel
+    else
+      p.admin-empty No offers with that status.

@@ -1,0 +1,49 @@
+extends shell
+
+block content
+  .admin-page
+    h1= thread.subject
+    p.admin-lede
+      = thread.offerName
+      if person
+        |  · #{person.name}
+
+    if contact
+      .admin-contact
+        h2 Contact
+        if contact.released
+          p= contact.email
+          if contact.phone
+            p= contact.phone
+        else
+          p= contact.email
+          if contact.phone
+            p= contact.phone
+          p.note Held back until both sides have written. Reply here and the full details are released to you and to them.
+
+    ol.thread
+      each message in thread.messages
+        li.thread-message(class=message.from === "staff" ? "is-staff" : false)
+          p.thread-who
+            = message.authorName
+            |  ·
+            = message.sentAt.toISOString().slice(0, 16).replace("T", " ")
+          p.thread-body= message.body
+
+    if thread.closedAt
+      p.admin-empty This thread is closed.
+      form(method="post" action=`/staff/enquiries/${thread.id}/close`)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        input(type="hidden" name="action" value="reopen")
+        button.button.button-quiet(type="submit") Reopen
+    else
+      form.admin-form(method="post" action=`/staff/enquiries/${thread.id}/reply`)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        .field
+          label(for="message") Reply
+          textarea#message(name="message" rows="6" required)
+        .button-row
+          button.button(type="submit") Send reply
+      form(method="post" action=`/staff/enquiries/${thread.id}/close`)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        button.link-button(type="submit") Close this thread

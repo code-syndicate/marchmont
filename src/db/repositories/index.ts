@@ -7,6 +7,8 @@ import { createOfferRepository, type OfferRepository } from './offers'
 import { createPropertyRepository, type PropertyRepository } from './properties'
 import { createSessionRepository, type SessionRepository } from './sessions'
 import { createStaffRepository, type StaffRepository } from './staff'
+import { createThreadRepository, type ThreadRepository } from './threads'
+import { createViewingRepository, type ViewingRepository } from './viewings'
 import { createUserRepository, type UserRepository } from './users'
 
 export type Repositories = {
@@ -18,6 +20,8 @@ export type Repositories = {
   readonly properties: PropertyRepository
   readonly sessions: SessionRepository
   readonly staff: StaffRepository
+  readonly threads: ThreadRepository
+  readonly viewings: ViewingRepository
   readonly users: UserRepository
 }
 
@@ -31,6 +35,8 @@ export function createRepositories(db: Db): Repositories {
     properties: createPropertyRepository(db),
     sessions: createSessionRepository(db),
     staff: createStaffRepository(db),
+    threads: createThreadRepository(db),
+    viewings: createViewingRepository(db),
     users: createUserRepository(db),
   }
 }

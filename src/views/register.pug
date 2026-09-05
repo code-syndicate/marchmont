@@ -25,6 +25,13 @@ block content
           input#email(name="email" type="email" autocomplete="email" value=values.email required aria-describedby=errors.email ? "email-error" : false aria-invalid=errors.email ? "true" : false)
           if errors.email
             p.field-error#email-error= errors.email
+        .field(class=errors.phone ? "field-invalid" : false)
+          label(for="phone") Telephone, optional
+          input#phone(name="phone" type="tel" autocomplete="tel" value=values.phone aria-describedby=errors.phone ? "phone-error" : "phone-hint" aria-invalid=errors.phone ? "true" : false)
+          if errors.phone
+            p.field-error#phone-error= errors.phone
+          else
+            p.field-hint#phone-hint Only released to us once we have replied to an enquiry you started.
         .field(class=errors.password ? "field-invalid" : false)
           label(for="password") Choose a password
           input#password(name="password" type="password" autocomplete="new-password" required aria-describedby=errors.password ? "password-error" : "password-hint" aria-invalid=errors.password ? "true" : false)

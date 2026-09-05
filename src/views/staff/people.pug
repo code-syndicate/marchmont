@@ -1,0 +1,40 @@
+extends shell
+
+block content
+  .admin-page
+    h1 People
+    p.admin-lede #{counts.pending} awaiting review, #{counts.approved} approved, #{counts.declined} not taken forward.
+
+    form.admin-search(method="get" action="/staff/people")
+      .field
+        label(for="q") Search by name or address
+        input#q(name="q" type="search" value=search)
+      button.button(type="submit") Search
+
+    nav.admin-filters(aria-label="Filter by status")
+      a(href="/staff/people" aria-current=(activeStatus === null ? "page" : false)) All
+      a(href="/staff/people?status=pending" aria-current=(activeStatus === "pending" ? "page" : false)) Pending
+      a(href="/staff/people?status=approved" aria-current=(activeStatus === "approved" ? "page" : false)) Approved
+      a(href="/staff/people?status=declined" aria-current=(activeStatus === "declined" ? "page" : false)) Declined
+
+    if people.length
+      table.admin-table
+        thead
+          tr
+            th(scope="col") Name
+            th(scope="col") Address
+            th(scope="col") Looking for
+            th(scope="col") Status
+            th(scope="col") Registered
+        tbody
+          each person in people
+            tr
+              td
+                a(href=`/staff/people/${person.id}`)= person.name
+              td= person.email
+              td= person.intent
+              td
+                span.pill(class=`pill-${person.accountStatus}`)= person.accountStatus
+              td= person.createdAt.toISOString().slice(0, 10)
+    else
+      p.admin-empty Nobody matches that.

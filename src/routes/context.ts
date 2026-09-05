@@ -5,6 +5,8 @@ import type { ImageProvider } from '../providers/images'
 import type { MapProvider } from '../providers/maps'
 import type { Portfolio } from '../services/portfolio'
 import type { Accounts } from '../services/accounts'
+import type { Enquiries } from '../services/enquiries'
+import type { Authoring } from '../services/authoring'
 
 /** Everything a route group needs, assembled once in createApp. */
 export type Context = {
@@ -14,6 +16,8 @@ export type Context = {
   readonly images: ImageProvider
   readonly maps: MapProvider
   readonly accounts: Accounts
+  readonly enquiries: Enquiries
+  readonly authoring: Authoring
   /** True when the request carries a CSRF token matching its own cookie. */
   tokenAccepted(req: Request): boolean
   /** False when this caller has spent its allowance for this path. */

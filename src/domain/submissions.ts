@@ -7,6 +7,7 @@ export type Registration = {
   readonly market?: string
   readonly requirement?: string
   readonly offer?: string
+  readonly phone?: string
 }
 
 export type Enquiry = {
@@ -73,6 +74,12 @@ export function validateRegistration(input: Submitted): Result<Registration> {
 
   const offer = text(input.offer)
 
+  // Optional. Kept loose on purpose: there is no single correct shape across
+  // the markets in scope, and rejecting a valid number is worse than storing
+  // one we cannot dial.
+  const phone = text(input.phone).slice(0, 40)
+  if (phone && !/^[+()\d\s.-]{6,40}$/.test(phone)) errors.phone = 'Enter a telephone number we can reach you on.'
+
   if (Object.keys(errors).length > 0) return { ok: false, errors }
   return {
     ok: true,
@@ -83,6 +90,7 @@ export function validateRegistration(input: Submitted): Result<Registration> {
       ...(rawMarket ? { market: rawMarket } : {}),
       ...(requirement ? { requirement } : {}),
       ...(offer ? { offer } : {}),
+      ...(phone ? { phone } : {}),
     },
   }
 }

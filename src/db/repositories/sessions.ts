@@ -35,6 +35,7 @@ export type SessionRepository = {
   markTwoFactor(id: string): Promise<void>
   close(id: string): Promise<void>
   closeAllFor(principal: Principal, subjectId: string): Promise<number>
+  listFor(principal: Principal, subjectId: string): Promise<Session[]>
 }
 
 function toSession(doc: SessionDoc): Session {
@@ -82,6 +83,11 @@ export function createSessionRepository(db: Db): SessionRepository {
 
     async close(id) {
       await collection.deleteOne({ _id: id })
+    },
+
+    async listFor(principal, subjectId) {
+      const docs = await collection.find({ principal, subjectId, expiresAt: { $gt: new Date() } }).sort({ lastSeenAt: -1 }).toArray()
+      return docs.map(toSession)
     },
 
     async closeAllFor(principal, subjectId) {

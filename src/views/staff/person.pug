@@ -1,0 +1,96 @@
+extends shell
+
+block content
+  .admin-page
+    h1= person.name
+    p.admin-lede
+      = person.email
+      if person.phone
+        |  · #{person.phone}
+
+    .admin-tiles
+      .admin-tile
+        span.admin-tile-n= person.accountStatus
+        span.admin-tile-l Account status
+      .admin-tile
+        span.admin-tile-n= person.emailVerifiedAt ? "yes" : "no"
+        span.admin-tile-l Address confirmed
+      .admin-tile
+        span.admin-tile-n= person.twoFactor ? "on" : "off"
+        span.admin-tile-l Two step sign in
+      .admin-tile
+        span.admin-tile-n= sessions.length
+        span.admin-tile-l Live sessions
+
+    section.admin-section
+      h2 Decision
+      if person.accountStatus === "pending"
+        .admin-actions
+          form(method="post" action=`/staff/people/${person.id}/decide`)
+            input(type="hidden" name="_csrf" value=csrfToken)
+            input(type="hidden" name="decision" value="approve")
+            button.button(type="submit") Approve
+          form.admin-inline(method="post" action=`/staff/people/${person.id}/decide`)
+            input(type="hidden" name="_csrf" value=csrfToken)
+            input(type="hidden" name="decision" value="decline")
+            .field
+              label(for="reason") Reason, sent to the registrant
+              input#reason(name="reason" maxlength="500")
+            button.button.button-quiet(type="submit") Decline
+      else
+        p Decided #{person.decidedAt ? person.decidedAt.toISOString().slice(0, 10) : ""} by #{person.decidedBy}.
+        if person.declineReason
+          p Reason given: #{person.declineReason}
+        form(method="post" action=`/staff/people/${person.id}/reopen`)
+          input(type="hidden" name="_csrf" value=csrfToken)
+          button.button.button-quiet(type="submit") Put back in the queue
+
+    section.admin-section
+      h2 Access
+      .admin-actions
+        form(method="post" action=`/staff/people/${person.id}/sessions/revoke`)
+          input(type="hidden" name="_csrf" value=csrfToken)
+          button.button.button-quiet(type="submit") Sign out everywhere
+        if person.twoFactor
+          form(method="post" action=`/staff/people/${person.id}/two-factor/reset`)
+            input(type="hidden" name="_csrf" value=csrfToken)
+            button.button.button-quiet(type="submit") Reset two step sign in
+      p.note Resetting two step sign in also ends every session, so it cannot be used to keep a session someone else opened.
+
+    section.admin-section
+      h2 Enquiries
+      if threads.length
+        ul.admin-rows
+          each thread in threads
+            li.admin-row
+              a.admin-row-main(href=`/staff/enquiries/${thread.id}`)
+                strong= thread.subject
+                span.admin-row-meta #{thread.offerName} · #{thread.messageCount} messages
+              span.admin-row-side= thread.lastMessageAt.toISOString().slice(0, 10)
+      else
+        p.admin-empty None.
+
+    section.admin-section
+      h2 Viewings
+      if viewings.length
+        ul.admin-rows
+          each viewing in viewings
+            li.admin-row
+              .admin-row-main
+                strong= viewing.offerName
+                span.admin-row-meta= viewingLabel[viewing.status]
+              span.admin-row-side= viewing.requestedAt.toISOString().slice(0, 10)
+      else
+        p.admin-empty None.
+
+    section.admin-section
+      h2 Trail
+      if trail.length
+        ul.admin-trail
+          each entry in trail
+            li
+              code= entry.action
+              span= entry.actor
+              span= entry.at.toISOString().slice(0, 16).replace("T", " ")
+      else
+        p.admin-empty Nothing recorded.

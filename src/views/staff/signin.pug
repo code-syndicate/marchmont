@@ -1,9 +1,9 @@
-extends ../layout
+extends shell
 include ../partials/formerror
 include ../partials/field
 
 block content
-  section.band.page.page-narrow
+  .admin-page.admin-narrow
     p.eyebrow Back office
     h1 Staff sign in
     form.stack(method="post" action="/staff/signin" novalidate)

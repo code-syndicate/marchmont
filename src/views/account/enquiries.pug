@@ -1,0 +1,56 @@
+extends ../layout
+
+block content
+  section.band-tight.page
+    p.eyebrow Your account
+    h1 Your enquiries
+    p.lede Questions you have asked about a building, and viewings you have requested.
+
+  section.page
+    h2 Enquiries
+    if threads.length
+      ul.rows
+        each thread in threads
+          li.row
+            a.row-main(href=`/account/enquiries/${thread.id}`)
+              strong= thread.subject
+              span.row-meta
+                = thread.offerName
+                |  · #{thread.messageCount} messages
+                if thread.lastMessageFrom === "staff"
+                  |  · replied
+                if thread.closedAt
+                  |  · closed
+            span.row-side= thread.lastMessageAt.toISOString().slice(0, 10)
+    else
+      .empty
+        h3 No enquiries yet
+        p Ask a question from any property page and it will appear here.
+        a.button(href="/portfolio") View available properties
+
+  section.band-tight.page
+    h2 Viewings
+    if viewings.length
+      ul.rows
+        each viewing in viewings
+          li.row
+            .row-main
+              strong= viewing.offerName
+              span.row-meta= viewingLabel[viewing.status]
+              if viewing.confirmedTime
+                span.row-meta Confirmed for #{viewing.confirmedTime.toLocaleString("en-GB", { timeZone: viewing.timeZone, dateStyle: "full", timeStyle: "short" })} (#{viewing.timeZone})
+              else if viewing.proposedTimes.length
+                span.row-meta
+                  | You offered
+                  each time, index in viewing.proposedTimes
+                    |  #{index ? "," : ""} #{time.toLocaleString("en-GB", { timeZone: viewing.timeZone, dateStyle: "medium", timeStyle: "short" })}
+              if viewing.staffNote
+                span.row-meta= viewing.staffNote
+            if viewing.status === "requested" || viewing.status === "proposed" || viewing.status === "confirmed"
+              form(method="post" action=`/account/viewings/${viewing.id}/withdraw`)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                button.link-button(type="submit") Withdraw
+    else
+      .empty
+        h3 No viewings requested
+        p Request one from a property page once you have an account.

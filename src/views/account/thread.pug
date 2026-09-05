@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  section.band-tight.page.page-narrow
+    p.eyebrow= thread.offerName
+    h1= thread.subject
+
+  section.page.page-narrow
+    ol.thread
+      each message in thread.messages
+        li.thread-message(class=message.from === "staff" ? "is-staff" : false)
+          p.thread-who
+            = message.from === "staff" ? "Marchmont" : message.authorName
+            |  ·
+            = message.sentAt.toISOString().slice(0, 16).replace("T", " ")
+          p.thread-body= message.body
+
+    if canReply
+      form.stack(method="post" action=`/account/enquiries/${thread.id}/reply`)
+        input(type="hidden" name="_csrf" value=csrfToken)
+        .field
+          label(for="message") Your reply
+          textarea#message(name="message" rows="5" required)
+        .button-row
+          button.button(type="submit") Send
+    else if thread.closedAt
+      p.note This enquiry has been closed. Ask a new question from the property page if you need to.
+
+    p.note
+      a(href="/account/enquiries") Back to your enquiries

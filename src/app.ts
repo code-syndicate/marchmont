@@ -10,10 +10,14 @@ import { createRateLimiter } from './security/rate-limit'
 import { SESSION_LIFETIME_MS } from './services/accounts'
 import { createPortfolio } from './services/portfolio'
 import { createAccounts } from './services/accounts'
+import { createEnquiries } from './services/enquiries'
+import { createAuthoring } from './services/authoring'
 import { createLogMailProvider, createSandboxMailProvider, type MailProvider } from './providers/mail'
 import { accountRoutes } from './routes/account'
 import { authRoutes, SESSION_COOKIE } from './routes/auth'
 import { staffRoutes } from './routes/staff'
+import { adminRoutes } from './routes/admin'
+import { enquiryRoutes } from './routes/enquiries'
 import type { Context } from './routes/context'
 import { crawlerRoutes } from './routes/crawlers'
 import { formRoutes } from './routes/forms'
@@ -57,6 +61,8 @@ export function createApp(deps: AppDeps): express.Express {
   const assets = createAssetHasher(config)
   const portfolio = createPortfolio(database.repositories, images, maps)
   const accounts = createAccounts({ repositories: database.repositories, mail, publicUrl: config.publicUrl })
+  const enquiries = createEnquiries({ repositories: database.repositories, mail, publicUrl: config.publicUrl })
+  const authoring = createAuthoring({ repositories: database.repositories })
   const app = express()
 
   const secure = config.publicUrl.startsWith('https:')
@@ -88,6 +94,8 @@ export function createApp(deps: AppDeps): express.Express {
     images,
     maps,
     accounts,
+    enquiries,
+    authoring,
     absolute,
     sessionCookie(res, sessionId) {
       res.cookie(SESSION_COOKIE, sessionId, {
@@ -194,6 +202,8 @@ export function createApp(deps: AppDeps): express.Express {
   app.use(authRoutes(context))
   app.use(accountRoutes(context))
   app.use(staffRoutes(context))
+  app.use(adminRoutes(context))
+  app.use(enquiryRoutes(context))
   app.use(pageRoutes(context))
   app.use(portfolioRoutes(context))
   app.use(formRoutes(context))

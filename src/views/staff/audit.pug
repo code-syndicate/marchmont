@@ -1,0 +1,32 @@
+extends shell
+
+block content
+  .admin-page
+    h1 Audit trail
+    p.admin-lede Append only. Nothing here can be edited or removed.
+
+    form.admin-search(method="get" action="/staff/audit")
+      .field
+        label(for="subject") Filter by subject
+        input#subject(name="subject" value=subject placeholder="user:… offer:… thread:…")
+      button.button(type="submit") Filter
+
+    if entries.length
+      table.admin-table
+        thead
+          tr
+            th(scope="col") When
+            th(scope="col") Actor
+            th(scope="col") Action
+            th(scope="col") Subject
+        tbody
+          each entry in entries
+            tr
+              td= entry.at.toISOString().slice(0, 19).replace("T", " ")
+              td= entry.actor
+              td
+                code= entry.action
+              td
+                a(href=`/staff/audit?subject=${encodeURIComponent(entry.subject)}`)= entry.subject
+    else
+      p.admin-empty Nothing recorded for that subject.

@@ -1,0 +1,29 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    title= title ? `${title} | Marchmont back office` : "Marchmont back office"
+    meta(name="robots" content="noindex, nofollow")
+    link(rel="icon" href="/favicon.svg" type="image/svg+xml")
+    link(rel="stylesheet" href=cssHref)
+  body.admin
+    a.skip(href="#main") Skip to content
+    if staff
+      header.admin-bar
+        .admin-bar-inner
+          a.admin-mark(href="/staff") Marchmont
+          nav.admin-nav(aria-label="Back office")
+            a(href="/staff" aria-current=(nav === "dashboard" ? "page" : false)) Dashboard
+            a(href="/staff/offers" aria-current=(nav === "offers" ? "page" : false)) Offers
+            a(href="/staff/properties" aria-current=(nav === "properties" ? "page" : false)) Buildings
+            a(href="/staff/people" aria-current=(nav === "people" ? "page" : false)) People
+            a(href="/staff/enquiries" aria-current=(nav === "enquiries" ? "page" : false)) Enquiries
+            a(href="/staff/viewings" aria-current=(nav === "viewings" ? "page" : false)) Viewings
+            a(href="/staff/audit" aria-current=(nav === "audit" ? "page" : false)) Audit
+            a(href="/staff/team" aria-current=(nav === "team" ? "page" : false)) Staff
+          form.admin-out(method="post" action="/staff/signout")
+            input(type="hidden" name="_csrf" value=csrfToken)
+            button.link-button(type="submit") Sign out
+    main#main.admin-main
+      block content

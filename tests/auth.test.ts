@@ -403,13 +403,13 @@ describe('the back office', () => {
     const user = (await database.repositories.users.byEmail(email))!
 
     const { client, member } = await staffClient()
-    const queue = await client.get('/staff/registrations')
+    const queue = await client.get('/staff/people?status=pending')
     expect(queue.status).toBe(200)
     expect(queue.body).toContain(email)
 
     mail.clear()
-    const decided = await client.post(`/staff/registrations/${user.id}/decide`, { decision: 'approve', _csrf: queue.token })
-    expect(decided.location).toBe('/staff/registrations')
+    const decided = await client.post(`/staff/people/${user.id}/decide`, { decision: 'approve', _csrf: queue.token })
+    expect(decided.location).toBe(`/staff/people/${user.id}`)
 
     expect((await database.repositories.users.byId(user.id))!.accountStatus).toBe('approved')
     expect(mail.lastTo(email)!.template).toBe('registration_approved')
@@ -424,9 +424,9 @@ describe('the back office', () => {
     const user = (await database.repositories.users.byEmail(email))!
 
     const { client } = await staffClient()
-    const queue = await client.get('/staff/registrations')
+    const queue = await client.get('/staff/people?status=pending')
     mail.clear()
-    await client.post(`/staff/registrations/${user.id}/decide`, {
+    await client.post(`/staff/people/${user.id}/decide`, {
       decision: 'decline', reason: 'Outside the markets we hold stock in.', _csrf: queue.token,
     })
 
@@ -442,7 +442,7 @@ describe('the back office', () => {
     const user = (await database.repositories.users.byEmail(email))!
 
     const { client } = await staffClient()
-    await client.post(`/staff/registrations/${user.id}/decide`, { decision: 'approve' })
+    await client.post(`/staff/people/${user.id}/decide`, { decision: 'approve' })
     expect((await database.repositories.users.byId(user.id))!.accountStatus).toBe('pending')
   })
 })

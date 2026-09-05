@@ -1,0 +1,100 @@
+extends shell
+
+block content
+  .admin-page
+    h1= property ? property.name : "New building"
+    if errors.form
+      .form-error(role="alert")
+        p= errors.form
+    if blocked
+      .form-error(role="alert")
+        p This building still carries #{blocked} offers. Withdraw them before deleting it.
+
+    form.admin-form(method="post" action=property ? `/staff/properties/${property.id}` : "/staff/properties")
+      input(type="hidden" name="_csrf" value=csrfToken)
+      .admin-grid
+        .field
+          label(for="slug") Slug
+          input#slug(name="slug" required value=property ? property.slug : "")
+        .field
+          label(for="name") Name
+          input#name(name="name" required value=property ? property.name : "")
+        .field
+          label(for="buildingType") Building type
+          select#buildingType(name="buildingType")
+            each option in [{ v: "house", l: "House" }, { v: "office", l: "Office" }, { v: "mixed", l: "Mixed use" }]
+              option(value=option.v selected=property && property.buildingType === option.v)= option.l
+        .field
+          label(for="formatted") Full address
+          input#formatted(name="formatted" value=property ? property.address.formatted : "")
+        .field
+          label(for="locality") City
+          input#locality(name="locality" required value=property ? property.address.locality : "")
+        .field
+          label(for="region") District
+          input#region(name="region" value=property && property.address.region ? property.address.region : "")
+        .field
+          label(for="countryCode") Country code
+          input#countryCode(name="countryCode" maxlength="2" value=property ? property.address.countryCode : "")
+        .field
+          label(for="timeZone") Time zone
+          input#timeZone(name="timeZone" value=property && property.timeZone ? property.timeZone : "" placeholder="Europe/Lisbon")
+        .field
+          label(for="longitude") Longitude
+          input#longitude(name="longitude" value=property ? property.coordinates[0] : "")
+        .field
+          label(for="latitude") Latitude
+          input#latitude(name="latitude" value=property ? property.coordinates[1] : "")
+        .field
+          label(for="areaM2") Area, whole square metres
+          input#areaM2(name="areaM2" type="number" min="1" value=property ? property.areaM2 : "")
+        .field
+          label(for="floors") Floors
+          input#floors(name="floors" type="number" min="1" value=property ? property.floors : "")
+        .field
+          label(for="yearBuilt") Year built
+          input#yearBuilt(name="yearBuilt" type="number" value=property ? property.yearBuilt : "")
+        .field
+          label(for="bedrooms") Bedrooms
+          input#bedrooms(name="bedrooms" type="number" min="0" value=property && property.bedrooms ? property.bedrooms : "")
+        .field
+          label(for="bathrooms") Bathrooms
+          input#bathrooms(name="bathrooms" type="number" min="0" value=property && property.bathrooms ? property.bathrooms : "")
+        .field
+          label(for="energyRating") Energy rating
+          input#energyRating(name="energyRating" maxlength="4" value=property && property.energyRating ? property.energyRating : "")
+
+      .field
+        label(for="summary") Summary
+        textarea#summary(name="summary" rows="2")= property ? property.summary : ""
+      .field
+        label(for="description") Description, one paragraph per line
+        textarea#description(name="description" rows="6")= property ? property.description.join("\n") : ""
+      .field
+        label(for="features") Features, one per line
+        textarea#features(name="features" rows="6")= property ? property.features.join("\n") : ""
+      .field
+        label(for="images") Photographs, one per line as id|alt text
+        textarea#images(name="images" rows="6")= property ? property.imageLines : ""
+
+      .button-row
+        button.button(type="submit")= property ? "Save building" : "Create building"
+        a.button.button-quiet(href="/staff/properties") Back to buildings
+
+    if property
+      section.admin-section
+        h2 Delete
+        p Deleting is refused while any offer still points at this building.
+        form(method="post" action=`/staff/properties/${property.id}/delete`)
+          input(type="hidden" name="_csrf" value=csrfToken)
+          button.button.button-quiet(type="submit") Delete this building
+
+      if trail && trail.length
+        section.admin-section
+          h2 Trail
+          ul.admin-trail
+            each entry in trail
+              li
+                code= entry.action
+                span= entry.actor
+                span= entry.at.toISOString().slice(0, 16).replace("T", " ")

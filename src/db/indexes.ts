@@ -40,6 +40,8 @@ export async function applySchema(db: Db): Promise<void> {
   await ensureCollection(db, 'credentials')
   await ensureCollection(db, 'staff')
   await ensureCollection(db, 'authAttempts')
+  await ensureCollection(db, 'threads')
+  await ensureCollection(db, 'viewings')
 
   await db.collection('audit').createIndex({ at: -1 })
   await db.collection('audit').createIndex({ subject: 1, at: -1 })
@@ -79,4 +81,11 @@ export async function applySchema(db: Db): Promise<void> {
   await db.collection('staff').createIndex({ email: 1 }, { unique: true })
 
   await db.collection('authAttempts').createIndex({ expiresAt: 1 }, { expireAfterSeconds: 0 })
+
+  await db.collection('threads').createIndex({ registrantId: 1, lastMessageAt: -1 })
+  await db.collection('threads').createIndex({ offerSlug: 1, lastMessageAt: -1 })
+  await db.collection('threads').createIndex({ closedAt: 1, lastMessageAt: -1 })
+
+  await db.collection('viewings').createIndex({ registrantId: 1, requestedAt: -1 })
+  await db.collection('viewings').createIndex({ status: 1, requestedAt: -1 })
 }

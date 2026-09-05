@@ -1,0 +1,42 @@
+extends shell
+
+block content
+  .admin-page
+    h1 Viewings
+    p.admin-lede #{counts.requested} requested, #{counts.proposed} awaiting the registrant, #{counts.confirmed} confirmed.
+
+    if viewings.length
+      ul.admin-rows
+        each viewing in viewings
+          li.admin-row.admin-row-block
+            .admin-row-main
+              strong= viewing.offerName
+              span.admin-row-meta
+                if viewing.person
+                  = viewing.person.name
+                  |  ·
+                = viewingLabel[viewing.status]
+                |  · times shown in #{viewing.timeZone}
+              if viewing.note
+                span.admin-row-meta= viewing.note
+              ul.times
+                each time in viewing.proposedTimes
+                  li= time.toLocaleString("en-GB", { timeZone: viewing.timeZone, dateStyle: "medium", timeStyle: "short" })
+              if viewing.confirmedTime
+                p.admin-confirmed Confirmed for #{viewing.confirmedTime.toLocaleString("en-GB", { timeZone: viewing.timeZone, dateStyle: "full", timeStyle: "short" })}
+            if viewing.status === "requested" || viewing.status === "proposed"
+              form.admin-inline(method="post" action=`/staff/viewings/${viewing.id}/decide`)
+                input(type="hidden" name="_csrf" value=csrfToken)
+                .field
+                  label(for=`confirm-${viewing.id}`) Confirm a time
+                  select(id=`confirm-${viewing.id}` name="confirmedTime")
+                    each time in viewing.proposedTimes
+                      option(value=time.toISOString())= time.toLocaleString("en-GB", { timeZone: viewing.timeZone, dateStyle: "medium", timeStyle: "short" })
+                .field
+                  label(for=`note-${viewing.id}`) Note to the registrant
+                  input(id=`note-${viewing.id}` name="staffNote" maxlength="500")
+                .admin-actions
+                  button.button(type="submit" name="decision" value="confirmed") Confirm
+                  button.button.button-quiet(type="submit" name="decision" value="declined") Decline
+    else
+      p.admin-empty No viewing requests.

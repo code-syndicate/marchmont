@@ -1,0 +1,48 @@
+extends shell
+
+block content
+  .admin-page
+    h1 Enquiries
+    p.admin-lede
+      if response.medianHours === null
+        | No replies measured yet.
+      else
+        | Median first reply #{response.medianHours} hours. #{response.awaiting} awaiting a first reply.
+
+    nav.admin-filters(aria-label="Filter")
+      a(href="/staff/enquiries" aria-current=(showClosed ? false : "page")) Open
+      a(href="/staff/enquiries?closed=1" aria-current=(showClosed ? "page" : false)) All
+
+    if threads.length
+      ul.admin-rows
+        each thread in threads
+          li.admin-row
+            a.admin-row-main(href=`/staff/enquiries/${thread.id}`)
+              strong= thread.subject
+              span.admin-row-meta
+                = thread.offerName
+                if thread.person
+                  |  · #{thread.person.name}
+                if thread.contact
+                  |  · #{thread.contact.email}
+                  unless thread.contact.released
+                    |  (held until you reply)
+              span.admin-row-meta #{thread.messageCount} messages · last from #{thread.lastMessageFrom}
+            span.admin-row-side= thread.lastMessageAt.toISOString().slice(0, 16).replace("T", " ")
+    else
+      p.admin-empty No threads.
+
+    section.admin-section
+      h2 Contact form
+      p.admin-lede Sent by people who are not signed in. There is no thread to reply into; write to the address given.
+      if formEnquiries.length
+        ul.admin-rows
+          each entry in formEnquiries
+            li.admin-row
+              .admin-row-main
+                strong= entry.name
+                span.admin-row-meta= entry.email
+                span.admin-row-meta= entry.message
+              span.admin-row-side= entry.receivedAt.toISOString().slice(0, 16).replace("T", " ")
+      else
+        p.admin-empty Nothing yet.

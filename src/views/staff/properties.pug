@@ -1,0 +1,30 @@
+extends shell
+
+block content
+  .admin-page
+    .admin-head
+      div
+        h1 Buildings
+        p.admin-lede Every building Marchmont holds.
+      a.button(href="/staff/properties/new") New building
+
+    if properties.length
+      table.admin-table
+        thead
+          tr
+            th(scope="col") Building
+            th(scope="col") City
+            th(scope="col") Type
+            th(scope="col") Built
+            th(scope="col") Offers
+        tbody
+          each property in properties
+            tr
+              td
+                a(href=`/staff/properties/${property.id}`)= property.name
+              td #{property.address.locality}, #{property.address.countryCode}
+              td= property.buildingType
+              td= property.yearBuilt
+              td= property.offerCount
+    else
+      p.admin-empty No buildings yet.

@@ -1,4 +1,4 @@
-import type { Db } from 'mongodb'
+import { ObjectId, type Db } from 'mongodb'
 
 export type EnquiryRecord = {
   readonly id: string
@@ -9,7 +9,13 @@ export type EnquiryRecord = {
   readonly offer?: string
 }
 
-type EnquiryDoc = Omit<EnquiryRecord, 'id'> & { _id: string }
+/**
+ * seq exists only to order ties. The _id is a UUID, which carries no time, so
+ * two enquiries arriving in the same millisecond would otherwise come back in
+ * whatever order the driver felt like. ObjectId embeds a timestamp and a
+ * counter, so it breaks the tie in insertion order.
+ */
+type EnquiryDoc = Omit<EnquiryRecord, 'id'> & { _id: string; seq: ObjectId }
 
 export type NewEnquiry = Omit<EnquiryRecord, 'id' | 'receivedAt'>
 
@@ -24,13 +30,13 @@ export function createEnquiryRepository(db: Db): EnquiryRepository {
   return {
     async record(input) {
       const id = crypto.randomUUID()
-      await collection.insertOne({ _id: id, ...input, receivedAt: new Date() })
+      await collection.insertOne({ _id: id, ...input, receivedAt: new Date(), seq: new ObjectId() })
       return id
     },
 
     async recent(limit = 100) {
-      const docs = await collection.find({}).sort({ receivedAt: -1, _id: -1 }).limit(limit).toArray()
-      return docs.map(({ _id, ...rest }) => ({ ...rest, id: _id }))
+      const docs = await collection.find({}).sort({ receivedAt: -1, seq: -1 }).limit(limit).toArray()
+      return docs.map(({ _id, seq, ...rest }) => ({ ...rest, id: _id }))
     },
   }
 }

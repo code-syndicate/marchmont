@@ -1,0 +1,99 @@
+extends shell
+include ../partials/field
+
+block content
+  .admin-page
+    h1= offer ? offer.slug : "New offer"
+    if errors.form
+      .form-error(role="alert")
+        p= errors.form
+
+    if offer
+      section.admin-section
+        h2 Status
+        p Currently #{statusLabel[offer.status]}.
+        if moves.length
+          form.admin-inline(method="post" action=`/staff/offers/${offer.id}/status`)
+            input(type="hidden" name="_csrf" value=csrfToken)
+            .field
+              label(for="status") Move to
+              select#status(name="status")
+                each move in moves
+                  option(value=move)= statusLabel[move]
+            .field
+              label(for="reason") Reason, recorded in the trail
+              input#reason(name="reason" type="text" maxlength="300")
+            button.button(type="submit") Move
+        else
+          p.admin-empty This status is terminal. A building that comes back is a new offer with its own trail.
+
+    form.admin-form(method="post" action=offer ? `/staff/offers/${offer.id}` : "/staff/offers")
+      input(type="hidden" name="_csrf" value=csrfToken)
+      .admin-grid
+        .field
+          label(for="slug") Slug
+          input#slug(name="slug" required value=offer ? offer.slug : "")
+        .field
+          label(for="propertyId") Building
+          select#propertyId(name="propertyId" required)
+            each property in properties
+              option(value=property.id selected=offer && offer.propertyId === property.id)= `${property.name}, ${property.address.locality}`
+        .field
+          label(for="type") Tenure type
+          select#type(name="type")
+            each option in [{ v: "sale", l: "For sale" }, { v: "long_lease", l: "Long lease" }, { v: "corporate_let", l: "Corporate let" }]
+              option(value=option.v selected=offer && offer.type === option.v)= option.l
+        .field
+          label(for="scope") Scope
+          select#scope(name="scope")
+            each option in [{ v: "whole", l: "Whole building" }, { v: "floor", l: "By the floor" }, { v: "unit", l: "Single unit" }]
+              option(value=option.v selected=offer && offer.scope === option.v)= option.l
+        .field
+          label(for="scopeLabel") Scope label
+          input#scopeLabel(name="scopeLabel" value=offer ? offer.scopeLabel : "" placeholder="Third floor")
+        .field
+          label(for="currency") Currency
+          input#currency(name="currency" required maxlength="3" value=offer ? offer.currency : "" placeholder="GBP")
+        .field
+          label(for="headline") Headline figure
+          input#headline(name="headline" required inputmode="decimal" value=offer ? offer.headlineMajor : "" placeholder="16400")
+        .field
+          label(for="tenure") Tenure
+          select#tenure(name="tenure")
+            option(value="") Not applicable
+            each option in ["freehold", "leasehold", "commonhold"]
+              option(value=option selected=offer && offer.tenure === option)= option
+        .field
+          label(for="furnished") Furnishing
+          select#furnished(name="furnished")
+            option(value="") Not applicable
+            each option in ["furnished", "part furnished", "unfurnished"]
+              option(value=option selected=offer && offer.furnished === option)= option
+        .field
+          label(for="minTermMonths") Minimum term, months
+          input#minTermMonths(name="minTermMonths" type="number" min="1" value=offer && offer.minTermMonths ? offer.minTermMonths : "")
+        .field
+          label(for="maxTermMonths") Maximum term, months
+          input#maxTermMonths(name="maxTermMonths" type="number" min="1" value=offer && offer.maxTermMonths ? offer.maxTermMonths : "")
+        .field
+          label(for="availableFrom") Available from
+          input#availableFrom(name="availableFrom" type="date" value=offer && offer.availableFrom ? offer.availableFrom : "")
+        .field
+          label(for="chainStatus") Chain
+          input#chainStatus(name="chainStatus" value=offer && offer.chainStatus ? offer.chainStatus : "")
+        .field
+          label(for="servicedLevel") Serviced
+          input#servicedLevel(name="servicedLevel" value=offer && offer.servicedLevel ? offer.servicedLevel : "")
+      .button-row
+        button.button(type="submit")= offer ? "Save offer" : "Create offer"
+        a.button.button-quiet(href="/staff/offers") Back to offers
+
+    if offer && trail && trail.length
+      section.admin-section
+        h2 Trail
+        ul.admin-trail
+          each entry in trail
+            li
+              code= entry.action
+              span= entry.actor
+              span= entry.at.toISOString().slice(0, 16).replace("T", " ")

@@ -17,7 +17,7 @@ export function staffRoutes(ctx: Context): Router {
 
   router.get('/staff/signin', (_req, res) => {
     noStore(res)
-    if (res.locals.staff) return res.redirect(303, '/staff/registrations')
+    if (res.locals.staff) return res.redirect(303, '/staff')
     res.render('staff/signin', { nav: '', title: 'Staff sign in', description: 'Sign in to the Marchmont back office.', values: {}, layout: 'staff' })
   })
 
@@ -62,56 +62,24 @@ export function staffRoutes(ctx: Context): Router {
       await database.repositories.audit.append({ actor: `staff:${member.id}`, action: 'staff.signin.succeeded', subject: `staff:${member.id}` })
 
       sessionCookie(res, session.id)
-      res.redirect(303, '/staff/registrations')
+      res.redirect(303, '/staff')
     } catch (error) {
       next(error)
     }
   })
 
-  router.get('/staff/registrations', onlyStaff, async (_req, res, next) => {
-    try {
-      const [queue, counts] = await Promise.all([
-        database.repositories.users.awaitingReview(),
-        database.repositories.users.countByStatus(),
-      ])
-      res.render('staff/registrations', {
-        nav: '',
-        title: 'Registrations',
-        description: 'Registrations awaiting review.',
-        queue,
-        counts,
-        staff: res.locals.staff,
-      })
-    } catch (error) {
-      next(error)
-    }
+  // Folded into the back office. Kept so an old bookmark still lands somewhere.
+  router.get('/staff/registrations', onlyStaff, (_req, res) => {
+    res.redirect(301, '/staff/people?status=pending')
   })
 
-  router.post('/staff/registrations/:id/decide', onlyStaff, async (req, res, next) => {
-    try {
-      if (!ctx.tokenAccepted(req)) return res.redirect(303, '/staff/registrations')
-
-      const body = (req.body ?? {}) as Record<string, unknown>
-      const decision = body.decision === 'approve' ? 'approved' : body.decision === 'decline' ? 'declined' : null
-      if (!decision) return res.redirect(303, '/staff/registrations')
-
-      const reason = typeof body.reason === 'string' ? body.reason.trim().slice(0, 500) : ''
-      await accounts.decide({
-        userId: String(req.params.id),
-        status: decision,
-        staffId: res.locals.staff.id,
-        ...(decision === 'declined' && reason ? { reason } : {}),
-      })
-
-      res.redirect(303, '/staff/registrations')
-    } catch (error) {
-      next(error)
-    }
+  router.post('/staff/registrations/:id/decide', onlyStaff, (_req, res) => {
+    res.redirect(303, '/staff/people')
   })
 
   router.post('/staff/signout', async (req, res, next) => {
     try {
-      if (!ctx.tokenAccepted(req)) return res.redirect(303, '/staff/registrations')
+      if (!ctx.tokenAccepted(req)) return res.redirect(303, '/staff')
       if (res.locals.session?.principal === 'staff') await accounts.signOut(res.locals.session.id)
       res.clearCookie(SESSION_COOKIE, { path: '/' })
       res.redirect(303, '/staff/signin')

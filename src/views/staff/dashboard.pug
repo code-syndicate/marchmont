@@ -1,0 +1,60 @@
+extends shell
+
+block content
+  .admin-page
+    h1 Back office
+    p.admin-lede Signed in as #{staff.name}.
+
+    .admin-tiles
+      a.admin-tile(href="/staff/people?status=pending")
+        span.admin-tile-n= registrations.pending
+        span.admin-tile-l Registrations awaiting review
+      a.admin-tile(href="/staff/enquiries")
+        span.admin-tile-n= response.awaiting
+        span.admin-tile-l Enquiries awaiting a first reply
+      a.admin-tile(href="/staff/viewings")
+        span.admin-tile-n= viewingCounts.requested + viewingCounts.proposed
+        span.admin-tile-l Viewings to settle
+      a.admin-tile(href="/staff/offers?status=live")
+        span.admin-tile-n= offerCounts.live
+        span.admin-tile-l Offers live
+      a.admin-tile(href="/staff/offers?status=draft")
+        span.admin-tile-n= offerCounts.draft
+        span.admin-tile-l Offers in draft
+      .admin-tile
+        span.admin-tile-n
+          if response.medianHours === null
+            | n/a
+          else
+            | #{response.medianHours}h
+        span.admin-tile-l Median first reply
+
+    if response.oldestWaitingHours !== null && response.oldestWaitingHours > 48
+      p.admin-warn The oldest unanswered enquiry has been waiting #{response.oldestWaitingHours} hours.
+
+    section.admin-section
+      h2 Open enquiries
+      if threads.length
+        ul.admin-rows
+          each thread in threads
+            li.admin-row
+              a.admin-row-main(href=`/staff/enquiries/${thread.id}`)
+                strong= thread.subject
+                span.admin-row-meta #{thread.offerName} · #{thread.messageCount} messages · last from #{thread.lastMessageFrom}
+              span.admin-row-side= thread.lastMessageAt.toISOString().slice(0, 16).replace("T", " ")
+      else
+        p.admin-empty No open enquiry threads.
+
+    section.admin-section
+      h2 Contact form
+      if enquiryForms.length
+        ul.admin-rows
+          each entry in enquiryForms
+            li.admin-row
+              .admin-row-main
+                strong= entry.name
+                span.admin-row-meta #{entry.email}
+                span.admin-row-meta= entry.message
+              span.admin-row-side= entry.receivedAt.toISOString().slice(0, 16).replace("T", " ")
+      else
+        p.admin-empty Nothing from the contact form yet.
