@@ -1,7 +1,7 @@
 # Working brief
 
 Product, domain and build order live in
-`docs/superpowers/specs/2026-09-02-marchmont-design.md`. This file is the part
+`docs/superpowers/specs/2026-09-02-nash-luxury-realty-design.md`. This file is the part
 that does not change between slices: how to work here, the engineering rules,
 the standards, and the traps already paid for.
 

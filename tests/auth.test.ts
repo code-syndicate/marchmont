@@ -13,7 +13,7 @@ let server: Server
 let origin: string
 let mail: SandboxMailProvider
 
-const PUBLIC_URL = 'https://marchmont.test'
+const PUBLIC_URL = 'https://nashluxuryrealty.test'
 const PASSWORD = 'a-long-enough-passphrase'
 
 beforeAll(async () => {
@@ -22,7 +22,7 @@ beforeAll(async () => {
   mail = createSandboxMailProvider()
   const config = loadConfig({
     NODE_ENV: 'test', PORT: '3000',
-    MONGO_URL: 'mongodb://127.0.0.1:27017', MONGO_DB: 'marchmont_test',
+    MONGO_URL: 'mongodb://127.0.0.1:27017', MONGO_DB: 'nashluxuryrealty_test',
     SESSION_SECRET: 'x'.repeat(32), PUBLIC_URL,
     IMAGES_PROVIDER: 'sandbox', MAPS_PROVIDER: 'sandbox', MAIL_PROVIDER: 'sandbox',
   })
@@ -363,7 +363,7 @@ describe('two step sign in through the site', () => {
 
 describe('the back office', () => {
   async function staffClient() {
-    const email = `staff${Date.now()}${Math.random()}@marchmont.house`
+    const email = `staff${Date.now()}${Math.random()}@nashluxuryrealty.com`
     const member = await database.repositories.staff.add({
       name: 'Reviewer',
       email,

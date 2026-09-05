@@ -3,14 +3,14 @@ html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1")
-    title= title ? `${title} | Marchmont` : "Marchmont"
+    title= title ? `${title} | Nash Luxury Realty` : "Nash Luxury Realty"
     if description
       meta(name="description" content=description)
     if canonical
       link(rel="canonical" href=canonical)
-    meta(property="og:site_name" content="Marchmont")
+    meta(property="og:site_name" content="Nash Luxury Realty")
     meta(property="og:type" content="website")
-    meta(property="og:title" content=title ? `${title} | Marchmont` : "Marchmont")
+    meta(property="og:title" content=title ? `${title} | Nash Luxury Realty` : "Nash Luxury Realty")
     if description
       meta(property="og:description" content=description)
     if canonical
@@ -19,6 +19,7 @@ html(lang="en")
       meta(property="og:image" content=ogImage)
     meta(name="twitter:card" content="summary_large_image")
     link(rel="icon" href="/favicon.svg" type="image/svg+xml")
+    link(rel="apple-touch-icon" href="/apple-touch-icon.png")
     link(rel="preload" href="/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin)
     link(rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin)
     link(rel="stylesheet" href=cssHref)

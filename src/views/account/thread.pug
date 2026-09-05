@@ -10,7 +10,7 @@ block content
       each message in thread.messages
         li.thread-message(class=message.from === "staff" ? "is-staff" : false)
           p.thread-who
-            = message.from === "staff" ? "Marchmont" : message.authorName
+            = message.from === "staff" ? "Nash Luxury Realty" : message.authorName
             |  ·
             = message.sentAt.toISOString().slice(0, 16).replace("T", " ")
           p.thread-body= message.body

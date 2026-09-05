@@ -1,17 +1,18 @@
-# Marchmont
+# Nash Luxury Realty
 
 A private property house. Houses and offices, for sale, on long lease, or on a
 corporate mid-term let.
 
-- Spec: `docs/superpowers/specs/2026-09-02-marchmont-design.md`
+- Spec: `docs/superpowers/specs/2026-09-02-nash-luxury-realty-design.md`
 - Working rules and standards: `BRIEF.md`
-- Brand: `docs/brand/marchmont-identity.md`
+- Brand: `docs/brand/nash-luxury-realty-identity.md`
+- Logo and brand assets: `public/brand/`
 
 ## Run it
 
 ```bash
 cp .env.example .env
-docker run -d --name marchmont-mongo -p 27017:27017 mongo:8
+docker run -d --name nash-mongo -p 27017:27017 mongo:8
 bun install
 bun run seed
 bun run dev

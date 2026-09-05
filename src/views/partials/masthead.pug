@@ -1,7 +1,13 @@
 header.masthead
   .page
     .masthead-inner
-      a.wordmark(href="/") Marchmont
+      a.wordmark(href="/")
+        svg.wordmark-logo(viewBox="16 12 32 43" role="img" aria-label="Nash Luxury Realty" focusable="false")
+          path(fill="currentColor" d="M16 12h6v34h-6zM42 12h6v34h-6zM16 12h8.24L48 46h-8.24z")
+          rect(x="16" y="52" width="32" height="3" fill="#872926")
+        span.wordmark-name
+          span.wordmark-nash Nash
+          span.wordmark-sub Luxury Realty
       nav.nav(aria-label="Primary")
         a(href="/portfolio" aria-current=(nav === "portfolio" ? "page" : false)) Properties
         a(href="/gallery" aria-current=(nav === "gallery" ? "page" : false)) Gallery

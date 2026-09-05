@@ -6,7 +6,7 @@ const letter: Letter = {
   template: 'verify_email',
   subject: 'Confirm your email address',
   lines: ['Confirm the address so we can reach you about the portfolio.'],
-  action: { label: 'Confirm this address', url: 'https://marchmont.house/verify?token=abc' },
+  action: { label: 'Confirm this address', url: 'https://nashluxuryrealty.com/verify?token=abc' },
 }
 
 describe('the sandbox provider', () => {
@@ -45,6 +45,6 @@ describe('the log provider', () => {
     const written = lines.join('\n')
     expect(written).toContain('aoife@example.com')
     expect(written).toContain('verify_email')
-    expect(written).toContain('https://marchmont.house/verify?token=abc')
+    expect(written).toContain('https://nashluxuryrealty.com/verify?token=abc')
   })
 })

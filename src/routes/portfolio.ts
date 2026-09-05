@@ -6,7 +6,7 @@ import { localeFor, type Context } from './context'
 const HEADING: Record<string, { heading: string; blurb: string }> = {
   all: {
     heading: 'Available properties',
-    blurb: 'Every property listed is owned by Marchmont and offered directly. Pricing, tenure, service charge and availability are published on each listing.',
+    blurb: 'Every property listed is owned by Nash Luxury Realty and offered directly. Pricing, tenure, service charge and availability are published on each listing.',
   },
   sale: {
     heading: 'For sale',
@@ -97,6 +97,8 @@ export function portfolioRoutes(ctx: Context): Router {
     try {
       const listing = await portfolio.detail(req.params.slug, localeFor(req), res.locals.viewer ?? ANONYMOUS)
       if (!listing) return next()
+      // A building shares as itself; everything else shares as the house.
+      if (listing.cover) res.locals.ogImage = ctx.absolute(listing.cover.src)
       res.render('offer', {
         nav: 'portfolio',
         title: `${listing.name}, ${listing.locality}`,

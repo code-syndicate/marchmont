@@ -1,18 +1,18 @@
-# Marchmont: design
+# Nash Luxury Realty: design
 
 Date: 2026-09-02
 Status: approved
 
 ## 1. What this is
 
-Marchmont is a single property company operating internationally. It holds its
+Nash Luxury Realty is a single property company operating internationally. It holds its
 own stock of houses and offices and offers each of them for sale, on long lease,
 or on a corporate mid-term let. The website is both the marketing channel that
 brings buyers and tenants in and the place the transaction is opened and paid.
 
 This is not a marketplace. There are no third-party agents or agencies, no
 agency verification queue, and no agent portal. The only people who publish
-listings are Marchmont staff.
+listings are Nash Luxury Realty staff.
 
 Money moves on the site, but only after a member of staff has approved the
 person paying. Nothing about the payment path is open to an unreviewed visitor.
@@ -32,7 +32,7 @@ mechanism that enforces it.
 
 ## 2. Brand
 
-**Marchmont.** A private property house. The posture is discreet rather than
+**Nash Luxury Realty.** A private property house. The posture is discreet rather than
 promotional: few properties, shown by appointment, registrations reviewed before
 viewing details are released.
 
@@ -282,7 +282,7 @@ next begins.
 
 ## 7. Compliance
 
-Marchmont gives no investment advice and makes no representation about property
+Nash Luxury Realty gives no investment advice and makes no representation about property
 value or yield. Estate-agency registration and anti-money-laundering checks
 apply in several of the markets in scope; the product notes this at its actual
 current stage and never claims a status it does not hold.

@@ -198,12 +198,31 @@ main { flex: 1 0 auto; }
 }
 
 .wordmark {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 3);
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.wordmark-logo { width: 20px; height: 27px; flex: none; }
+
+.wordmark-name { display: flex; flex-direction: column; line-height: 1; }
+
+.wordmark-nash {
   font-family: var(--font-display);
   font-size: var(--step-1);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text);
-  white-space: nowrap;
+}
+
+.wordmark-sub {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-top: 3px;
 }
 
 .wordmark:hover { text-decoration: none; color: var(--text); }
@@ -1601,7 +1620,19 @@ main { flex: 1 0 auto; }
   gap: calc(var(--u) * 6);
 }
 
-.admin-mark { font-family: var(--font-display); font-size: var(--step-1); color: var(--accent-on); text-decoration: none; }
+.admin-mark {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--u) * 2.5);
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-on);
+  text-decoration: none;
+}
+
+.admin-logo { width: 15px; height: 20px; flex: none; }
 .admin-nav { display: flex; flex-wrap: wrap; gap: calc(var(--u) * 5); flex: 1 1 auto; }
 
 .admin-nav a {

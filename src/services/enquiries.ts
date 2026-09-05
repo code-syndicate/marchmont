@@ -76,7 +76,7 @@ export function createEnquiries(deps: { repositories: Repositories; mail: MailPr
       if (from === 'staff') {
         await tellRegistrant(
           thread.registrantId,
-          `Marchmont has replied about ${thread.offerName}`,
+          `Nash Luxury Realty has replied about ${thread.offerName}`,
           ['There is a reply waiting on your enquiry.'],
           `/account/enquiries/${thread.id}`,
         )

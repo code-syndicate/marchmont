@@ -11,14 +11,14 @@ let server: Server
 let origin: string
 let slug: string
 
-const PUBLIC_URL = 'https://marchmont.test'
+const PUBLIC_URL = 'https://nashluxuryrealty.test'
 
 beforeAll(async () => {
   database = await withTestDb()
   await seed(database)
   const config = loadConfig({
     NODE_ENV: 'test', PORT: '3000',
-    MONGO_URL: 'mongodb://127.0.0.1:27017', MONGO_DB: 'marchmont_test',
+    MONGO_URL: 'mongodb://127.0.0.1:27017', MONGO_DB: 'nashluxuryrealty_test',
     SESSION_SECRET: 'x'.repeat(32),
     PUBLIC_URL,
     IMAGES_PROVIDER: 'sandbox', MAIL_PROVIDER: 'sandbox',

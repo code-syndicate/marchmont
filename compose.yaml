@@ -16,7 +16,7 @@ services:
       NODE_ENV: production
       PORT: "10000"
       MONGO_URL: mongodb://mongo:27017
-      MONGO_DB: marchmont
+      MONGO_DB: nashluxuryrealty
       SESSION_SECRET: ${SESSION_SECRET}
       IMAGES_PROVIDER: ${IMAGES_PROVIDER:-unsplash}
 

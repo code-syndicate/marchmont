@@ -9,7 +9,7 @@ await applySchema(database.db)
 
 const app = createApp({ config, database })
 const server = app.listen(config.port, () => {
-  console.log(`marchmont listening on ${config.port} in ${config.nodeEnv}`)
+  console.log(`nash-luxury-realty listening on ${config.port} in ${config.nodeEnv}`)
 })
 
 const shutdown = async (signal: string): Promise<void> => {

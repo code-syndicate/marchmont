@@ -80,8 +80,9 @@ describe('enrolment', () => {
     const uri = enrolmentUri('JBSWY3DPEHPK3PXP', 'aoife@example.com')
     expect(uri.startsWith('otpauth://totp/')).toBe(true)
     expect(uri).toContain('secret=JBSWY3DPEHPK3PXP')
-    expect(uri).toContain('issuer=Marchmont')
+    // The issuer has spaces now, so it arrives percent or plus encoded.
+    expect(uri).toContain('issuer=Nash+Luxury+Realty')
     expect(uri).toContain('digits=6')
-    expect(uri).toContain(encodeURIComponent('Marchmont:aoife@example.com'))
+    expect(uri).toContain(encodeURIComponent('Nash Luxury Realty:aoife@example.com'))
   })
 })

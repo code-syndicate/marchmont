@@ -5,7 +5,7 @@ const valid = {
   NODE_ENV: 'test',
   PORT: '3000',
   MONGO_URL: 'mongodb://127.0.0.1:27017',
-  MONGO_DB: 'marchmont_test',
+  MONGO_DB: 'nashluxuryrealty_test',
   SESSION_SECRET: 'x'.repeat(32),
   IMAGES_PROVIDER: 'sandbox',
 }
@@ -14,7 +14,7 @@ describe('loadConfig', () => {
   test('accepts a complete environment', () => {
     const config = loadConfig(valid)
     expect(config.port).toBe(3000)
-    expect(config.mongoDb).toBe('marchmont_test')
+    expect(config.mongoDb).toBe('nashluxuryrealty_test')
     expect(config.providers.images).toBe('sandbox')
   })
 
@@ -65,11 +65,11 @@ describe('the public origin', () => {
   })
 
   test('keeps the origin and drops any path, so a canonical URL cannot double up', () => {
-    expect(loadConfig({ ...valid, PUBLIC_URL: 'https://marchmont.house/site/' }).publicUrl).toBe('https://marchmont.house')
+    expect(loadConfig({ ...valid, PUBLIC_URL: 'https://nashluxuryrealty.com/site/' }).publicUrl).toBe('https://nashluxuryrealty.com')
   })
 
   test('rejects a value that is not an absolute http or https URL', () => {
-    for (const PUBLIC_URL of ['marchmont.house', 'ftp://marchmont.house', '/portfolio']) {
+    for (const PUBLIC_URL of ['nashluxuryrealty.com', 'ftp://nashluxuryrealty.com', '/portfolio']) {
       expect(() => loadConfig({ ...valid, PUBLIC_URL })).toThrow(ConfigError)
     }
   })

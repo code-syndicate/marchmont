@@ -36,10 +36,8 @@ const CSP_BASE = [
   "object-src 'none'",
 ]
 
-const BRAND_IMAGE = {
-  id: 'photo-1710547284002-255fc868e88b',
-  alt: 'Brick mill building with rows of tall factory windows',
-}
+/** Shared when a page has no photograph of its own to offer. */
+const BRAND_CARD = '/brand/og-default.png'
 
 export type AppDeps = {
   config: Config
@@ -139,7 +137,7 @@ export function createApp(deps: AppDeps): express.Express {
     res.locals.year = new Date().getFullYear()
     res.locals.nav = ''
     res.locals.canonical = new URL(req.path, config.publicUrl).toString()
-    res.locals.ogImage = absolute(images.render(BRAND_IMAGE, 'card', '800px').src)
+    res.locals.ogImage = absolute(BRAND_CARD)
     res.locals.csrfToken = csrfToken(req, res)
     res.locals.viewer = ANONYMOUS
     next()

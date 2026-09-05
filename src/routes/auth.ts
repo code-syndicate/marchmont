@@ -35,7 +35,7 @@ export function authRoutes(ctx: Context): Router {
     res.render('auth/signin', page({
       nav: 'signin',
       title: 'Sign in',
-      description: 'Sign in to your Marchmont account.',
+      description: 'Sign in to your Nash Luxury Realty account.',
       next: typeof req.query.next === 'string' && req.query.next.startsWith('/') ? req.query.next : '',
     }))
   })
@@ -45,7 +45,7 @@ export function authRoutes(ctx: Context): Router {
       noStore(res)
       const body = (req.body ?? {}) as Fields
       const values = { email: text(body, 'email') }
-      const data = { nav: 'signin', title: 'Sign in', description: 'Sign in to your Marchmont account.', values, next: text(body, 'next') }
+      const data = { nav: 'signin', title: 'Sign in', description: 'Sign in to your Nash Luxury Realty account.', values, next: text(body, 'next') }
       if (!(await guard(req, res, 'auth/signin', data))) return
 
       const result = await accounts.signIn({

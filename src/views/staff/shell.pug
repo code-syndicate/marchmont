@@ -3,16 +3,21 @@ html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1")
-    title= title ? `${title} | Marchmont back office` : "Marchmont back office"
+    title= title ? `${title} | Nash Luxury Realty back office` : "Nash Luxury Realty back office"
     meta(name="robots" content="noindex, nofollow")
     link(rel="icon" href="/favicon.svg" type="image/svg+xml")
+    link(rel="apple-touch-icon" href="/apple-touch-icon.png")
     link(rel="stylesheet" href=cssHref)
   body.admin
     a.skip(href="#main") Skip to content
     if staff
       header.admin-bar
         .admin-bar-inner
-          a.admin-mark(href="/staff") Marchmont
+          a.admin-mark(href="/staff")
+            svg.admin-logo(viewBox="16 12 32 43" role="img" aria-label="Nash Luxury Realty" focusable="false")
+              path(fill="currentColor" d="M16 12h6v34h-6zM42 12h6v34h-6zM16 12h8.24L48 46h-8.24z")
+              rect(x="16" y="52" width="32" height="3" fill="#872926")
+            span Nash
           nav.admin-nav(aria-label="Back office")
             a(href="/staff" aria-current=(nav === "dashboard" ? "page" : false)) Dashboard
             a(href="/staff/offers" aria-current=(nav === "offers" ? "page" : false)) Offers

@@ -1,14 +1,14 @@
-# Marchmont Slice 0 (Brand) + Slice 1 (Foundation) Implementation Plan
+# Nash Luxury Realty Slice 0 (Brand) + Slice 1 (Foundation) Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Establish the Marchmont brand as executable design tokens, and build the foundation every later slice sits on: fail-fast config, MongoDB with indexes, the money and area primitives, the append-only audit log, the guard tests that keep the architecture honest, and a Docker image verified to boot and serve.
+**Goal:** Establish the Nash Luxury Realty brand as executable design tokens, and build the foundation every later slice sits on: fail-fast config, MongoDB with indexes, the money and area primitives, the append-only audit log, the guard tests that keep the architecture honest, and a Docker image verified to boot and serve.
 
 **Architecture:** A pure `src/domain/` of plain-object logic with no server and no database import, wrapped by `src/db/repositories/` which is the only place the MongoDB driver appears, orchestrated by `src/services/`, exposed through thin Express 5 routes rendering Pug. Design tokens live in `public/app.css` as the single source of truth and are verified by a contrast test that reads the file. Architectural rules are enforced by tests that read the source, because MongoDB has no triggers to enforce them for us.
 
 **Tech Stack:** Bun 1.3.14, Express 5, Pug 3, Alpine.js CSP build 3.17, MongoDB driver 6.x, mongod 8, `bun:test`, plain CSS, Docker.
 
-**Spec:** `docs/superpowers/specs/2026-09-02-marchmont-design.md`
+**Spec:** `docs/superpowers/specs/2026-09-02-nash-luxury-realty-design.md`
 
 ## Global Constraints
 
@@ -46,7 +46,7 @@ Every task's requirements implicitly include all of the following. They are copi
 | `src/interval.ts` | Non-overlapping background job runner |
 | `src/server.ts` | Boot: config, database, app, intervals, graceful shutdown |
 | `public/app.css` | Design tokens and reset. Single source of truth for the palette |
-| `docs/brand/marchmont-identity.md` | Brand definition: posture, palette, type, voice |
+| `docs/brand/nash-luxury-realty-identity.md` | Brand definition: posture, palette, type, voice |
 | `tests/` | Mirrors `src/`, plus `tests/guards/` for the architectural tests |
 | `Dockerfile`, `compose.yaml` | Container and local MongoDB |
 | `scripts/seed.ts` | Rebuild a working demo at boot |
@@ -68,10 +68,10 @@ Every task's requirements implicitly include all of the following. They are copi
 `bun init` writes a `CLAUDE.md` that contradicts this stack. This repo already has one. Do not let `bun init` overwrite it.
 
 ```bash
-cd /home/timileyin/dev/personal/marchmont
-cp CLAUDE.md /tmp/marchmont-claude.md
+cd /home/timileyin/dev/personal/marchmont  # directory name unchanged
+cp CLAUDE.md /tmp/nash-claude.md
 bun init -y
-cp /tmp/marchmont-claude.md CLAUDE.md
+cp /tmp/nash-claude.md CLAUDE.md
 bun add express@5 pug @alpinejs/csp mongodb@6
 bun add -d @types/express @types/bun
 ```
@@ -82,7 +82,7 @@ bun add -d @types/express @types/bun
 
 ```json
 {
-  "name": "marchmont",
+  "name": "nash-luxury-realty",
   "type": "module",
   "private": true,
   "scripts": {
@@ -127,7 +127,7 @@ const valid = {
   NODE_ENV: 'test',
   PORT: '3000',
   MONGO_URL: 'mongodb://127.0.0.1:27017',
-  MONGO_DB: 'marchmont_test',
+  MONGO_DB: 'nashluxuryrealty_test',
   SESSION_SECRET: 'x'.repeat(32),
   PAYMENTS_PROVIDER: 'sandbox',
   GEOCODING_PROVIDER: 'sandbox',
@@ -138,7 +138,7 @@ describe('loadConfig', () => {
   test('accepts a complete environment', () => {
     const config = loadConfig(valid)
     expect(config.port).toBe(3000)
-    expect(config.mongoDb).toBe('marchmont_test')
+    expect(config.mongoDb).toBe('nashluxuryrealty_test')
     expect(config.providers.payments).toBe('sandbox')
   })
 
@@ -277,7 +277,7 @@ export function loadConfig(env: Record<string, string | undefined>): Config {
 NODE_ENV=development
 PORT=3000
 MONGO_URL=mongodb://127.0.0.1:27017
-MONGO_DB=marchmont
+MONGO_DB=nashluxuryrealty
 SESSION_SECRET=change-me-to-at-least-thirty-two-characters
 PAYMENTS_PROVIDER=sandbox
 GEOCODING_PROVIDER=sandbox
@@ -309,7 +309,7 @@ reliable way to stop a deterministic test double reaching real users."
 ### Task 2: Brand identity and design tokens
 
 **Files:**
-- Create: `docs/brand/marchmont-identity.md`, `public/app.css`
+- Create: `docs/brand/nash-luxury-realty-identity.md`, `public/app.css`
 - Create: `tests/brand/tokens.test.ts`
 
 **Interfaces:**
@@ -412,7 +412,7 @@ Expected: FAIL, `public/app.css` does not exist.
 Values are derived from the Ferrous & Oak reference in `docs/reference/ferrous-and-oak`, taken darker and moved from its rust accent (hue 18) to oxblood (hue 2). Every pair below has been checked against the test above.
 
 ```css
-/* Marchmont design tokens. Single source of truth for the palette.
+/* Nash Luxury Realty design tokens. Single source of truth for the palette.
    Verified by tests/brand/tokens.test.ts. */
 
 :root {
@@ -511,10 +511,10 @@ Expected: PASS. Fourteen contrast assertions plus three discipline assertions.
 
 - [ ] **Step 5: Write the identity document**
 
-`docs/brand/marchmont-identity.md`:
+`docs/brand/nash-luxury-realty-identity.md`:
 
 ```markdown
-# Marchmont: identity
+# Nash Luxury Realty: identity
 
 ## Posture
 
@@ -574,7 +574,7 @@ narrates itself.
 
 - [ ] **Step 6: Draw the mark**
 
-The wordmark is typographic: `MARCHMONT` set in Fraunces, letterspaced `0.18em`,
+The wordmark is typographic: `NASH LUXURY REALTY` set in Fraunces, letterspaced `0.18em`,
 in `--text` on `--ground`. There is no logotype beyond that, which suits a house
 that does not advertise. The only drawn element is the favicon.
 
@@ -582,7 +582,7 @@ that does not advertise. The only drawn element is the favicon.
 `--text` and `--accent`; if a token changes, this file changes with it.
 
 ```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Marchmont">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Nash Luxury Realty">
   <rect width="32" height="32" fill="#110f0e"/>
   <path d="M8 24V9l8 9 8-9v15" fill="none" stroke="#f0eeea" stroke-width="2.2" stroke-linecap="square"/>
   <rect x="6" y="27" width="20" height="1.4" fill="#93322e"/>
@@ -598,7 +598,7 @@ link(rel="icon" href="/favicon.svg" type="image/svg+xml")
 - [ ] **Step 7: Commit**
 
 ```bash
-git add public/app.css public/favicon.svg docs/brand/marchmont-identity.md tests/brand/tokens.test.ts
+git add public/app.css public/favicon.svg docs/brand/nash-luxury-realty-identity.md tests/brand/tokens.test.ts
 git commit -m "Define the palette as tokens a test can fail on
 
 Earlier work was rejected as subpar because every quality gate was structural
@@ -1145,7 +1145,7 @@ export async function withTestDb(): Promise<Database> {
     NODE_ENV: 'test',
     PORT: '3000',
     MONGO_URL: process.env.MONGO_URL ?? 'mongodb://127.0.0.1:27017',
-    MONGO_DB: `marchmont_test_${crypto.randomUUID().slice(0, 8)}`,
+    MONGO_DB: `nashluxuryrealty_test_${crypto.randomUUID().slice(0, 8)}`,
     SESSION_SECRET: 'x'.repeat(32),
     PAYMENTS_PROVIDER: 'sandbox',
     GEOCODING_PROVIDER: 'sandbox',
@@ -1223,7 +1223,7 @@ describe('applySchema', () => {
 Start a local MongoDB first if one is not already running:
 
 ```bash
-docker run -d --name marchmont-mongo -p 27017:27017 mongo:8
+docker run -d --name nash-mongo -p 27017:27017 mongo:8
 ```
 
 Run: `bun test tests/db/indexes.test.ts`
@@ -1805,7 +1805,7 @@ import { createAssetHasher } from '../src/asset-hash'
 const base = {
   PORT: '3000',
   MONGO_URL: 'mongodb://127.0.0.1:27017',
-  MONGO_DB: 'marchmont_test',
+  MONGO_DB: 'nashluxuryrealty_test',
   SESSION_SECRET: 'x'.repeat(32),
   PAYMENTS_PROVIDER: 'sandbox',
   GEOCODING_PROVIDER: 'sandbox',
@@ -1903,7 +1903,7 @@ beforeAll(async () => {
   database = await withTestDb()
   const config = loadConfig({
     NODE_ENV: 'test', PORT: '3000',
-    MONGO_URL: 'mongodb://127.0.0.1:27017', MONGO_DB: 'marchmont_test',
+    MONGO_URL: 'mongodb://127.0.0.1:27017', MONGO_DB: 'nashluxuryrealty_test',
     SESSION_SECRET: 'x'.repeat(32),
     PAYMENTS_PROVIDER: 'sandbox', GEOCODING_PROVIDER: 'sandbox', MAIL_PROVIDER: 'sandbox',
   })
@@ -1980,7 +1980,7 @@ html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport" content="width=device-width, initial-scale=1")
-    title= title ? `${title} | Marchmont` : "Marchmont"
+    title= title ? `${title} | Nash Luxury Realty` : "Nash Luxury Realty"
     link(rel="icon" href="/favicon.svg" type="image/svg+xml")
     link(rel="stylesheet" href=cssHref)
   body
@@ -1994,7 +1994,7 @@ html(lang="en")
 extends layout
 
 block content
-  h1 Marchmont
+  h1 Nash Luxury Realty
   p Service is running.
 ```
 
@@ -2277,7 +2277,7 @@ await applySchema(database.db)
 
 const app = createApp({ config, database })
 const server = app.listen(config.port, () => {
-  console.log(`marchmont listening on ${config.port} in ${config.nodeEnv}`)
+  console.log(`nash-luxury-realty listening on ${config.port} in ${config.nodeEnv}`)
 })
 
 const shutdown = async (signal: string): Promise<void> => {
@@ -2307,8 +2307,8 @@ COPY package.json ./
 COPY src ./src
 COPY public ./public
 COPY scripts ./scripts
-RUN useradd --uid 10001 --create-home marchmont && chown -R marchmont:marchmont /app
-USER marchmont
+RUN useradd --uid 10001 --create-home nash && chown -R nash:nash /app
+USER nash
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
   CMD bun --eval "const r = await fetch('http://127.0.0.1:3000/health'); process.exit(r.ok ? 0 : 1)"
@@ -2348,7 +2348,7 @@ services:
       NODE_ENV: production
       PORT: "3000"
       MONGO_URL: mongodb://mongo:27017
-      MONGO_DB: marchmont
+      MONGO_DB: nashluxuryrealty
       SESSION_SECRET: ${SESSION_SECRET}
       PAYMENTS_PROVIDER: ${PAYMENTS_PROVIDER}
       GEOCODING_PROVIDER: ${GEOCODING_PROVIDER}
@@ -2635,20 +2635,20 @@ Expected: PASS, 4 tests.
 `README.md`:
 
 ```markdown
-# Marchmont
+# Nash Luxury Realty
 
 A private property house. Houses and offices, for sale, on long lease, or on a
 corporate mid-term let.
 
-- Spec: `docs/superpowers/specs/2026-09-02-marchmont-design.md`
+- Spec: `docs/superpowers/specs/2026-09-02-nash-luxury-realty-design.md`
 - Working rules and standards: `BRIEF.md`
-- Brand: `docs/brand/marchmont-identity.md`
+- Brand: `docs/brand/nash-luxury-realty-identity.md`
 
 ## Run it
 
 ```bash
 cp .env.example .env
-docker run -d --name marchmont-mongo -p 27017:27017 mongo:8
+docker run -d --name nash-mongo -p 27017:27017 mongo:8
 bun install
 bun run seed
 bun run dev

@@ -94,7 +94,7 @@ export function verifyCode(secret: string, code: unknown, now: number = Date.now
 }
 
 /** The otpauth URI an authenticator app reads, usually from a QR code. */
-export function enrolmentUri(secret: string, account: string, issuer = 'Marchmont'): string {
+export function enrolmentUri(secret: string, account: string, issuer = 'Nash Luxury Realty'): string {
   const label = encodeURIComponent(`${issuer}:${account}`)
   const params = new URLSearchParams({ secret, issuer, algorithm: 'SHA1', digits: String(DIGITS), period: String(STEP_SECONDS) })
   return `otpauth://totp/${label}?${params.toString()}`

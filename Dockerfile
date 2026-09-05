@@ -16,8 +16,8 @@ COPY src ./src
 COPY public ./public
 COPY scripts ./scripts
 
-RUN useradd --uid 10001 --create-home marchmont && chown -R marchmont:marchmont /app
-USER marchmont
+RUN useradd --uid 10001 --create-home nash && chown -R nash:nash /app
+USER nash
 
 EXPOSE 10000
 

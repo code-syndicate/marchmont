@@ -18,7 +18,7 @@ export function staffRoutes(ctx: Context): Router {
   router.get('/staff/signin', (_req, res) => {
     noStore(res)
     if (res.locals.staff) return res.redirect(303, '/staff')
-    res.render('staff/signin', { nav: '', title: 'Staff sign in', description: 'Sign in to the Marchmont back office.', values: {}, layout: 'staff' })
+    res.render('staff/signin', { nav: '', title: 'Staff sign in', description: 'Sign in to the Nash Luxury Realty back office.', values: {}, layout: 'staff' })
   })
 
   router.post('/staff/signin', async (req, res, next) => {
@@ -27,7 +27,7 @@ export function staffRoutes(ctx: Context): Router {
       const body = (req.body ?? {}) as Record<string, unknown>
       const email = (typeof body.email === 'string' ? body.email : '').trim().toLowerCase()
       const password = typeof body.password === 'string' ? body.password : ''
-      const data = { nav: '', title: 'Staff sign in', description: 'Sign in to the Marchmont back office.', values: { email } }
+      const data = { nav: '', title: 'Staff sign in', description: 'Sign in to the Nash Luxury Realty back office.', values: { email } }
 
       if (!ctx.tokenAccepted(req) || !ctx.withinRate(req, 'staff-signin')) {
         return res.status(403).render('staff/signin', { ...data, formError: 'Please submit the form again.' })

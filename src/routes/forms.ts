@@ -19,7 +19,7 @@ export function formRoutes(ctx: Context): Router {
       nav: 'register',
       title: 'Register an interest',
       description:
-        'Register your requirement with Marchmont. Approval opens exact addresses, full terms, floor plans and supporting documentation.',
+        'Register your requirement with Nash Luxury Realty. Approval opens exact addresses, full terms, floor plans and supporting documentation.',
       offer: typeof req.query.offer === 'string' ? req.query.offer : null,
       hero: images.render(
         { id: 'photo-1692696746783-14e5e56a6387', alt: 'Empty mill interior with exposed brick and a timber ceiling structure' },
@@ -117,7 +117,7 @@ export function formRoutes(ctx: Context): Router {
     return {
       nav: 'contact',
       title: 'Contact',
-      description: 'Contact Marchmont about a specific building or a general requirement. Registrations are reviewed within two working days.',
+      description: 'Contact Nash Luxury Realty about a specific building or a general requirement. Registrations are reviewed within two working days.',
       hero: images.render(
         { id: 'photo-1727639707159-eb0c8c779996', alt: 'Warm brick stairwell lit by a tall window' },
         'hero',

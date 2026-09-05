@@ -11,7 +11,7 @@ export const MAXIMUM_LENGTH = 200
  */
 const REFUSED = new Set([
   'password', 'password1', 'password123', 'passw0rd', '123456789', '1234567890',
-  'qwertyuiop', 'letmein123', 'iloveyou123', 'administrator', 'marchmont123',
+  'qwertyuiop', 'letmein123', 'iloveyou123', 'administrator', 'nashluxury123',
   'welcome1234', 'changeme123', 'trustno1234',
 ])
 

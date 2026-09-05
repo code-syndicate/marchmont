@@ -1,11 +1,11 @@
-# Marchmont
+# Nash Luxury Realty
 
 A private property house operating internationally. Holds its own stock of
 houses and offices and offers each for sale, on long lease, or on a corporate
 mid-term let. The website is the marketing channel and the point of sale.
 
 **Read before working here:**
-- Spec: `docs/superpowers/specs/2026-09-02-marchmont-design.md`
+- Spec: `docs/superpowers/specs/2026-09-02-nash-luxury-realty-design.md`
 - Working rules, standards and traps: `BRIEF.md`
 
 ## Stack

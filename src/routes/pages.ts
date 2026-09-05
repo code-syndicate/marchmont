@@ -132,7 +132,7 @@ export function pageRoutes(ctx: Context): Router {
     res.render('about', {
       nav: 'about',
       title: 'The house',
-      description: 'Marchmont acquires, restores and holds industrial buildings, converting them into loft residences and creative office space in nine cities.',
+      description: 'Nash Luxury Realty acquires, restores and holds industrial buildings, converting them into loft residences and creative office space in nine cities.',
       hero: images.render(
         { id: 'photo-1710547284002-255fc868e88b', alt: 'Large brick mill building with rows of tall factory windows' },
         'hero',

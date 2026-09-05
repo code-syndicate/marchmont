@@ -8,7 +8,7 @@ import { createAssetHasher } from '../src/asset-hash'
 const base = {
   PORT: '3000',
   MONGO_URL: 'mongodb://127.0.0.1:27017',
-  MONGO_DB: 'marchmont_test',
+  MONGO_DB: 'nashluxuryrealty_test',
   SESSION_SECRET: 'x'.repeat(32),
   IMAGES_PROVIDER: 'sandbox',
 }

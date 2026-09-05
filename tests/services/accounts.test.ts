@@ -9,7 +9,7 @@ let database: Database
 let accounts: Accounts
 let mail: SandboxMailProvider
 
-const PUBLIC_URL = 'https://marchmont.test'
+const PUBLIC_URL = 'https://nashluxuryrealty.test'
 const PASSWORD = 'a-long-enough-passphrase'
 
 beforeAll(async () => {

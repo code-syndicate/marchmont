@@ -1,4 +1,4 @@
-# Marchmont: identity
+# Nash Luxury Realty: identity
 
 ## Posture
 
@@ -28,12 +28,37 @@ explains the intent behind it.
 The accent appears rarely enough that its appearance carries meaning. If a
 screen has two oxblood elements, one of them is wrong.
 
-## Wordmark
+## Mark and wordmark
 
-Typographic. `MARCHMONT` set in Fraunces, letterspaced `0.18em`, in `--text` on
-`--ground`. There is no logotype beyond that, which suits a house that does not
-advertise. The only drawn element is the favicon in `public/favicon.svg`, whose
-three colours are the hex equivalents of `--ground`, `--text` and `--accent`.
+The mark is an N read as an elevation: two piers and the span between them,
+monoline, square ended, no radius. The diagonal is drawn 8.24 units wide against
+6 unit piers, because a horizontal band on a slope carries less perpendicular
+weight than its width suggests; equal numbers would look wrong. An oxblood rule
+sits under it, the one place the accent appears in the identity.
+
+The wordmark is `NASH` in Fraunces at `0.18em`, with `LUXURY REALTY` beneath it
+in Inter at `0.26em` in `--text-faint`. The two-line lockup keeps the mark and
+the name close to square rather than running eighteen letterspaced characters
+across a masthead.
+
+Assets in `public/brand/`:
+
+| File | Use |
+|---|---|
+| `mark.svg` | Mark knocked out of a `--text` square. App icons, anywhere needing a container |
+| `mark-light.svg` | Mark alone, for light ground |
+| `mark-tight.svg` | Mark cropped to its ink, for placing against type |
+| `lockup.svg` | Mark and wordmark, dark on light |
+| `lockup-dark.svg` | Mark and wordmark, light on dark |
+| `og-default.png` | 1200x630 share card, used when a page has no photograph of its own |
+
+`public/favicon.svg` is `mark.svg`, and `public/apple-touch-icon.png` is it at
+180px. Colours throughout are the hex equivalents of `--ground`, `--text` and
+`--accent`: `#f7f5f2`, `#201b18`, `#872926`.
+
+A property page shares its own cover photograph; every other page shares the
+card. Photography is the product, so a building speaks for itself where there
+is one.
 
 ## Type
 

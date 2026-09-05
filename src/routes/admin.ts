@@ -224,7 +224,7 @@ export function adminRoutes(ctx: Context): Router {
       res.render('staff/properties', {
         nav: 'properties',
         title: 'Buildings',
-        description: 'Every building Marchmont holds.',
+        description: 'Every building Nash Luxury Realty holds.',
         properties: properties.map((property) => ({
           ...property,
           offerCount: all.filter((offer) => offer.propertyId === property.id).length,
@@ -327,7 +327,7 @@ export function adminRoutes(ctx: Context): Router {
       res.render('staff/people', {
         nav: 'people',
         title: 'People',
-        description: 'Everyone registered with Marchmont.',
+        description: 'Everyone registered with Nash Luxury Realty.',
         people: await repos.users.all({
           ...(status ? { status: status as 'pending' } : {}),
           ...(search ? { search } : {}),

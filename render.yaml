@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: marchmont
+    name: nash-luxury-realty
     runtime: docker
     plan: free
     region: frankfurt
@@ -27,7 +27,7 @@ services:
         sync: false
 
       - key: MONGO_DB
-        value: marchmont
+        value: nashluxuryrealty
 
       # At least 32 characters. Signs the CSRF tokens on the public forms.
       # Render generates one on first deploy.
