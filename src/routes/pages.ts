@@ -59,7 +59,7 @@ export function pageRoutes(ctx: Context): Router {
           title: 'Purchase',
           href: '/portfolio?type=sale',
           count: counts.sale,
-          blurb: 'Whole buildings and individual lofts, freehold and leasehold. Guide price, tenure, service charge and chain position are published on every listing.',
+          blurb: 'Houses, whole buildings and individual residences, freehold and leasehold. Guide price, tenure, service charge and chain position are published on every listing.',
           image: images.render(
             { id: 'photo-1774957108662-80d697d70844', alt: 'Tall brick warehouse facade with many windows against the sky' },
             'card',
@@ -83,7 +83,7 @@ export function pageRoutes(ctx: Context): Router {
           count: counts.corporate_let,
           blurb: 'Furnished and serviced accommodation from one to six months, for organisations relocating staff. Housekeeping and included utilities are itemised in the terms.',
           image: images.render(
-            { id: 'photo-1505873242700-f289a29e1e0f', alt: 'Loft interior with exposed brick, timber posts and an open living area' },
+            { id: 'villa-family-room', alt: 'Furnished family room with walnut panelled walls and low sofas' },
             'card',
             ROUTE_SIZES,
           ),
@@ -94,7 +94,7 @@ export function pageRoutes(ctx: Context): Router {
         nav: 'home',
         title: null,
         description:
-          'Loft residences and office floors in restored mills, warehouses and foundries. Offered directly for sale, on long lease, or on a corporate let.',
+          'Residences and office floors in converted industrial buildings, and new build houses. Offered directly for sale, on long lease, or on a corporate let.',
         hero: images.render(
           {
             id: 'photo-1773069459477-e9fe9d6eeb60',
@@ -154,7 +154,7 @@ export function pageRoutes(ctx: Context): Router {
     res.render('about', {
       nav: 'about',
       title: 'The house',
-      description: 'Nash Luxury Realty acquires, restores and holds industrial buildings, converting them into loft residences and office floors.',
+      description: 'Nash Luxury Realty converts industrial buildings into residences and office floors, and holds a number of new build houses.',
       hero: images.render(
         { id: 'photo-1710547284002-255fc868e88b', alt: 'Large brick mill building with rows of tall factory windows' },
         'hero',

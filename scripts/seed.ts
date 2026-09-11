@@ -43,37 +43,41 @@ const PROPERTIES: Seeded[] = [
   },
   {
     _id: 'prop-houthavens',
-    slug: 'houthavens-loft-9',
-    name: 'Houthavens Loft 9',
+    slug: 'casa-da-marinha',
+    name: 'Casa da Marinha',
     buildingType: 'house',
-    address: { formatted: 'Houthavenkade 9, 1014 Amsterdam', countryCode: 'NL', locality: 'Amsterdam' },
-    timeZone: 'Europe/Amsterdam',
-    location: { type: 'Point', coordinates: [4.8722, 52.3927] },
-    coordinates: [4.8722, 52.3927],
-    areaM2: '268.00',
+    address: { formatted: 'Rua da Quinta da Marinha 12, 2750-715 Cascais', countryCode: 'PT', locality: 'Cascais' },
+    timeZone: 'Europe/Lisbon',
+    location: { type: 'Point', coordinates: [-9.4575, 38.7055] },
+    coordinates: [-9.4575, 38.7055],
+    areaM2: '590.00',
     floors: 2,
-    yearBuilt: 1912,
-    bedrooms: 3,
-    bathrooms: 2,
-    energyRating: 'C',
-    summary: "A timber wharf shed of 1912 cut into six lofts. This is the end one, with windows on three sides.",
+    yearBuilt: 2023,
+    bedrooms: 5,
+    bathrooms: 5,
+    energyRating: 'A',
+    summary: "A house of 2023 in Quinta da Marinha, with a planted hall, a gym that opens onto the pool and a covered upper terrace.",
     description: [
-      "The Houthavens sheds took Baltic timber off the water until the 1980s. Six lofts were cut into this one in 2019 and this is the end unit, which is the only one glazed on three elevations.",
-      "The living floor runs the full depth under the original roof trusses. A mezzanine sits over the kitchen without touching the outer walls, which the consent required.",
+      "Completed in 2023 on a walled plot in Quinta da Marinha, between Cascais and the Guincho coast. The street side is travertine with a long band of glass at the upper floor, and the front door opens into a double height hall built around a planted garden.",
+      "The gym, the pool and the garden are on one level. Upstairs, five bedroom suites share a covered terrace facing the pines. Cascais station and the marina are ten minutes by car.",
     ],
     features: [
-      "Windows on three elevations",
-      "Original roof trusses exposed",
-      "Mezzanine over the kitchen",
-      "Six metre ceiling to the ridge",
-      "Mooring for one boat",
-      "Twelve minutes to Centraal by ferry",
+      "Double height entrance hall",
+      "Indoor planted garden",
+      "Gym opening onto the pool",
+      "Covered upper terrace",
+      "Travertine wet rooms",
+      "Ten minutes to Cascais by car",
     ],
     images: [
-      { id: 'photo-1710547284002-255fc868e88b', alt: "Brick warehouse with rows of tall factory windows", use: 'exterior' },
-      { id: 'photo-1773069459487-3d2d7bb4532e', alt: "Loft with exposed brick, timber posts and factory windows", use: 'residence' },
-      { id: 'photo-1706967413741-b8461ff8d370', alt: "Living room with tall factory windows and exposed structure", use: 'residence' },
-      { id: 'photo-1764726331208-71cb385ab08c', alt: "Late afternoon light across an empty loft floor", use: 'detail' },
+      { id: 'villa-side-elevation', alt: "Travertine and glass elevation with a first floor terrace", use: 'exterior' },
+      { id: 'villa-entrance-hall', alt: "Entrance hall with a floating stair and an indoor planted garden", use: 'residence' },
+      { id: 'villa-upper-terrace', alt: "Covered upper terrace with outdoor seating and a glass balustrade", use: 'residence' },
+      { id: 'villa-gym-pool', alt: "Gym opening onto the pool through full height glazing", use: 'detail' },
+      { id: 'villa-gym', alt: "Gym in oak and walnut along a glazed garden wall", use: 'detail' },
+      { id: 'villa-bath-oak', alt: "Bathroom with travertine walls, oak basin stands and a glass shower", use: 'detail' },
+      { id: 'villa-shower', alt: "Twin rain showers in a travertine wet room", use: 'detail' },
+      { id: 'villa-dressing-suite', alt: "Dressing room with open walnut shelving and a central island", use: 'detail' },
     ],
   },
   {
@@ -111,37 +115,42 @@ const PROPERTIES: Seeded[] = [
   },
   {
     _id: 'prop-tortona',
-    slug: 'via-tortona-officine-27',
-    name: 'Officine Tortona 27',
+    slug: 'villa-mirador',
+    name: 'Villa Mirador',
     buildingType: 'house',
-    address: { formatted: 'Via Tortona 27, 20144 Milan', countryCode: 'IT', locality: 'Milan' },
-    timeZone: 'Europe/Rome',
-    location: { type: 'Point', coordinates: [9.168, 45.452] },
-    coordinates: [9.168, 45.452],
-    areaM2: '340.00',
-    floors: 3,
-    yearBuilt: 1921,
-    bedrooms: 4,
-    bathrooms: 3,
-    energyRating: 'D',
-    summary: "A 1921 machine shop in Tortona, converted to a single residence over three floors.",
+    address: { formatted: 'Urbanización Sierra Blanca 14, 29602 Marbella', countryCode: 'ES', locality: 'Marbella' },
+    timeZone: 'Europe/Madrid',
+    location: { type: 'Point', coordinates: [-4.9195, 36.5215] },
+    coordinates: [-4.9195, 36.5215],
+    areaM2: '650.00',
+    floors: 2,
+    yearBuilt: 2022,
+    bedrooms: 5,
+    bathrooms: 6,
+    energyRating: 'A',
+    summary: "A villa of 2022 in Sierra Blanca, above the Golden Mile, with a covered pool terrace, a cinema and a three car garage.",
     description: [
-      "Built as a machine shop in 1921 and worked until 1987. The current owner converted it as one house rather than splitting it, which is now unusual on this stretch.",
-      "The ground floor is one room of a hundred and ten square metres under the original north light. Bedrooms sit above on two floors reached by the works stair.",
+      "Built in 2022 on a south facing plot in Sierra Blanca, one of the gated estates on the hill above the Golden Mile. The house is two floors of travertine and glass under deep white eaves, with the pool terrace on the garden side.",
+      "The living room, study and cinema are on the ground floor. Five bedroom suites are upstairs, and the principal suite opens onto its own covered terrace. The sea is in view from the upper floor.",
     ],
     features: [
-      "North light over the ground floor",
-      "Original works stair",
-      "Single dwelling, not subdivided",
-      "Courtyard with mature planting",
-      "Garage for two",
-      "Tortona and Navigli on foot",
+      "Covered terrace with outdoor kitchen",
+      "Twenty metre pool",
+      "Cinema room",
+      "Study with fitted shelving",
+      "Three car garage",
+      "Gated estate with a staffed entrance",
     ],
     images: [
-      { id: 'photo-1649982294301-21a0668505a4', alt: "Red brick industrial building with mature trees in front", use: 'exterior' },
-      { id: 'photo-1740446568848-bfb43e66bfd2', alt: "Loft with sleeping mezzanine and factory windows", use: 'serviced' },
-      { id: 'photo-1505873242700-f289a29e1e0f', alt: "Loft interior with exposed brick, timber posts and open living area", use: 'residence' },
-      { id: 'photo-1771530789155-b1f03fbf82b5', alt: "Empty floor with polished concrete and clerestory light", use: 'detail' },
+      { id: 'villa-pool-terrace', alt: "Covered terrace with an outdoor kitchen beside a long pool, the house beyond", use: 'exterior' },
+      { id: 'villa-library-room', alt: "Living room with a walnut shelving wall and floor to ceiling glass", use: 'serviced' },
+      { id: 'villa-bedroom-terrace', alt: "Bedroom with a seating area opening onto a covered terrace", use: 'residence' },
+      { id: 'villa-bedroom-garden', alt: "Bedroom with full height glazing onto the garden canopy", use: 'residence' },
+      { id: 'villa-study', alt: "Study with a curved oak desk and lit shelving, looking onto the garden", use: 'detail' },
+      { id: 'villa-cinema', alt: "Cinema room with a starlit ceiling and four lounge chairs", use: 'detail' },
+      { id: 'villa-bath-travertine', alt: "Travertine bathroom with a walk in shower and a floating vanity", use: 'detail' },
+      { id: 'villa-dressing-room', alt: "Dressing room in walnut with a glass topped island", use: 'detail' },
+      { id: 'villa-garage-court', alt: "Side court with three garages under a white roof slab", use: 'detail' },
     ],
   },
   {
@@ -277,36 +286,42 @@ const PROPERTIES: Seeded[] = [
   },
   {
     _id: 'prop-dumbo',
-    slug: 'water-street-mill-70',
-    name: '70 Water Street Mill',
+    slug: 'tigertail-house',
+    name: 'Tigertail House',
     buildingType: 'house',
-    address: { formatted: '70 Water Street, Brooklyn, NY 11201', countryCode: 'US', locality: 'New York' },
+    address: { formatted: '3640 Tigertail Avenue, Miami, FL 33133', countryCode: 'US', locality: 'Miami' },
     timeZone: 'America/New_York',
-    location: { type: 'Point', coordinates: [-73.9905, 40.7033] },
-    coordinates: [-73.9905, 40.7033],
-    areaM2: '295.00',
-    floors: 1,
-    yearBuilt: 1891,
-    bedrooms: 3,
-    bathrooms: 2,
-    summary: "A full floor loft in an 1891 paper mill in Dumbo, cast iron columns and river light.",
+    location: { type: 'Point', coordinates: [-80.2362, 25.7318] },
+    coordinates: [-80.2362, 25.7318],
+    areaM2: '780.00',
+    floors: 2,
+    yearBuilt: 2023,
+    bedrooms: 6,
+    bathrooms: 7,
+    summary: "A house of 2023 on a wooded lot in Coconut Grove, two floors under white roof slabs, ten minutes on foot from Biscayne Bay.",
     description: [
-      "The mill made paper board from 1891 until the 1970s and was among the first buildings on the block to convert. This is the fourth floor, held as one loft.",
-      "Windows run the length of the north and west walls, so the bridge and the water are in the room for most of the day. The cast iron column line is untouched.",
+      "Completed in 2023 on a lot of just under half an acre off Tigertail Avenue. The house is poured concrete with timber cladding and a travertine base, set back behind a slatted fence and a line of mature trees.",
+      "The ground floor runs from the kitchen to the family room in one open plan, glazed on both sides. Six bedroom suites are upstairs, each with its own bathroom. The principal bathroom has a sunken bath against a planted wall.",
     ],
     features: [
-      "Full floor, single loft",
-      "Cast iron columns untouched",
-      "North and west glazing",
-      "Bridge and river outlook",
-      "Original freight elevator",
-      "York Street on the F",
+      "Six bedroom suites",
+      "Walnut panelled family room",
+      "Kitchen island in oak and stone",
+      "Principal bath with a planted wall",
+      "Pool and garden under mature oaks",
+      "Ten minutes on foot to the bay",
     ],
     images: [
-      { id: 'photo-1649982294301-21a0668505a4', alt: "Red brick mill with mature trees in front", use: 'exterior' },
-      { id: 'photo-1740446569677-a79c3186a16b', alt: "Compact loft with brick wall and timber bed platform", use: 'serviced' },
-      { id: 'photo-1773069459487-3d2d7bb4532e', alt: "Loft with exposed brick, timber posts and factory windows", use: 'residence' },
-      { id: 'photo-1764726331208-71cb385ab08c', alt: "Late afternoon light across an empty loft floor", use: 'detail' },
+      { id: 'villa-street-facade', alt: "Two storey house behind a black slatted fence, with white roof slabs and timber cladding", use: 'exterior' },
+      { id: 'villa-family-room', alt: "Family room with walnut panelled walls, low sofas and a high band of garden glazing", use: 'serviced' },
+      { id: 'villa-kitchen', alt: "Kitchen with a long timber island, open to the dining and living areas", use: 'residence' },
+      { id: 'villa-front-gate', alt: "The house from the street, with the entrance gate set in a stone pillar", use: 'exterior' },
+      { id: 'villa-aerial-bay', alt: "Aerial view of the house among mature trees, with Biscayne Bay beyond", use: 'exterior' },
+      { id: 'villa-guest-suite', alt: "Bedroom suite with a desk wall and an ensuite beyond", use: 'residence' },
+      { id: 'villa-bath-suite', alt: "Principal bathroom with a raised bath, a planted wall and twin showers", use: 'detail' },
+      { id: 'villa-bath-vanity', alt: "Principal bathroom vanity in walnut with green glass basins", use: 'detail' },
+      { id: 'villa-bath-planted', alt: "Soaking tub set against a planted wall and garden glazing", use: 'detail' },
+      { id: 'villa-aerial-grove', alt: "Aerial view of the neighbourhood running down to the bay", use: 'detail' },
     ],
   },
 ]
@@ -331,11 +346,11 @@ const OFFERS: SeededOffer[] = [
     tenure: 'freehold', chainStatus: 'No onward chain',
   },
   {
-    _id: 'offer-houthavens-sale', slug: 'houthavens-loft-9-freehold',
-    propertyId: 'prop-houthavens', type: 'sale', status: 'live', scope: 'unit',
-    scopeLabel: 'End loft',
-    price: { decimal: '2950000.00', currency: 'EUR' },
-    tenure: 'freehold',
+    _id: 'offer-houthavens-sale', slug: 'casa-da-marinha-freehold',
+    propertyId: 'prop-houthavens', type: 'sale', status: 'live', scope: 'whole',
+    scopeLabel: 'Whole house',
+    price: { decimal: '6400000.00', currency: 'EUR' },
+    tenure: 'freehold', chainStatus: 'No onward chain',
   },
   {
     _id: 'offer-printworks-lease', slug: 'the-print-works-third-floor',
@@ -358,21 +373,21 @@ const OFFERS: SeededOffer[] = [
     availableFrom: '2026-09-28',
   },
   {
-    _id: 'offer-tortona-sale', slug: 'via-tortona-officine-27-freehold',
+    _id: 'offer-tortona-sale', slug: 'villa-mirador-freehold',
     propertyId: 'prop-tortona', type: 'sale', status: 'live', scope: 'whole',
-    scopeLabel: 'Whole building',
-    price: { decimal: '4650000.00', currency: 'EUR' },
+    scopeLabel: 'Whole house',
+    price: { decimal: '7950000.00', currency: 'EUR' },
     tenure: 'freehold', chainStatus: 'No onward chain',
   },
   {
-    _id: 'offer-tortona-corporate', slug: 'via-tortona-officine-27-corporate-let',
+    _id: 'offer-tortona-corporate', slug: 'villa-mirador-corporate-let',
     propertyId: 'prop-tortona', type: 'corporate_let', status: 'live', scope: 'whole',
     scopeLabel: 'Whole house',
-    rentPerMonth: { decimal: '13200.00', currency: 'EUR' },
-    deposit: { decimal: '26400.00', currency: 'EUR' },
+    rentPerMonth: { decimal: '42000.00', currency: 'EUR' },
+    deposit: { decimal: '84000.00', currency: 'EUR' },
     minTermMonths: 3, maxTermMonths: 6, furnished: 'furnished',
-    servicedLevel: 'Fortnightly housekeeping included',
-    billsIncluded: ['Condominio', 'Water', 'Broadband'],
+    servicedLevel: 'Weekly housekeeping and pool service included',
+    billsIncluded: ['Community fees', 'Water', 'Broadband'],
     availableFrom: '2026-10-05',
   },
   {
@@ -426,26 +441,42 @@ const OFFERS: SeededOffer[] = [
     tenure: 'leasehold', leaseYearsRemaining: 71,
   },
   {
-    _id: 'offer-dumbo-sale', slug: 'water-street-mill-70-fourth-floor',
-    propertyId: 'prop-dumbo', type: 'sale', status: 'live', scope: 'unit',
-    scopeLabel: 'Fourth floor loft',
-    price: { decimal: '4275000.00', currency: 'USD' },
-    tenure: 'commonhold', serviceCharge: { decimal: '31200.00', currency: 'USD' },
+    _id: 'offer-dumbo-sale', slug: 'tigertail-house-freehold',
+    propertyId: 'prop-dumbo', type: 'sale', status: 'live', scope: 'whole',
+    scopeLabel: 'Whole house',
+    price: { decimal: '16750000.00', currency: 'USD' },
+    tenure: 'freehold', chainStatus: 'No onward chain',
   },
   {
-    _id: 'offer-dumbo-corporate', slug: 'water-street-mill-70-corporate-let',
-    propertyId: 'prop-dumbo', type: 'corporate_let', status: 'live', scope: 'unit',
-    scopeLabel: 'Fourth floor loft',
-    rentPerMonth: { decimal: '14500.00', currency: 'USD' },
-    deposit: { decimal: '29000.00', currency: 'USD' },
+    _id: 'offer-dumbo-corporate', slug: 'tigertail-house-corporate-let',
+    propertyId: 'prop-dumbo', type: 'corporate_let', status: 'live', scope: 'whole',
+    scopeLabel: 'Whole house',
+    rentPerMonth: { decimal: '68000.00', currency: 'USD' },
+    deposit: { decimal: '136000.00', currency: 'USD' },
     minTermMonths: 1, maxTermMonths: 6, furnished: 'furnished',
-    servicedLevel: 'Weekly housekeeping included',
+    servicedLevel: 'Weekly housekeeping and pool service included',
     billsIncluded: ['Utilities', 'Broadband'],
     availableFrom: '2026-09-20',
   },
 ]
 
 const MONEY_FIELDS = ['price', 'rentPerMonth', 'deposit', 'serviceCharge'] as const
+
+/**
+ * Changing this makes the next boot overwrite every seeded row with this file,
+ * including rows staff have edited. Staff edits made after that are protected
+ * again until it changes.
+ */
+const SEED_REVISION = '2026-09-11-villas'
+
+/** Offer slugs this file used to write, and the offer each now belongs to. */
+const FORMER_SLUGS: Record<string, string> = {
+  'houthavens-loft-9-freehold': 'offer-houthavens-sale',
+  'via-tortona-officine-27-freehold': 'offer-tortona-sale',
+  'via-tortona-officine-27-corporate-let': 'offer-tortona-corporate',
+  'water-street-mill-70-fourth-floor': 'offer-dumbo-sale',
+  'water-street-mill-70-corporate-let': 'offer-dumbo-corporate',
+}
 
 /**
  * Idempotent, and deliberately not authoritative after the first run.
@@ -463,19 +494,12 @@ export async function seed(database: Database): Promise<{ properties: number; of
   const properties = database.db.collection('properties')
   const offers = database.db.collection('offers')
 
-  for (const property of PROPERTIES) {
-    const { _id, areaM2, ...rest } = property
-    const content = { ...rest, area: encodeArea(areaFromM2(areaM2)), seeded: true }
-    await properties.updateOne({ _id: _id as never }, { $setOnInsert: content as never }, { upsert: true })
-    // Refresh what this file says, unless staff have taken the row over.
-    await properties.updateOne(
-      { _id: _id as never, staffEditedAt: { $exists: false } },
-      { $set: content as never },
-    )
-  }
+  const propertyRows = PROPERTIES.map(({ _id, areaM2, ...rest }) => ({
+    _id,
+    content: { ...rest, area: encodeArea(areaFromM2(areaM2)), seeded: true } as Record<string, unknown>,
+  }))
 
-  for (const offer of OFFERS) {
-    const { _id, ...rest } = offer
+  const offerRows = OFFERS.map(({ _id, ...rest }) => {
     const document: Record<string, unknown> = { ...rest, seeded: true }
     for (const field of MONEY_FIELDS) {
       const value = rest[field] as { decimal: string; currency: string } | undefined
@@ -483,11 +507,49 @@ export async function seed(database: Database): Promise<{ properties: number; of
       document[field] = encodeMoney(parseMoney(value.decimal, value.currency))
       if (field === 'price' || field === 'rentPerMonth') document.currency = value.currency
     }
-    await offers.updateOne({ _id: _id as never }, { $setOnInsert: document as never }, { upsert: true })
-    await offers.updateOne(
-      { _id: _id as never, staffEditedAt: { $exists: false } },
-      { $set: document as never },
-    )
+    return { _id, content: document }
+  })
+
+  for (const [collection, rows] of [[properties, propertyRows], [offers, offerRows]] as const) {
+    // $set alone never removes a field, so one this file stopped writing for a
+    // row (a service charge on what is now a house) would stay on it for good.
+    const owned = new Set(rows.flatMap((row) => Object.keys(row.content)))
+    for (const { _id, content: base } of rows) {
+      const content = { ...base, seedRevision: SEED_REVISION }
+      await collection.updateOne({ _id: _id as never }, { $setOnInsert: content as never }, { upsert: true })
+      const dropped = [...owned].filter((key) => !(key in content))
+      // Refresh what this file says, unless staff have taken the row over since
+      // the current revision was written.
+      await collection.updateOne(
+        {
+          _id: _id as never,
+          $or: [{ staffEditedAt: { $exists: false } }, { seedRevision: { $ne: SEED_REVISION } }],
+        },
+        {
+          $set: content as never,
+          $unset: Object.fromEntries([...dropped, 'staffEditedAt'].map((key) => [key, ''])) as never,
+        },
+      )
+    }
+  }
+
+  // Threads, viewings, enquiries and registrations copy the offer slug (and
+  // threads and viewings the name) when they are made, so a renamed offer has to
+  // be carried across or every link to it from those records goes dead.
+  for (const [former, offerId] of Object.entries(FORMER_SLUGS)) {
+    const offer = await offers.findOne({ _id: offerId as never }, { projection: { slug: 1, propertyId: 1 } })
+    const renamed = OFFERS.find((o) => o._id === offerId)
+    // A row staff have taken over keeps its old slug, so its records stay put.
+    if (!offer || !renamed || offer.slug !== renamed.slug) continue
+    const property = await properties.findOne({ _id: offer.propertyId as never }, { projection: { name: 1, address: 1 } })
+    if (!property) continue
+    const offerName = `${property.name}, ${property.address.locality}`
+    for (const name of ['threads', 'viewings']) {
+      await database.db.collection(name).updateMany({ offerSlug: former }, { $set: { offerSlug: offer.slug, offerName } })
+    }
+    for (const name of ['enquiries', 'users']) {
+      await database.db.collection(name).updateMany({ offer: former }, { $set: { offer: offer.slug } })
+    }
   }
 
   const keepProperties = PROPERTIES.map((p) => p._id)

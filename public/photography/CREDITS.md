@@ -13,7 +13,13 @@ It skips anything already present, so it is safe to run repeatedly.
 
 ## Source and licence
 
-Sourced from Unsplash under the Unsplash License, which permits download and
+The `villa-*` photographs were supplied by the owner in September 2026 and are
+not from Unsplash. They are 960 pixels wide at source, so the 1600 and 2400
+files are the source size, not an enlargement. `scripts/fetch-photography.ts`
+ignores them. A house number and a builder's sign were painted out of
+`villa-front-gate` and `villa-street-facade`.
+
+Everything with a `photo-*` id was sourced from Unsplash under the Unsplash License, which permits download and
 use for commercial and non-commercial purposes without permission. Attribution
 is not required by the licence and is recorded here anyway.
 

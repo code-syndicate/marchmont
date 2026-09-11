@@ -10,7 +10,7 @@ const HEADING: Record<string, { heading: string; blurb: string }> = {
   },
   sale: {
     heading: 'For sale',
-    blurb: 'Whole buildings and individual loft residences, offered freehold and leasehold. Guide price, tenure, service charge and chain position are published on each listing.',
+    blurb: 'Houses, whole buildings and individual residences, offered freehold and leasehold. Guide price, tenure, service charge and chain position are published on each listing.',
   },
   long_lease: {
     heading: 'To let',

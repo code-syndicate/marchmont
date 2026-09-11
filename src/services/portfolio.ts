@@ -93,8 +93,10 @@ const CARD_SIZES = '(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 380px'
  * whichever picture happened to be first.
  */
 function usesFor(offer: Offer, property: Property): ImageUse[] {
-  if (offer.scope === 'whole') return ['exterior', 'office', 'residence', 'serviced', 'detail']
+  // Checked before scope so a whole house let furnished does not lead with the
+  // same front elevation as its sale.
   if (offer.type === 'corporate_let') return ['serviced', 'residence', 'exterior', 'detail']
+  if (offer.scope === 'whole') return ['exterior', 'office', 'residence', 'serviced', 'detail']
   if (offer.type === 'long_lease') {
     return property.buildingType === 'house'
       ? ['residence', 'serviced', 'exterior', 'detail']
