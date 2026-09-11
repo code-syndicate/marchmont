@@ -6,19 +6,19 @@ import { localeFor, type Context } from './context'
 const HEADING: Record<string, { heading: string; blurb: string }> = {
   all: {
     heading: 'Available properties',
-    blurb: 'Every property listed is owned by Nash Luxury Realty and offered directly. Pricing, tenure, service charge and availability are published on each listing.',
+    blurb: 'Every property listed is owned by Nash Luxury Realty and offered directly. Price, tenure and availability are published on each listing.',
   },
   sale: {
     heading: 'For sale',
-    blurb: 'Houses, whole buildings and individual residences, offered freehold and leasehold. Guide price, tenure, service charge and chain position are published on each listing.',
+    blurb: 'Houses offered freehold and leasehold. Guide price, tenure and chain position are published on each listing.',
   },
   long_lease: {
     heading: 'To let',
-    blurb: 'Terms from twelve months, taken by the floor or as a whole building. Rent, deposit, service charge and availability date are published on each listing.',
+    blurb: 'Houses let furnished or unfurnished on terms from twelve months. Rent, deposit and availability date are published on each listing.',
   },
   corporate_let: {
     heading: 'Corporate lets',
-    blurb: 'Furnished and serviced residences from one to six months, for organisations relocating senior staff. Housekeeping and included utilities are itemised in the terms.',
+    blurb: 'Furnished and serviced houses from one to six months, for organisations relocating senior staff. Housekeeping and included utilities are itemised in the terms.',
   },
 }
 

@@ -59,9 +59,9 @@ export function pageRoutes(ctx: Context): Router {
           title: 'Purchase',
           href: '/portfolio?type=sale',
           count: counts.sale,
-          blurb: 'Houses, whole buildings and individual residences, freehold and leasehold. Guide price, tenure, service charge and chain position are published on every listing.',
+          blurb: 'Houses offered freehold and leasehold. Guide price, tenure and chain position are published on every listing.',
           image: images.render(
-            { id: 'photo-1774957108662-80d697d70844', alt: 'Tall brick warehouse facade with many windows against the sky' },
+            { id: 'villa-side-elevation', alt: 'Travertine and glass elevation with a first floor terrace' },
             'card',
             ROUTE_SIZES,
           ),
@@ -70,9 +70,9 @@ export function pageRoutes(ctx: Context): Router {
           title: 'Long lease',
           href: '/portfolio?type=long_lease',
           count: counts.long_lease,
-          blurb: 'Terms from twelve months, taken by the floor or as a whole building. Rent, deposit, service charge and availability date are published on every listing.',
+          blurb: 'Houses let furnished or unfurnished on terms from twelve months. Rent, deposit and availability date are published on every listing.',
           image: images.render(
-            { id: 'photo-1785381523158-86cbb796ef2b', alt: 'Empty office floor with exposed structure, ready for fit out' },
+            { id: 'villa-kitchen', alt: 'Kitchen with a long timber island, open to the dining and living areas' },
             'card',
             ROUTE_SIZES,
           ),
@@ -81,9 +81,9 @@ export function pageRoutes(ctx: Context): Router {
           title: 'Corporate let',
           href: '/portfolio?type=corporate_let',
           count: counts.corporate_let,
-          blurb: 'Furnished and serviced accommodation from one to six months, for organisations relocating staff. Housekeeping and included utilities are itemised in the terms.',
+          blurb: 'Furnished and serviced houses from one to six months, for organisations relocating staff. Housekeeping and included utilities are itemised in the terms.',
           image: images.render(
-            { id: 'villa-family-room', alt: 'Furnished family room with walnut panelled walls and low sofas' },
+            { id: 'villa-library-room', alt: 'Furnished living room with a walnut shelving wall and floor to ceiling glass' },
             'card',
             ROUTE_SIZES,
           ),
@@ -94,19 +94,19 @@ export function pageRoutes(ctx: Context): Router {
         nav: 'home',
         title: null,
         description:
-          'Residences and office floors in converted industrial buildings, and new build houses. Offered directly for sale, on long lease, or on a corporate let.',
+          'Houses in established residential districts, owned by Nash Luxury Realty and offered directly for sale, on long lease, or on a corporate let.',
         hero: images.render(
           {
-            id: 'photo-1773069459477-e9fe9d6eeb60',
-            alt: 'Interior of a converted mill with exposed brick columns and tall factory windows',
+            id: 'villa-pool-terrace',
+            alt: 'Covered terrace with an outdoor kitchen beside a long pool, the house beyond',
           },
           'hero',
           '100vw',
         ),
         closer: images.render(
           {
-            id: 'photo-1764726331208-71cb385ab08c',
-            alt: 'Late afternoon light falling across an empty loft floor',
+            id: 'villa-upper-terrace',
+            alt: 'Covered upper terrace with outdoor seating and a glass balustrade',
           },
           'hero',
           '100vw',
@@ -118,7 +118,7 @@ export function pageRoutes(ctx: Context): Router {
         totalCount: everything.length,
         cityCount: cityCounts.size,
         currencyCount: new Set(everything.map((listing) => listing.headline.replace(/[\d\s.,]/g, ''))).size,
-        oldestYear: Math.min(...everything.map((listing) => listing.yearBuilt)),
+        newestYear: Math.max(...everything.map((listing) => listing.yearBuilt)),
       })
     } catch (error) {
       next(error)
@@ -132,15 +132,15 @@ export function pageRoutes(ctx: Context): Router {
         nav: 'gallery',
         title: 'Gallery',
         description:
-          'Every building in the collection, photographed inside and out, with what is currently available in each.',
+          'Every house in the collection, photographed inside and out, with what is currently available in each.',
         buildings,
         hero: images.render(
-          { id: 'photo-1690368358248-6ab7d1921e27', alt: 'Large mill interior with rows of tall factory windows' },
+          { id: 'villa-front-gate', alt: 'The house from the street, with the entrance gate set in a stone pillar' },
           'hero',
           '100vw',
         ),
         closer: images.render(
-          { id: 'photo-1706967413741-b8461ff8d370', alt: 'Living room with tall factory windows and exposed structure' },
+          { id: 'villa-family-room', alt: 'Family room with walnut panelled walls and low sofas' },
           'hero',
           '100vw',
         ),
@@ -154,9 +154,9 @@ export function pageRoutes(ctx: Context): Router {
     res.render('about', {
       nav: 'about',
       title: 'The house',
-      description: 'Nash Luxury Realty converts industrial buildings into residences and office floors, and holds a number of new build houses.',
+      description: 'Nash Luxury Realty buys and holds houses in established residential districts and offers them directly to buyers and tenants.',
       hero: images.render(
-        { id: 'photo-1710547284002-255fc868e88b', alt: 'Large brick mill building with rows of tall factory windows' },
+        { id: 'villa-aerial-grove', alt: 'Aerial view of a residential neighbourhood running down to the water' },
         'hero',
         '100vw',
       ),

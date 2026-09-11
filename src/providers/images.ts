@@ -60,7 +60,7 @@ export function createImageProvider(): ImageProvider {
 
 export const PHOTOGRAPHY_PATH = '/photography'
 
-/** The widths written by scripts/fetch-photography.ts. */
+/** The widths every photograph in public/photography is stored at. */
 const LOCAL_WIDTHS = [800, 1600, 2400]
 
 /**
